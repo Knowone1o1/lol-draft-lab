@@ -1,0 +1,15 @@
+{
+ "params": {
+  "weight_half_life_days": 90,
+  "lam_team": 0.1,
+  "lam_league": 0.1,
+  "margin_k": 0.16
+ },
+ "tune_window": [
+  "2024-01-01",
+  "2025-01-01"
+ ],
+ "log_loss": 0.6163182120411054,
+ "elo_league_log_loss": 0.6269861030424241,
+ "created": "2026-11-12T19:11:42"
+}

@@ -1,0 +1,13 @@
+{
+  "params": {
+    "half_life": 45,
+    "matchup_half_life": 5000,
+    "patch_boost": 10,
+    "fearless_decay": 0.65,
+    "k_champ": 20,
+    "k_pair": 80,
+    "k_lane": 30,
+    "elo_k": 24.0
+  },
+  "val_gain": -0.00024678340935258003
+}

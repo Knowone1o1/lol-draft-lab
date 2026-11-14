@@ -1,0 +1,57 @@
+{
+ "a": "Gen.G",
+ "b": "Bilibili Gaming",
+ "date": "2026-11-14",
+ "strength_logit_blue": {
+  "Gen.G|1": 0.41854099859892113,
+  "Gen.G|0": 0.23899549168779297,
+  "Bilibili Gaming|1": 0.10156577366060034,
+  "Bilibili Gaming|0": -0.14230111049502223
+ },
+ "draft": {
+  "features": [
+   "champ_strength",
+   "player_comfort",
+   "synergy",
+   "lane_counter",
+   "team_matchups"
+  ],
+  "beta_per_sd": [
+   0.14646987659972688,
+   0.08898946938812412,
+   0.03271151606706212,
+   0.03206961092943805,
+   0.03129161646759221
+  ],
+  "mu": [
+   0.0010277720009810652,
+   0.029082430567785814,
+   0.0005328912168026102,
+   -0.0002473418423720633,
+   5.103072967916571e-05
+  ],
+  "sd": [
+   0.019045869215639208,
+   0.6149909574956107,
+   0.01954722854548004,
+   0.017798358517594984,
+   0.006987067878028789
+  ],
+  "fitted_through": "2026-11",
+  "coef": {
+   "champ_strength": 0.1465,
+   "player_comfort": 0.089,
+   "synergy": 0.0327,
+   "lane_counter": 0.0321,
+   "team_matchups": 0.0313
+  }
+ },
+ "strength_params": {
+  "weight_half_life_days": 90,
+  "lam_team": 0.1,
+  "lam_league": 0.1,
+  "margin_k": 0.16,
+  "w_major": 0.25,
+  "logit_scale": 0.9055
+ }
+}

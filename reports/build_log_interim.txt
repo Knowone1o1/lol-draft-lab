@@ -1,0 +1,138 @@
+Params: {'half_life': 90, 'matchup_half_life': 540, 'patch_boost': 3.0, 'fearless_decay': None, 'k_champ': 30.0, 'k_pair': 20.0, 'k_lane': 15.0, 'elo_k': 24.0}
+Loading data ...
+  target patch for the app: 16.20
+  53777 games, 2022-01-10 -> 2026-11-12, 89% with full pick order
+  fearless league-years: AC 2026, AL 2025, AL 2026, AM 2025, AM 2026, ASI 2025, AmCh 2024, CBLOL 2026, CCWS 2026, CD 2025, CD 2026, CT 2025, DCGI 2026, EBL 2025, EBL 2026, EM 2025, EM 2026, EWC 2025, EWC 2026, FST 2025, FST 2026, HC 2025, HC 2026, HLL 2025, HLL 2026, HM 2025, HM 2026, HW 2026, IC 2024, IC 2025, KeSPA Cup 2025, KeSPA Cup 2026, LAS 2025, LAS 2026, LCK 2025, LCK 2026, LCKC 2025, LCKC 2026, LCP 2025, LCP 2026, LCS 2026, LEC 2025, LEC 2026, LES 2026, LFL 2025, LFL 2026, LFL2 2025, LIT 2025, LIT 2026, LJL 2026, LPL 2025, LPL 2026, LPLOL 2025, LPLOL 2026, LRN 2025, LRN 2026, LRS 2025, LRS 2026, LTA 2025, LTA N 2025, LTA S 2025, LVP SL 2025, MSI 2025, MSI 2026, NACL 2025, NACL 2026, NL 2026, NLC 2025, NLC 2026, PCS 2025, PCS 2026, PRM 2025, PRM 2026, PRMP 2024, PRMP 2025, RL 2025, RL 2026, ROL 2025, ROL 2026, TCL 2025, TCL 2026, USP 2023, VCS 2025, VCS 2026, WLDs 2025, WLDs 2026, WSCI 2026
+  training leagues found: LPL (3737), LCK (2494), LCKC (2438), NACL (1904), EM (1631), LEC (1516), LJL (1358), PRM (1339), LFL (1319), PCS (1251), VCS (1235), NLC (1069), CBLOL (1047), LCS (1045), TCL (1043), LVP SL (998), WLDs (626), LCP (583), MSI (385), EWC (284), LTA S (222), LTA N (214), FST (80), LTA (40)
+Building examples for 16 months (test = last 4) ...
+  2025-08 [train] games=910 patches=4 snapshot=16317 games
+  2025-09 [train] games=534 patches=4 snapshot=16164 games
+  2025-10 [train] games=296 patches=2 snapshot=15760 games
+  2025-11 [train] games=15 patches=1 snapshot=15776 games
+  2026-01 [train] games=449 patches=2 snapshot=13469 games
+  2026-02 [train] games=629 patches=3 snapshot=12738 games
+  2026-03 [train] games=451 patches=4 snapshot=13082 games
+  2026-04 [train] games=875 patches=3 snapshot=13344 games
+  2026-05 [train] games=925 patches=4 snapshot=14120 games
+  2026-06 [train] games=363 patches=4 snapshot=15452 games
+  2026-07 [train] games=449 patches=3 snapshot=16007 games
+  2026-08 [test] games=855 patches=4 snapshot=16158 games
+  2026-09 [test] games=544 patches=3 snapshot=16444 games
+  2026-10 [test] games=243 patches=3 snapshot=16753 games
+  2026-11 [test] games=30 patches=2 snapshot=15464 games
+Fitting final models on all months ...
+  matchups: 21525 lane matchups with 10+ games -> reports/counters.md
+Saved models/draftlab.pkl and reports/backtest.md in 579s
+
+# LoL Draft Lab: backtest report
+
+Generated 2026-11-12 15:34. Data: 53777 games (2022-01-10 to 2026-11-12). Training leagues: LPL, LCK, LCKC, NACL, EM, LEC, LJL, PRM, LFL, PCS, VCS, NLC, CBLOL, LCS, TCL, LVP SL, WLDs, LCP, MSI, EWC, LTA S, LTA N, FST, LTA.
+
+Method: every month, statistics are rebuilt from games played *before* that month (recency-weighted), so no test game ever sees its own result. Models are fit on earlier months and evaluated on the most recent 4 months: 2026-08 to 2026-11.
+
+Weighting: meta stats use a 90-day half-life with patch boost 3 (each game's stats are targeted at its own patch); counters and synergies use a 540-day half-life across all seasons; fearless game weights {1: 1.0, 2: 0.8, 3: 0.6, 4: 0.45, 5: 0.35}; shrinkage k_champ=30, k_pair=20, k_lane=15; Elo K=24.
+
+## 1. Predicting pro draft actions
+
+For each real pick/ban in held-out games, every available champion is ranked. Top-k = how often the champion the team actually chose was in our top k.
+
+- **pick**: 58950 training actions, 16710 test actions, ~151 candidates each; model log-loss 3.152 (uniform guess: 5.015).
+
+- **ban1**: 35335 training actions, 10018 test actions, ~160 candidates each; model log-loss 3.406 (uniform guess: 5.077).
+
+- **ban2**: 23526 training actions, 6672 test actions, ~149 candidates each; model log-loss 3.278 (uniform guess: 5.005).
+
+| Action | Method | Top-1 | Top-5 | Top-10 | Mean rank |
+|---|---|---|---|---|---|
+| pick | Model (conditional logit) | 20.7% | 50.7% | 67.8% | 10.8 |
+| pick | Baseline: meta presence | 6.4% | 23.8% | 37.8% | 22.0 |
+| pick | Baseline: fixed-weight heuristic | 4.1% | 13.8% | 23.2% | 37.1 |
+| ban1 | Model (conditional logit) | 13.3% | 43.8% | 64.0% | 12.8 |
+| ban1 | Baseline: meta presence | 9.7% | 35.9% | 52.0% | 16.8 |
+| ban2 | Model (conditional logit) | 14.0% | 44.9% | 66.7% | 10.7 |
+| ban2 | Baseline: meta presence | 5.1% | 20.2% | 34.0% | 22.3 |
+
+### What drives pick decisions (standardised weights)
+
+| Feature | Weight |
+|---|---|
+| meta_presence | +1.42 |
+| role_fit | +0.91 |
+| copick_sum | +0.60 |
+| vspick_max | +0.40 |
+| copick_max | +0.33 |
+| player_comfort | +0.25 |
+| team_habit | +0.20 |
+| champ_strength | +0.08 |
+| synergy | -0.07 |
+| comfort_x_late | -0.06 |
+| team_counter_sum | +0.04 |
+| flex | +0.03 |
+| counter_max | +0.03 |
+| synergy_max | +0.03 |
+| flex_x_early | +0.03 |
+| player_share | +0.02 |
+| team_counter_max | +0.01 |
+| lane_counter | -0.00 |
+
+### What drives ban1 decisions (standardised weights)
+
+| Feature | Weight |
+|---|---|
+| ban_rate | +2.84 |
+| meta_presence | -1.89 |
+| enemy_comfort | +0.43 |
+| own_ban_habit | +0.37 |
+| enemy_habit | +0.27 |
+| enemy_role_fit | -0.22 |
+| champ_strength | +0.19 |
+| own_comfort | -0.09 |
+| counters_own | +0.00 |
+| enemy_copick_max | +0.00 |
+| into_us_max | +0.00 |
+| enemy_synergy_max | +0.00 |
+| beats_us_max | +0.00 |
+
+### What drives ban2 decisions (standardised weights)
+
+| Feature | Weight |
+|---|---|
+| enemy_role_fit | +1.46 |
+| meta_presence | +1.12 |
+| enemy_copick_max | +0.39 |
+| into_us_max | +0.32 |
+| enemy_habit | +0.21 |
+| enemy_comfort | +0.17 |
+| own_ban_habit | +0.15 |
+| champ_strength | +0.12 |
+| own_comfort | -0.11 |
+| ban_rate | +0.08 |
+| beats_us_max | +0.06 |
+| counters_own | +0.04 |
+| enemy_synergy_max | -0.01 |
+
+## 2. Win probability: does the draft add information beyond team strength?
+
+5896 training games, 1672 test games. Lower log-loss/Brier is better.
+
+| Model | Log-loss | Brier | Accuracy | AUC |
+|---|---|---|---|---|
+| Always 'blue wins' rate | 0.6869 | 0.2469 | 56.0% | 0.500 |
+| Elo only | 0.6466 | 0.2279 | 62.0% | 0.659 |
+| Draft only | 0.6770 | 0.2420 | 57.7% | 0.586 |
+| Elo + draft | 0.6452 | 0.2271 | 62.0% | 0.664 |
+
+### Win model weights (Elo + draft)
+
+| Feature | Coefficient |
+|---|---|
+| elo_diff | +1.807 |
+| champ_strength | +3.139 |
+| player_comfort | +0.334 |
+| synergy | +1.800 |
+| lane_counter | +1.212 |
+| team_matchups | +0.362 |
+| blue_side (intercept) | +0.124 |
+
+Honest reading: team strength (Elo) explains most of the result; the draft features are judged by how much they improve on Elo alone.
+

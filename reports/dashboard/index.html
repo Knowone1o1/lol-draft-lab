@@ -1,0 +1,346 @@
+<meta name="dash-one-writer">
+<style>
+  .tl { display: grid; gap: var(--cds-gap-xl); max-width: 1100px; }
+  .tl h1 { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: var(--cds-font-size-title); margin: 0; text-wrap: balance; }
+  .tl h2 { font-size: var(--cds-font-size-heading); font-weight: var(--cds-font-weight-medium); margin: 0; text-wrap: balance; }
+  .tl p { margin: 0; color: var(--color-fg); max-width: 68ch; line-height: 1.5; }
+  .tl .tl-muted { color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); }
+  .tl .tl-head { display: grid; gap: var(--cds-gap-sm); }
+  .tl .tl-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: var(--cds-gap-md); }
+  .tl .tl-tile { background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-lg); display: grid; gap: var(--cds-gap-xs); }
+  .tl .tl-tile .tl-label { color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); letter-spacing: .02em; }
+  .tl .tl-big { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: 2rem; font-variant-numeric: tabular-nums; }
+  .tl .tl-sec { display: grid; gap: var(--cds-gap-sm); }
+  .tl .tl-row { display: flex; flex-wrap: wrap; gap: var(--cds-gap-sm); align-items: center; justify-content: space-between; }
+  .tl .tl-chart { position: relative; min-height: 320px; width: 100%; }
+  .tl .tl-chart.tl-short { min-height: 220px; }
+  .tl .tl-legend { display: flex; flex-wrap: wrap; gap: var(--cds-gap-md); font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+  .tl .tl-legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .tl .tl-sw { width: 14px; height: 3px; border-radius: 2px; display: inline-block; }
+  .tl .tl-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+  .tl .tl-tip { position: absolute; pointer-events: none; background: var(--cds-surface-popover); border: 1px solid var(--cds-border); box-shadow: var(--cds-shadow-popover); border-radius: var(--cds-radius); padding: 6px 8px; font-size: var(--cds-font-size-caption); color: var(--color-fg); white-space: nowrap; z-index: 2; }
+  .tl .tl-axis text { fill: var(--cds-text-secondary); font-size: var(--cds-font-size-caption); }
+  .tl .tl-axis path, .tl .tl-axis line { stroke: var(--cds-chart-axis); }
+  .tl .tl-grid line { stroke: var(--cds-chart-grid); }
+  .tl .tl-grid path { display: none; }
+  .tl .tl-tablewrap { overflow-x: auto; }
+  .tl table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; font-size: var(--cds-font-size-body); }
+  .tl th, .tl td { text-align: left; padding: 6px 10px; border-bottom: 1px solid var(--color-border-line); vertical-align: top; }
+  .tl th { color: var(--color-fg-muted); font-weight: var(--cds-font-weight-medium); font-size: var(--cds-font-size-caption); }
+  .tl td.tl-num, .tl th.tl-num { text-align: right; }
+  .tl .tl-good { color: var(--color-ok); }
+  .tl .tl-bad { color: var(--color-bad); }
+  .tl [data-dash-source-state=refreshing] { opacity: .5; }
+  .tl details summary { cursor: pointer; color: var(--color-fg-muted); }
+</style>
+
+<div class="tl">
+  <header class="tl-head" id="top">
+    <h1>Draft Lab weight tuning</h1>
+    <p>On validation patches that were never used for tuning, the tuned weights picked the winner in
+      <b data-draw="valAccTuned" data-source="headline" data-field="tuned" data-where="metric=acc">—</b> of held-out games, against
+      <b data-draw="valAccStart" data-source="headline" data-field="start" data-where="metric=acc">—</b> with the starting weights
+      (<span data-draw="valAccChange" data-source="headline" data-field="change" data-where="metric=acc">—</span>).</p>
+    <p>Verdict: the tuned weights did not beat the starting weights on the validation patches, so the starting weights are kept. An earlier, smaller run (8 tuning and 6 validation patches) gave the same answer and chose quite different weights, a sign that the gains on tuning patches were noise.</p>
+    <p class="tl-muted">This run: 12 tuning and 6 validation patches from 2026, 8 deletion scenarios per patch. Each test deletes part of a random 2026 patch (0% to 80% of it kept), rebuilds every statistic without those games, and predicts their winners from draft, players and team Elo.</p>
+  </header>
+
+  <section class="tl-tiles" id="tiles">
+    <div class="tl-tile"><span class="tl-label">Validation accuracy, tuned</span>
+      <span class="tl-big" data-draw="tAcc" data-source="headline" data-field="tuned" data-where="metric=acc">—</span>
+      <span class="tl-muted">change vs start <span data-draw="tAccChg" data-source="headline" data-field="change" data-where="metric=acc">—</span></span></div>
+    <div class="tl-tile"><span class="tl-label">Validation log-loss, tuned (lower is better)</span>
+      <span class="tl-big" data-draw="tLl" data-source="headline" data-field="tuned" data-where="metric=log_loss">—</span>
+      <span class="tl-muted">change vs start <span data-draw="tLlChg" data-source="headline" data-field="change" data-where="metric=log_loss">—</span></span></div>
+    <div class="tl-tile"><span class="tl-label">Validation accuracy, Elo only</span>
+      <span class="tl-big" data-draw="tElo" data-source="summary" data-field="acc" data-where="weights=Elo%20only&amp;split=val">—</span>
+      <span class="tl-muted">team strength alone, no draft</span></div>
+    <div class="tl-tile"><span class="tl-label">Held-out games predicted (validation)</span>
+      <span class="tl-big" data-draw="tN" data-source="summary" data-field="n" data-where="weights=Tuned&amp;split=val">—</span>
+      <span class="tl-muted">across all deletion scenarios</span></div>
+  </section>
+
+  <section class="tl-sec" id="rounds-section">
+    <div class="tl-row">
+      <h2 id="rounds-title">Accuracy across tuning rounds</h2>
+      <select class="dash-select" id="rounds-metric" aria-label="Metric for tuning rounds">
+        <option value="acc">Accuracy</option>
+        <option value="log_loss">Log-loss (lower is better)</option>
+      </select>
+    </div>
+    <p class="tl-muted">Each dot is one trial: one weight changed on the tuning patches. Filled dots were kept. The line is the best so far; the second line is the same weights scored on the validation patches.</p>
+    <div class="tl-legend">
+      <span><i class="tl-dot" style="background: var(--cds-chart-muted)"></i>Trial (tuning patches)</span>
+      <span><i class="tl-sw" data-legend="0"></i>Best so far (tuning patches)</span>
+      <span><i class="tl-sw" data-legend="1"></i>Validation patches, at each kept change</span>
+    </div>
+    <div class="tl-chart" id="rounds-chart" data-draw="rounds" data-source="trials"></div>
+  </section>
+
+  <section class="tl-sec" id="known-section">
+    <div class="tl-row">
+      <h2 id="known-title">Accuracy by how much of the patch is known</h2>
+      <select class="dash-select" id="known-metric" aria-label="Metric for patch share chart">
+        <option value="acc">Accuracy</option>
+        <option value="log_loss">Log-loss (lower is better)</option>
+      </select>
+    </div>
+    <p class="tl-muted">0% means the whole patch was deleted, as on the day a patch is released; 80% means most of it was known. Validation patches only, in 10-point bands.</p>
+    <div class="tl-legend">
+      <span><i class="tl-sw" data-legend="1"></i>Tuned weights</span>
+      <span><i class="tl-sw" data-legend="0"></i>Starting weights</span>
+      <span><i class="tl-sw" data-legend="2"></i>Elo only (no draft)</span>
+    </div>
+    <div class="tl-chart" id="known-chart" data-draw="known" data-source="known_curve"></div>
+  </section>
+
+  <section class="tl-sec" id="params-section">
+    <h2 id="params-title">What the tuning changed</h2>
+    <div class="tl-tablewrap">
+      <table id="params-table" data-source="params" data-row-key="parameter">
+        <thead><tr><th data-field="parameter">Weight</th><th data-field="start" class="tl-num">Start</th><th data-field="tuned" class="tl-num">Tuned</th><th data-field="meaning">What it controls</th></tr></thead>
+        <tbody data-draw="paramsBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="tl-sec" id="summary-section">
+    <h2 id="summary-title">Scores on tuning and validation patches</h2>
+    <div class="tl-tablewrap">
+      <table id="summary-table" data-source="summary" data-row-key="weights,split">
+        <thead><tr><th data-field="weights">Weights</th><th data-field="split">Patches</th><th data-field="acc" class="tl-num">Accuracy</th><th data-field="log_loss" class="tl-num">Log-loss</th><th data-field="auc" class="tl-num">AUC</th><th data-field="n" class="tl-num">Games</th></tr></thead>
+        <tbody data-draw="summaryBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="tl-sec" id="bounds-section">
+    <h2 id="bounds-title">Estimating a win rate when results are missing</h2>
+    <p class="tl-muted">Blue-side win rate on the validation games, with some results deleted on purpose. The shadow-variable method uses the model's prediction to narrow the range; the worst case assumes nothing. The last pattern breaks the method's assumption on purpose.</p>
+    <div class="tl-legend">
+      <span><i class="tl-sw" style="background: var(--cds-chart-grid); height: 8px"></i>Worst-case range</span>
+      <span><i class="tl-sw" data-legend="0" style="height: 8px"></i>Shadow-variable 90% interval</span>
+      <span><i class="tl-dot" style="background: var(--color-fg)"></i>True win rate</span>
+      <span><i class="tl-dot" style="background: var(--color-bad)"></i>Naive average of kept games</span>
+    </div>
+    <div class="tl-chart tl-short" id="bounds-chart" data-draw="bounds" data-source="bounds"></div>
+  </section>
+
+  <details id="method">
+    <summary>How the test works</summary>
+    <p>Patches are drawn at random from 2026 and split into tuning and validation sets. For each patch, several scenarios keep a random share of its games (0% to 80%) and delete the rest. Every statistic (champion strength, player comfort, counters, synergies, Elo) is rebuilt without the deleted games and without anything from later patches or dates. A logistic model then predicts each deleted game's winner, fitted on the other patches only. A coordinate search tries one weight at a time on the tuning patches and keeps a change only if it lowers log-loss; the validation patches check that the gain is real.</p>
+  </details>
+</div>
+
+<script>
+  const num = (v) => (v === null || v === undefined || v === '' ? NaN : +v);
+  const pct = d3.format('.1%');
+  const f4 = d3.format('.4f');
+  document.querySelectorAll('.tl [data-legend]').forEach((el) => { el.style.background = dash.colors[+el.dataset.legend]; });
+
+  dash.calc('headline', {
+    title: 'Validation: start vs tuned',
+    description: 'Accuracy and log-loss of the starting and tuned weights on the validation patches, and the change.',
+    inputs: ['summary'],
+    fn: (summary) => {
+      const get = (w, m) => num((summary.find((r) => r.weights === w && r.split === 'val') || {})[m]);
+      return ['acc', 'log_loss'].map((metric) => {
+        const start = get('Start (current)', metric), tuned = get('Tuned', metric);
+        return { metric, start, tuned, change: tuned - start };
+      });
+    },
+  });
+
+  function headRow(metric) {
+    const h = dash.data('headline');
+    return h.status === 'ok' && h.data ? h.data.find((r) => r.metric === metric) : null;
+  }
+  function setText(el, txt, cls) { el.textContent = txt; el.classList.remove('tl-good', 'tl-bad'); if (cls) el.classList.add(cls); }
+  const signedPct = (v) => (v >= 0 ? '+' : '') + d3.format('.1f')(v * 100) + ' pts';
+  const signedLl = (v) => (v >= 0 ? '+' : '') + d3.format('.4f')(v);
+
+  dash.draw('valAccTuned', (el) => { const r = headRow('acc'); setText(el, r ? pct(r.tuned) : '—'); });
+  dash.draw('valAccStart', (el) => { const r = headRow('acc'); setText(el, r ? pct(r.start) : '—'); });
+  dash.draw('valAccChange', (el) => { const r = headRow('acc'); setText(el, r ? signedPct(r.change) : '—', r ? (r.change >= 0 ? 'tl-good' : 'tl-bad') : null); });
+  dash.draw('tAcc', (el) => { const r = headRow('acc'); setText(el, r ? pct(r.tuned) : '—'); });
+  dash.draw('tAccChg', (el) => { const r = headRow('acc'); setText(el, r ? signedPct(r.change) : '—', r ? (r.change >= 0 ? 'tl-good' : 'tl-bad') : null); });
+  dash.draw('tLl', (el) => { const r = headRow('log_loss'); setText(el, r ? f4(r.tuned) : '—'); });
+  dash.draw('tLlChg', (el) => { const r = headRow('log_loss'); setText(el, r ? signedLl(r.change) : '—', r ? (r.change <= 0 ? 'tl-good' : 'tl-bad') : null); });
+  dash.draw('tElo', (el) => {
+    const s = dash.data('summary'); const r = s.status === 'ok' ? s.data.find((x) => x.weights === 'Elo only' && x.split === 'val') : null;
+    setText(el, r ? pct(num(r.acc)) : '—');
+  });
+  dash.draw('tN', (el) => {
+    const s = dash.data('summary'); const r = s.status === 'ok' ? s.data.find((x) => x.weights === 'Tuned' && x.split === 'val') : null;
+    setText(el, r ? d3.format(',')(num(r.n)) : '—');
+  });
+
+  // ---------- shared chart helpers
+  function frame(el, h) {
+    const w = Math.max(280, el.clientWidth || 600);
+    el.replaceChildren();
+    const svg = d3.select(el).append('svg').attr('width', '100%').attr('height', h).attr('viewBox', `0 0 ${w} ${h}`).attr('role', 'img');
+    const tip = d3.select(el).append('div').attr('class', 'tl-tip').style('opacity', 0);
+    return { svg, tip, w, h };
+  }
+  function showTip(tip, el, event, html) {
+    const [x, y] = d3.pointer(event, el);
+    tip.style('opacity', 1).text('');
+    html.forEach((line, i) => { tip.append('div').text(line).style('font-weight', i === 0 ? 600 : 400); });
+    const tw = tip.node().offsetWidth, cw = el.clientWidth;
+    tip.style('left', `${Math.min(Math.max(0, x + 12), cw - tw - 4)}px`).style('top', `${Math.max(0, y - 40)}px`);
+  }
+  function axisLeftWidth(svg, scale, fmt) {
+    const g = svg.append('g').attr('class', 'tl-axis').call(d3.axisLeft(scale).ticks(5).tickFormat(fmt));
+    let m = 0; g.selectAll('text').each(function () { m = Math.max(m, this.getComputedTextLength()); });
+    g.remove(); return m;
+  }
+  function placeholder(el, st) {
+    el.replaceChildren();
+    if (st === 'error') { const p = document.createElement('p'); p.className = 'tl-muted'; p.textContent = 'Failed to load'; el.append(p); }
+    else el.textContent = '—';
+  }
+
+  // ---------- chart 1: tuning rounds
+  document.querySelectorAll('#rounds-metric').forEach((s) => { s.onchange = () => dash.draw('rounds'); });
+  dash.draw('rounds', (el) => {
+    const t = dash.data('trials');
+    if (t.status !== 'ok' || !t.data.length) return placeholder(el, t.status);
+    const metricSel = document.querySelector('#rounds-metric');
+    const metric = metricSel ? metricSel.value : 'acc';
+    const isAcc = metric === 'acc';
+    const rows = t.data.map((r) => ({
+      trial: num(r.trial), param: r.param, value: r.value, accepted: String(r.accepted).toLowerCase() === 'true',
+      y: num(r[metric]), best: num(r[isAcc ? 'best_acc' : 'best_log_loss']), val: num(r[isAcc ? 'val_acc' : 'val_log_loss']),
+    }));
+    const { svg, tip, w, h } = frame(el, 320);
+    svg.attr('aria-label', `${isAcc ? 'Accuracy' : 'Log-loss'} of each tuning trial, the best so far, and validation scores at kept changes`);
+    const ys = rows.flatMap((r) => [r.y, r.best, r.val]).filter(Number.isFinite);
+    const pad = (d3.max(ys) - d3.min(ys)) * 0.08 || 0.01;
+    const y = d3.scaleLinear().domain([d3.min(ys) - pad, d3.max(ys) + pad]).nice();
+    const fmt = isAcc ? d3.format('.1%') : d3.format('.3f');
+    const ml = axisLeftWidth(svg, y, fmt) + 14, mr = 12, mt = 10, mb = 34;
+    y.range([h - mb, mt]);
+    const x = d3.scaleLinear().domain(d3.extent(rows, (r) => r.trial)).range([ml, w - mr]);
+    svg.append('g').attr('class', 'tl-grid').attr('transform', `translate(${ml},0)`).call(d3.axisLeft(y).ticks(5).tickSize(-(w - ml - mr)).tickFormat(''));
+    svg.append('g').attr('class', 'tl-axis').attr('transform', `translate(${ml},0)`).call(d3.axisLeft(y).ticks(5).tickFormat(fmt));
+    svg.append('g').attr('class', 'tl-axis').attr('transform', `translate(0,${h - mb})`).call(d3.axisBottom(x).ticks(Math.min(10, rows.length)).tickFormat(d3.format('d')));
+    svg.append('text').attr('x', w - mr).attr('y', h - 4).attr('text-anchor', 'end').style('fill', 'var(--cds-text-secondary)').style('font-size', 'var(--cds-font-size-caption)').text('Tuning trial');
+    svg.append('path').datum(rows.filter((r) => Number.isFinite(r.best))).attr('fill', 'none').style('stroke', dash.colors[0]).attr('stroke-width', 2)
+      .attr('d', d3.line().x((r) => x(r.trial)).y((r) => y(r.best)).curve(d3.curveStepAfter));
+    const vrows = rows.filter((r) => Number.isFinite(r.val));
+    svg.append('path').datum(vrows).attr('fill', 'none').style('stroke', dash.colors[1]).attr('stroke-width', 2).attr('d', d3.line().x((r) => x(r.trial)).y((r) => y(r.val)));
+    svg.append('g').selectAll('circle').data(vrows).join('circle').attr('cx', (r) => x(r.trial)).attr('cy', (r) => y(r.val)).attr('r', 3.5).style('fill', dash.colors[1]);
+    svg.append('g').selectAll('circle').data(rows.filter((r) => Number.isFinite(r.y))).join('circle')
+      .attr('cx', (r) => x(r.trial)).attr('cy', (r) => y(r.y)).attr('r', (r) => (r.accepted ? 4 : 3))
+      .style('fill', (r) => (r.accepted ? dash.colors[0] : 'var(--color-bg)')).style('stroke', (r) => (r.accepted ? dash.colors[0] : 'var(--cds-chart-muted)')).attr('stroke-width', 1.5)
+      .on('pointerenter pointermove', (event, r) => showTip(tip, el, event, [
+        r.param === 'start' ? 'Starting weights' : `Trial ${r.trial}: ${r.param} = ${r.value}`,
+        `${isAcc ? 'Accuracy' : 'Log-loss'} (tuning): ${fmt(r.y)}`,
+        r.accepted ? 'Kept' : 'Not kept',
+        ...(Number.isFinite(r.val) ? [`Validation: ${fmt(r.val)}`] : []),
+      ]))
+      .on('pointerleave', () => tip.style('opacity', 0));
+  });
+
+  // ---------- chart 2: share of patch known
+  document.querySelectorAll('#known-metric').forEach((s) => { s.onchange = () => dash.draw('known'); });
+  dash.draw('known', (el) => {
+    const k = dash.data('known_curve');
+    if (k.status !== 'ok' || !k.data.length) return placeholder(el, k.status);
+    const metricSel = document.querySelector('#known-metric');
+    const metric = metricSel ? metricSel.value : 'acc';
+    const isAcc = metric === 'acc';
+    const series = [['Tuned', 1], ['Start (current)', 0], ['Elo only', 2]].map(([name, ci]) => ({
+      name: name === 'Start (current)' ? 'Starting weights' : name === 'Tuned' ? 'Tuned weights' : 'Elo only', ci,
+      pts: k.data.filter((r) => r.weights === name && r.split === 'val').map((r) => ({ x: num(r.known_mid), from: num(r.known_from), to: num(r.known_to), y: num(r[metric]), n: num(r.n) })).sort((a, b) => a.x - b.x),
+    }));
+    const { svg, tip, w, h } = frame(el, 320);
+    svg.attr('aria-label', `${isAcc ? 'Accuracy' : 'Log-loss'} by share of the patch known, for tuned weights, starting weights and Elo only`);
+    const ys = series.flatMap((s) => s.pts.map((p) => p.y)).filter(Number.isFinite);
+    const pad = (d3.max(ys) - d3.min(ys)) * 0.1 || 0.01;
+    const y = d3.scaleLinear().domain([d3.min(ys) - pad, d3.max(ys) + pad]).nice();
+    const fmt = isAcc ? d3.format('.0%') : d3.format('.3f');
+    const ml = axisLeftWidth(svg, y, fmt) + 14, mr = 12, mt = 10, mb = 34;
+    y.range([h - mb, mt]);
+    const x = d3.scaleLinear().domain([0, 0.8]).range([ml, w - mr]);
+    svg.append('g').attr('class', 'tl-grid').attr('transform', `translate(${ml},0)`).call(d3.axisLeft(y).ticks(5).tickSize(-(w - ml - mr)).tickFormat(''));
+    svg.append('g').attr('class', 'tl-axis').attr('transform', `translate(${ml},0)`).call(d3.axisLeft(y).ticks(5).tickFormat(fmt));
+    svg.append('g').attr('class', 'tl-axis').attr('transform', `translate(0,${h - mb})`).call(d3.axisBottom(x).tickValues([0, 0.2, 0.4, 0.6, 0.8]).tickFormat(d3.format('.0%')));
+    svg.append('text').attr('x', w - mr).attr('y', h - 4).attr('text-anchor', 'end').style('fill', 'var(--cds-text-secondary)').style('font-size', 'var(--cds-font-size-caption)').text('Share of the patch known');
+    series.forEach((s) => {
+      svg.append('path').datum(s.pts.filter((p) => Number.isFinite(p.y))).attr('fill', 'none').style('stroke', dash.colors[s.ci]).attr('stroke-width', s.ci === 1 ? 2.5 : 1.75)
+        .attr('d', d3.line().x((p) => x(p.x)).y((p) => y(p.y)));
+      svg.append('g').selectAll('circle').data(s.pts.filter((p) => Number.isFinite(p.y))).join('circle')
+        .attr('cx', (p) => x(p.x)).attr('cy', (p) => y(p.y)).attr('r', 4).style('fill', dash.colors[s.ci])
+        .on('pointerenter pointermove', (event, p) => showTip(tip, el, event, [
+          `${s.name}: ${d3.format('.0%')(p.from)} to ${d3.format('.0%')(p.to)} known`,
+          `${isAcc ? 'Accuracy' : 'Log-loss'}: ${isAcc ? d3.format('.1%')(p.y) : d3.format('.4f')(p.y)}`,
+          `${d3.format(',')(p.n)} games predicted`,
+        ]))
+        .on('pointerleave', () => tip.style('opacity', 0));
+    });
+  });
+
+  // ---------- tables
+  dash.draw('paramsBody', (tb) => {
+    const p = dash.data('params');
+    tb.replaceChildren();
+    if (p.status !== 'ok') return;
+    p.data.forEach((r) => {
+      const tr = document.createElement('tr');
+      const changed = String(r.start) !== String(r.tuned);
+      [r.parameter, r.start, r.tuned, r.meaning].forEach((v, i) => {
+        const td = document.createElement('td');
+        td.textContent = v === '' || v === null || v === undefined ? '—' : v;
+        if (i === 1 || i === 2) td.className = 'tl-num';
+        if (i === 2 && changed) td.style.fontWeight = 600;
+        tr.append(td);
+      });
+      tb.append(tr);
+    });
+  });
+  dash.draw('summaryBody', (tb) => {
+    const s = dash.data('summary');
+    tb.replaceChildren();
+    if (s.status !== 'ok') return;
+    const label = { 'Start (current)': 'Starting weights', Tuned: 'Tuned weights', 'Elo only': 'Elo only (no draft)' };
+    s.data.forEach((r) => {
+      const tr = document.createElement('tr');
+      tr.dataset.key = `${encodeURIComponent(r.weights)},${encodeURIComponent(r.split)}`;
+      [label[r.weights] || r.weights, r.split === 'val' ? 'Validation' : 'Tuning', pct(num(r.acc)), f4(num(r.log_loss)), d3.format('.3f')(num(r.auc)), d3.format(',')(num(r.n))]
+        .forEach((v, i) => { const td = document.createElement('td'); td.textContent = v; if (i >= 2) td.className = 'tl-num'; tr.append(td); });
+      tb.append(tr);
+    });
+  });
+
+  // ---------- chart 3: bounds
+  dash.draw('bounds', (el) => {
+    const b = dash.data('bounds');
+    if (b.status !== 'ok' || !b.data.length) return placeholder(el, b.status);
+    const rows = b.data.map((r) => ({ pattern: r.pattern, truth: num(r.truth), naive: num(r.naive), lo: num(r.ci_lower), hi: num(r.ci_upper), wl: num(r.worst_lower), wh: num(r.worst_upper) }));
+    const rowH = 54, mt = 6, mb = 30;
+    const { svg, tip, w } = frame(el, mt + mb + rows.length * rowH);
+    const h = mt + mb + rows.length * rowH;
+    svg.attr('aria-label', 'For each deletion pattern, the worst-case range, the shadow-variable interval, the true win rate and the naive average');
+    const ml = 12, mr = 12;
+    const x = d3.scaleLinear().domain([Math.min(0.2, d3.min(rows, (r) => r.wl)), Math.max(0.8, d3.max(rows, (r) => r.wh))]).nice().range([ml, w - mr]);
+    svg.append('g').attr('class', 'tl-axis').attr('transform', `translate(0,${h - mb})`).call(d3.axisBottom(x).ticks(6).tickFormat(d3.format('.0%')));
+    rows.forEach((r, i) => {
+      const y0 = mt + i * rowH;
+      const g = svg.append('g');
+      g.append('text').attr('x', ml).attr('y', y0 + 12).style('fill', 'var(--color-fg)').style('font-size', 'var(--cds-font-size-caption)').text(r.pattern);
+      const cy = y0 + 30;
+      g.append('rect').attr('x', x(r.wl)).attr('width', Math.max(1, x(r.wh) - x(r.wl))).attr('y', cy - 6).attr('height', 12).attr('rx', 3).style('fill', 'var(--cds-chart-grid)');
+      g.append('rect').attr('x', x(r.lo)).attr('width', Math.max(2, x(r.hi) - x(r.lo))).attr('y', cy - 6).attr('height', 12).attr('rx', 3).style('fill', dash.colors[0]).style('opacity', 0.75);
+      g.append('circle').attr('cx', x(r.naive)).attr('cy', cy).attr('r', 5).style('fill', 'var(--color-bad)');
+      g.append('line').attr('x1', x(r.truth)).attr('x2', x(r.truth)).attr('y1', cy - 10).attr('y2', cy + 10).style('stroke', 'var(--color-fg)').attr('stroke-width', 2.5);
+      g.append('rect').attr('x', ml).attr('y', y0).attr('width', w - ml - mr).attr('height', rowH).style('fill', 'transparent')
+        .on('pointerenter pointermove', (event) => showTip(tip, el, event, [
+          r.pattern, `True win rate: ${pct(r.truth)}`, `Naive (kept games): ${pct(r.naive)}`,
+          `Shadow 90% interval: ${pct(r.lo)} to ${pct(r.hi)}`, `Worst case: ${pct(r.wl)} to ${pct(r.wh)}`,
+        ]))
+        .on('pointerleave', () => tip.style('opacity', 0));
+    });
+  });
+</script>

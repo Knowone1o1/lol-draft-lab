@@ -1,0 +1,14 @@
+{
+  "params": {
+    "half_life": 45,
+    "matchup_half_life": 5000,
+    "fearless_decay": 0.65,
+    "k_champ": 20,
+    "k_pair": 80,
+    "k_lane": 30,
+    "elo_k": 24.0
+  },
+  "tuned": "2026-11-12T16:47:26.906576",
+  "val_log_loss_gain": null,
+  "note": "temporary: tuned-vs-default comparison build only"
+}

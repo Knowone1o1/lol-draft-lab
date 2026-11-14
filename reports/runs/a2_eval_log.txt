@@ -1,0 +1,43 @@
+always_blue: default params
+elo: default params
+elo_league: default params
+strength: tuned {'form_half_life': 3, 'weight_half_life_days': 90, 'lam_team': 0.1, 'lam_league': 0.1}
+strength_noform: tuned {'weight_half_life_days': 90, 'lam_team': 0.1, 'lam_league': 0.1}
+Run 20261112-185018-145ce3fcf6 in 245s -> reports/runs/20261112-185018-145ce3fcf6.md
+# Win-model evaluation run `20261112-185018-145ce3fcf6`
+
+Walk-forward evaluation before the frozen holdout · games 2025-01-11 to 2026-05-11 · 14,456 games in 7,044 series · holdout starts 2026-05-12 · data cutoff 2026-11-12 · seed 0 · code 145ce3fcf6 · A2: strength vs strength_noform, both tuned on 2024 only; first-pick term not identifiable before 2026
+
+Each day's games are predicted by models refitted on all earlier days. Intervals are 95% bootstrap intervals resampling whole series; "vs baseline" rows are paired differences (negative = better than `elo`).
+
+## All leagues (14,456 games)
+
+| Model | Log-loss | Brier | Accuracy | AUC | Calibration slope | ECE |
+|---|---|---|---|---|---|---|
+| always_blue | 0.6912 [0.6903, 0.6921] | 0.2490 [0.2486, 0.2495] | 53.2% [52.4%, 53.9%] | — | — | 0.0017 [0.0001, 0.0097] |
+| elo | 0.6427 [0.6370, 0.6486] | 0.2259 [0.2234, 0.2285] | 62.5% [61.7%, 63.4%] | 0.6741 [0.6644, 0.6824] | 0.9004 [0.8476, 0.9500] | 0.0111 [0.0082, 0.0200] |
+| elo_league | 0.6381 [0.6319, 0.6444] | 0.2236 [0.2209, 0.2263] | 63.2% [62.4%, 64.1%] | 0.6827 [0.6735, 0.6914] | 0.8852 [0.8295, 0.9397] | 0.0108 [0.0090, 0.0209] |
+| strength | 0.6291 [0.6229, 0.6354] | 0.2197 [0.2169, 0.2225] | 64.0% [63.2%, 64.9%] | 0.6963 [0.6886, 0.7046] | 0.8893 [0.8493, 0.9385] | 0.0153 [0.0105, 0.0227] |
+| strength_noform | 0.6297 [0.6238, 0.6357] | 0.2201 [0.2175, 0.2227] | 63.7% [62.9%, 64.5%] | 0.6943 [0.6864, 0.7029] | 0.9427 [0.8980, 0.9960] | 0.0100 [0.0067, 0.0187] |
+
+| Model | Log-loss vs baseline | Brier vs baseline |
+|---|---|---|
+| always_blue | +0.0485 [+0.0428, +0.0542] | +0.0231 [+0.0205, +0.0257] |
+| elo_league | -0.0045 [-0.0072, -0.0019] | -0.0023 [-0.0034, -0.0012] |
+| strength | -0.0136 [-0.0175, -0.0096] | -0.0062 [-0.0079, -0.0045] |
+| strength_noform | -0.0130 [-0.0168, -0.0094] | -0.0058 [-0.0075, -0.0043] |
+
+## Major leagues (+ Worlds/MSI/FST/EWC) (4,056 games)
+
+| Model | Log-loss | Brier | Accuracy | AUC | Calibration slope | ECE |
+|---|---|---|---|---|---|---|
+| always_blue | 0.6913 [0.6894, 0.6932] | 0.2491 [0.2481, 0.2500] | 53.1% [51.5%, 54.7%] | — | — | 0.0009 [0.0003, 0.0169] |
+| elo | 0.6400 [0.6278, 0.6519] | 0.2243 [0.2189, 0.2295] | 63.5% [61.9%, 65.1%] | 0.6844 [0.6674, 0.7024] | 0.8170 [0.7358, 0.9069] | 0.0238 [0.0198, 0.0407] |
+| elo_league | 0.6347 [0.6217, 0.6470] | 0.2220 [0.2164, 0.2274] | 63.9% [62.2%, 65.6%] | 0.6917 [0.6759, 0.7101] | 0.8211 [0.7544, 0.9111] | 0.0242 [0.0179, 0.0401] |
+| strength | 0.6330 [0.6212, 0.6451] | 0.2212 [0.2160, 0.2265] | 64.1% [62.5%, 65.7%] | 0.6933 [0.6766, 0.7111] | 0.8837 [0.8051, 0.9756] | 0.0235 [0.0183, 0.0407] |
+| strength_noform | 0.6314 [0.6201, 0.6425] | 0.2207 [0.2156, 0.2257] | 63.8% [62.2%, 65.4%] | 0.6939 [0.6767, 0.7119] | 0.9486 [0.8615, 1.0473] | 0.0112 [0.0097, 0.0295] |
+
+| Model | Log-loss vs baseline | Brier vs baseline |
+|---|---|---|
+| always_blue | +0.0513 [+0.0394, +0.0634] | +0.0248 [+0.0196, +0.0302] |
+| elo_league | -0.0053 [-0.0101, -0.0007] | -0.0023

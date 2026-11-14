@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LoL Draft Lab</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<header>
+  <div class="brand">LoL <span>Draft Lab</span></div>
+  <div id="info" class="muted"></div>
+</header>
+
+<main>
+  <!-- Setup -->
+  <section id="setup" class="panel">
+    <h2>Practice setup</h2>
+    <div class="grid2">
+      <label>Your team <select id="myTeam"></select></label>
+      <label>Opponent <select id="oppTeam"></select></label>
+      <label>Your side
+        <select id="mySide"><option>Blue</option><option>Red</option></select>
+      </label>
+      <label>Format
+        <select id="format"><option value="1">Single game</option><option value="3" selected>Best of 3</option><option value="5">Best of 5</option></select>
+      </label>
+      <label class="check"><span><input id="fearless" type="checkbox" checked> Fearless draft</span>
+        <span class="muted">Champions picked by either team are locked for the rest of the series</span>
+      </label>
+      <label>Opponent drafts
+        <select id="aiMode"><option value="imitate">Like the real team (their pick/ban habits)</option><option value="smart">Smart (counters and protects its picks)</option></select>
+      </label>
+      <label>Opponent AI style
+        <input id="temp" type="range" min="0.2" max="1.5" step="0.1" value="0.7">
+        <span class="hint"><span>Predictable</span><span>Varied</span></span>
+      </label>
+    </div>
+    <div class="grid2">
+      <div>
+        <h3>Your roster <span class="muted">(edit to test lineups)</span></h3>
+        <div id="myRoster" class="roster"></div>
+      </div>
+      <div>
+        <h3>Opponent roster</h3>
+        <div id="oppRoster" class="roster"></div>
+      </div>
+    </div>
+    <label>Already locked before game 1 <span class="muted">(optional, comma-separated — e.g. to continue a real series mid-way)</span>
+      <input id="locked" type="text" placeholder="e.g. Azir, Rumble, Vi">
+    </label>
+    <datalist id="playerList"></datalist>
+    <datalist id="champList"></datalist>
+    <button id="startBtn" class="primary">Start draft</button>
+  </section>
+
+  <!-- Counter explorer -->
+  <section id="counters" class="panel" style="margin-top:14px">
+    <h2>Counter explorer <span class="muted">— lane matchups across all seasons in the data</span></h2>
+    <div class="controls">
+      <input id="cxChamp" list="champList" placeholder="Champion, e.g. Azir">
+      <select id="cxRole"><option value="">Same lane, any role</option><option value="team">Whole enemy team</option><option value="top">Top</option><option value="jng">Jungle</option>
+        <option value="mid">Mid</option><option value="bot">Bot</option><option value="sup">Support</option></select>
+      <button id="cxBtn">Look up</button>
+    </div>
+    <div id="cxOut" class="grid2"></div>
+  </section>
+
+  <!-- Draft -->
+  <section id="draft" class="hidden" data-mtab="sugg">
+    <!-- Sticky top bar: whose turn, series state, win estimate -->
+    <div id="topbar" class="topbar">
+      <div id="turn" class="turn" aria-live="polite"></div>
+      <div id="seriesBar" class="tb-series"></div>
+      <div class="tb-win" id="winBox" title="Mostly team strength (results, gold leads at 15 and league strength), plus side and pick order. The draft moves it a few points.">
+        <span class="tb-label">Win estimate</span>
+        <div class="tb-winrow">
+          <span id="blueName" class="blue"></span>
+          <div class="bar"><div id="blueBar"></div><span id="winText"></span></div>
+          <span id="redName" class="red"></span>
+        </div>
+        <span id="levelText" class="tb-level muted" title="Blue vs red from the draft alone, as if both teams were equally strong and with no side or pick-order edge."></span>
+      </div>
+      <div class="tb-btns">
+        <button id="undoBtn" class="ghost" title="Undo your last action">Undo</button>
+        <button id="resetBtn" class="ghost">Setup</button>
+      </div>
+      <div id="mstrip" class="mstrip" aria-hidden="true"></div>
+      <nav class="mtabs" aria-label="Draft views">
+        <button data-m="board">Board</button>
+        <button data-m="sugg" class="on">Suggestions</button>
+        <button data-m="plan">Plan</button>
+      </nav>
+    </div>
+    <div id="lockRow" class="lockrow hidden"></div>
+
+    <div class="dlayout">
+      <div class="board">
+        <div class="side blueSide" data-pane="board">
+          <div class="sidehead blue" id="blueHead"></div>
+          <div class="bans" id="Blue-bans"></div>
+          <div class="picks" id="Blue-picks"></div>
+        </div>
+
+        <div class="center" data-pane="sugg">
+          <div id="pickUI">
+            <div id="recs" class="recs"></div>
+            <div class="controls">
+              <input id="search" type="search" placeholder="Search champion  ( / )" aria-label="Search champion">
+              <div id="roleFilter" class="chips"></div>
+              <button id="gridBtn" class="ghost" aria-expanded="false" aria-controls="grid">Browse all</button>
+            </div>
+            <div id="grid" class="champgrid hidden"></div>
+          </div>
+          <div id="review" class="review hidden"></div>
+        </div>
+
+        <div class="side redSide" data-pane="board">
+          <div class="sidehead red" id="redHead"></div>
+          <div class="bans" id="Red-bans"></div>
+          <div class="picks" id="Red-picks"></div>
+        </div>
+      </div>
+
+      <aside class="dside" data-pane="plan">
+        <div id="istrip" class="istrip"></div>
+        <section id="insights" class="insights">
+          <nav class="itabs" aria-label="Early game insights">
+            <button class="itab on" data-tab="lanes">Lanes at 15</button>
+            <button class="itab" data-tab="plan">Game plan</button>
+            <button class="itab" data-tab="wincon">Win condition</button>
+            <button class="itab" data-tab="card">Plan card</button>
+          </nav>
+          <div id="ibody" class="ibody"></div>
+        </section>
+      </aside>
+    </div>
+  </section>
+</main>
+<script src="/static/app.js"></script>
+</body>
+</html>

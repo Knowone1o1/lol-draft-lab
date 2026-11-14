@@ -1,0 +1,278 @@
+{
+ "run_id": "20261112-195011-fe68c84652",
+ "created": "2026-11-12T19:52:14",
+ "note": "A4: draft ablation, offset = strength_g15_tier_cal (coefficient fixed at 1), draft coefficients refitted monthly from 2023",
+ "final_evaluation": false,
+ "holdout_start": "2026-05-12",
+ "holdout_uses_logged": 0,
+ "eval_window": [
+  "2025-01-11",
+  "2026-05-11"
+ ],
+ "data_cutoff": "2026-11-12",
+ "n_games_eval": 14456,
+ "n_series_eval": 7044,
+ "n_by_split": {
+  "major": 4056,
+  "erl": 5072,
+  "other": 5328
+ },
+ "models": [
+  {
+   "name": "always_blue",
+   "params": {},
+   "features": [
+    "side"
+   ],
+   "caveats": [],
+   "fitted": {}
+  },
+  {
+   "name": "elo_league",
+   "params": {
+    "k": 24.0
+   },
+   "features": [
+    "(elo + league offset) diff/400, offsets refitted monthly on past games",
+    "intercept = side"
+   ],
+   "caveats": [],
+   "fitted": {}
+  },
+  {
+   "name": "strength_g15_tier_cal",
+   "params": {
+    "form_half_life": 10.0,
+    "weight_half_life_days": 90,
+    "lam_team": 0.1,
+    "lam_league": 0.1,
+    "lam_dense": 0.001,
+    "window_days": 1460.0,
+    "margin_k": 0.16,
+    "w_major": 0.25,
+    "logit_scale": 0.9055
+   },
+   "features": [
+    "side (intercept)",
+    "first pick (+1 blue / -1 red, 2026 only)",
+    "tier-weighted gold-lead-at-15 (k gold; W/L where no gold data) rating difference (online, k=0.16, past games only); margin weight majors 0.25, ERL/Other 1",
+    "team effects shrunk to league mean (ridge)",
+    "league effects (home league, cross-league games)",
+    "temperature scaling: logit x 0.905 (fitted on 2024 only)"
+   ],
+   "caveats": [
+    "First pick is a separate term only from 2026 (Riot's First Selection rule). Before 2026 first pick was always blue side, so it is folded into the side term and CANNOT be estimated in the 2024 tuning window or in 2025; any first-pick coefficient comes from 2026 games only."
+   ],
+   "fitted": {
+    "side": 0.1078,
+    "first_pick": -0.0787,
+    "margin_rating": 0.2995
+   }
+  },
+  {
+   "name": "draft_champ",
+   "params": {
+    "base": "strength_g15_tier_cal",
+    "lam": 1.0,
+    "stage": "full",
+    "interact": false
+   },
+   "features": [
+    "OFFSET: strength_g15_tier_cal walk-forward logit (coefficient fixed at 1)",
+    "champ: champ_strength, player_comfort, synergy, lane_counter, team_matchups",
+    "draft coefficients refitted monthly from 2023-01-01, ridge lam=1.0 (standardised)"
+   ],
+   "caveats": [
+    "2026 red-first-pick games have no partial-draft (b1/p1) features until the C0 pick-order fix."
+   ],
+   "fitted": {
+    "champ_strength": 0.1481,
+    "player_comfort": 0.0841,
+    "synergy": 0.0246,
+    "lane_counter": 0.0326,
+    "team_matchups": 0.027
+   }
+  },
+  {
+   "name": "draft_comp",
+   "params": {
+    "base": "strength_g15_tier_cal",
+    "lam": 1.0,
+    "stage": "full",
+    "interact": false
+   },
+   "features": [
+    "OFFSET: strength_g15_tier_cal walk-forward logit (coefficient fixed at 1)",
+    "comp: timing_diff, timing_gap, style_adv, hv_diff, early_diff",
+    "draft coefficients refitted monthly from 2023-01-01, ridge lam=1.0 (standardised)"
+   ],
+   "caveats": [
+    "2026 red-first-pick games have no partial-draft (b1/p1) features until the C0 pick-order fix."
+   ],
+   "fitted": {
+    "timing_diff": -0.0013,
+    "timing_gap": 0.007,
+    "style_adv": 0.0439,
+    "hv_diff": 0.0481,
+    "early_diff": 0.03
+   }
+  },
+  {
+   "name": "draft_champ_comp",
+   "params": {
+    "base": "strength_g15_tier_cal",
+    "lam": 1.0,
+    "stage": "full",
+    "interact": false
+   },
+   "features": [
+    "OFFSET: strength_g15_tier_cal walk-forward logit (coefficient fixed at 1)",
+    "champ: champ_strength, player_comfort, synergy, lane_counter, team_matchups",
+    "comp: timing_diff, timing_gap, style_adv, hv_diff, early_diff",
+    "draft coefficients refitted monthly from 2023-01-01, ridge lam=1.0 (standardised)"
+   ],
+   "caveats": [
+    "2026 red-first-pick games have no partial-draft (b1/p1) features until the C0 pick-order fix."
+   ],
+   "fitted": {
+    "champ_strength": 0.1442,
+    "player_comfort": 0.0832,
+    "synergy": 0.0223,
+    "lane_counter": 0.032,
+    "team_matchups": 0.0273,
+    "timing_diff": 0.0009,
+    "timing_gap": 0.007,
+    "style_adv": 0.0295,
+    "hv_diff": 0.0301,
+    "early_diff": 0.0014
+   }
+  },
+  {
+   "name": "draft_interact",
+   "params": {
+    "base": "strength_g15_tier_cal",
+    "lam": 1.0,
+    "stage": "full",
+    "interact": true
+   },
+   "features": [
+    "OFFSET: strength_g15_tier_cal walk-forward logit (coefficient fixed at 1)",
+    "champ: champ_strength, player_comfort, synergy, lane_counter, team_matchups",
+    "comp: timing_diff, timing_gap, style_adv, hv_diff, early_diff",
+    "champion features x |strength gap|; timing, high-variance share, style matchup x signed gap",
+    "draft coefficients refitted monthly from 2023-01-01, ridge lam=1.0 (standardised)"
+   ],
+   "caveats": [
+    "2026 red-first-pick games have no partial-draft (b1/p1) features until the C0 pick-order fix."
+   ],
+   "fitted": {
+    "champ_strength": 0.1553,
+    "player_comfort": 0.0826,
+    "synergy": 0.0067,
+    "lane_counter": 0.0212,
+    "team_matchups": 0.061,
+    "timing_diff": 0.0014,
+    "timing_gap": 0.0069,
+    "style_adv": 0.0296,
+    "hv_diff": 0.0312,
+    "early_diff": 0.0011,
+    "champ_strength x |gap|": -0.0179,
+    "player_comfort x |gap|": 0.0013,
+    "synergy x |gap|": 0.0248,
+    "lane_counter x |gap|": 0.0171,
+    "team_matchups x |gap|": -0.0541,
+    "timing_diff x gap": 0.0115,
+    "hv_diff x gap": 0.0243,
+    "style_adv x gap": -0.0008
+   }
+  },
+  {
+   "name": "draft_first_sel",
+   "params": {
+    "base": "strength_g15_tier_cal",
+    "lam": 1.0,
+    "stage": "full",
+    "interact": false
+   },
+   "features": [
+    "OFFSET: strength_g15_tier_cal walk-forward logit (coefficient fixed at 1)",
+    "champ: champ_strength, player_comfort, synergy, lane_counter, team_matchups",
+    "first_sel: fs_blue, fs_got_side_and_pick, fs_got_one, fs_got_neither",
+    "draft coefficients refitted monthly from 2023-01-01, ridge lam=1.0 (standardised)"
+   ],
+   "caveats": [
+    "2026 red-first-pick games have no partial-draft (b1/p1) features until the C0 pick-order fix.",
+    "First Selection: who had it is known only for 2026 games 2+ (loser of the previous game); whether that team chose side or pick order is NOT identifiable from Oracle's Elixir data, so the features describe what it ended up with."
+   ],
+   "fitted": {
+    "champ_strength": 0.1479,
+    "player_comfort": 0.0838,
+    "synergy": 0.0253,
+    "lane_counter": 0.0329,
+    "team_matchups": 0.0269,
+    "fs_blue": -0.0162,
+    "fs_got_side_and_pick": -0.0209,
+    "fs_got_one": 0.0079,
+    "fs_got_neither": -0.0215
+   }
+  },
+  {
+   "name": "draft_b1",
+   "params": {
+    "base": "strength_g15_tier_cal",
+    "lam": 1.0,
+    "stage": "b1",
+    "interact": false
+   },
+   "features": [
+    "OFFSET: strength_g15_tier_cal walk-forward logit (coefficient fixed at 1)",
+    "champ: b1_champ_strength, b1_player_comfort, b1_synergy, b1_lane_counter, b1_team_matchups",
+    "draft coefficients refitted monthly from 2023-01-01, ridge lam=1.0 (standardised)"
+   ],
+   "caveats": [
+    "2026 red-first-pick games have no partial-draft (b1/p1) features until the C0 pick-order fix."
+   ],
+   "fitted": {
+    "b1_champ_strength": 0.067,
+    "b1_player_comfort": 0.0366,
+    "b1_synergy": 0.0,
+    "b1_lane_counter": 0.0,
+    "b1_team_matchups": 0.0
+   }
+  },
+  {
+   "name": "draft_p1",
+   "params": {
+    "base": "strength_g15_tier_cal",
+    "lam": 1.0,
+    "stage": "p1",
+    "interact": false
+   },
+   "features": [
+    "OFFSET: strength_g15_tier_cal walk-forward logit (coefficient fixed at 1)",
+    "champ: p1_champ_strength, p1_player_comfort, p1_synergy, p1_lane_counter, p1_team_matchups",
+    "draft coefficients refitted monthly from 2023-01-01, ridge lam=1.0 (standardised)"
+   ],
+   "caveats": [
+    "2026 red-first-pick games have no partial-draft (b1/p1) features until the C0 pick-order fix."
+   ],
+   "fitted": {
+    "p1_champ_strength": 0.1217,
+    "p1_player_comfort": 0.0842,
+    "p1_synergy": 0.0276,
+    "p1_lane_counter": 0.0071,
+    "p1_team_matchups": 0.0177
+   }
+  }
+ ],
+ "baseline": "strength_g15_tier_cal",
+ "bootstrap": {
+  "B": 2000,
+  "unit": "series"
+ },
+ "seed": 0,
+ "code_hash": "fe68c84652",
+ "refit": "daily (walk-forward)",
+ "roster_change_3plus_games": 528,
+ "roster_change_3plus_share": 0.036524626452684006
+}

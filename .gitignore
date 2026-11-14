@@ -1,0 +1,15 @@
+.venv/
+__pycache__/
+*.pyc
+data/raw/*
+!data/raw/.gitkeep
+models/
+data/*.duckdb
+data/*.duckdb.wal
+
+# Third-party data dumps and generated artifacts (rebuild with the README steps)
+data/history/
+data/soloq/
+*.pkl
+*.log
+.pytest_cache/

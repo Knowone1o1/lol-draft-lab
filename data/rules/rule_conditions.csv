@@ -1,0 +1,37 @@
+ID,Kind,Section,For each,When,Unless,Overrides,Live check,Approximation,If hash
+R05,draft,level1,,our.jng.lvl1 == Strong AND their.jng.lvl1 != Strong AND our.laners_lvl1_strong > their.laners_lvl1_strong,,,,"""Nearby laners"" read as: more of our laners have Strong level 1 than theirs. Which side to invade is chosen on the card from the strong laners.",8ef74478
+R06,draft,level1,,our.lvl1_edge >= -1 AND our.lvl1_edge <= 1,,,Both teams place heavy level-1 vision,"""No clear Lvl 1 edge"" read as: level-1 edge within one champion either way.",be1b06e6
+R07,draft,level1,,our.jng.lvl1 == Weak AND their.jng.lvl1 == Strong,,,,,02950c4b
+R08,draft,jungle_path,,ALWAYS,,,,,6656018a
+R09,draft,lane_prio,"lane=top,bot",our.{lane}.prio == Weak,,,,"A side = its side lane (top side = top lane, bot side = bot lane). ""No priority"" read as Weak, not Even.",93daa8e6
+R10,live,fight_windows,,,,,,,fb59b7db
+R11,draft,first_objective,,our.timing == Early AND (our.bot.prio == Strong OR our.mid.prio == Strong),,,,"""High early score"" is not checked separately; comp timing Early stands in for it.",d2bc2bff
+R12,draft,first_objective,,our.timing == Late AND their.timing == Early,,,,,2e6764a1
+R13,draft,fight_windows,,our.spike_edge > 0,,,We have more champions at the objective,Only the spike half is read from the draft; the numbers half is a live check.,4269cf08
+R14,live,first_objective,,,,,,,6fa26e19
+R15,draft,jungle_path,,our.jng.facilitator AND their.jng.carry,,,,,e48bc6bd
+R16,live,lane_prio,,,,,,,3d4280be
+R17,draft,draft_warnings,,our.strong_lanes == 0 AND our.weak_lanes >= 1,,,,,423b53d2
+R18,draft,lane_prio,,our.bot.prio == Strong OR our.mid.prio == Strong,,,,"""After levels 2-3"" is not checked; the draft's expected priority stands in for it.",d51bce4f
+R19,draft,first_objective,,ALWAYS,our.top.prio == Strong AND our.bot.prio != Strong,,,"""Comp clearly favours top side"" read as: top priority Strong while bot is not.",2837f8c6
+R20,draft,jungle_path,"lane=top,mid,bot",our.{lane}.prio == Weak,,R08,,"""Likely to be ganked early"" is not checked separately; every Weak lane counts.",1f1207f7
+R21,live,fight_windows,,,,,,,cd207420
+R22,live,first_objective,,,,,,,cb30cc74
+R23,live,lane_prio,,,,,,,02a3a849
+R24,draft,draft_warnings,,our.top.prio == Weak,,,,On the post-draft card this reads as: our top matchup is expected to lose.,f6a4586e
+R25,draft,lane_prio,,our.timing == Early AND our.mid.prio == Strong AND our.bot.prio == Strong,,,,,eedcd489
+R26,draft,jungle_path,,our.bot.prio == Strong AND our.top.prio == Strong,,,Enemy jungler shown on the other side,"The ""or enemy jungler shown elsewhere"" half is a live check.",b0a3b744
+R27,live,fight_windows,,,,,,,fd8842f6
+R28,scouting,level1,,,,,,,83c40e4d
+R29,draft,draft_warnings,"lane=top,mid,bot",our.{lane}.blind AND our.{lane}.matchup_dependent,,,,On the post-draft card this reads as: we blinded a matchup-dependent pick.,020ed7cf
+R30,draft,draft_warnings,,our.midjng == Weak,,,,,e6070da9
+R31,draft,draft_warnings,,((our.sup.roam OR our.sup.laning == Weak) AND our.bot.laning != Strong) OR (their.dive_threats >= 2 AND our.botlane_peel == 0),,,,"Only the two warning cases are checked: a roaming or weak-laning support with an ADC that is not Strong in lane, or 2+ enemy dive threats with no bot-lane peel.",89f629d4
+R32,draft,lane_prio,,our.bot.laning == Strong AND our.sup.laning == Strong,,,,,0bb0792f
+R33,draft,lane_prio,,"their.sup.style == ""Protect the carry""",,,,Enchanter read as: support's primary style is Protect the carry.,07c652d5
+R34,live,lane_prio,,,,,,,96252f1b
+R35,live,jungle_path,,,,,,,93447713
+R36,live,jungle_path,,,,,,,2fe718f3
+R37,live,fight_windows,,,,,,,d7505a19
+R38,live,first_objective,,,,,,,b0b86bfb
+R39,scouting,draft_warnings,,,,,,,88d0f8d0
+R40,draft,lane_prio,"lane=top,mid,bot",their.{lane}.star,,,,,87fae11a

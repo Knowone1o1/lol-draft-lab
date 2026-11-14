@@ -1,0 +1,9 @@
+parameter,start,tuned,meaning
+half_life,90,675.0,"Meta memory: days until a game counts half (pick/ban priority, strength, comfort)"
+matchup_half_life,540,900,Counter/synergy memory: days until a game counts half
+patch_boost,3.0,6,Extra weight for games on or near the target patch
+fearless_decay,0.77,0.9,Weight of each later fearless game vs the one before (game n = decay^(n-1))
+k_champ,30.0,30.0,Shrinkage of champion win rates (pseudo-games at 50%)
+k_pair,20.0,40,Shrinkage of synergies and whole-team matchups
+k_lane,15.0,15.0,Shrinkage of lane counters
+elo_k,24.0,32,Elo update size per game

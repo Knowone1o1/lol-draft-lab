@@ -1,0 +1,21 @@
+{
+ "params": {
+  "weight_half_life_days": 90,
+  "lam_team": 0.1,
+  "lam_league": 0.1,
+  "margin_k": 0.16,
+  "w_major": 0.25,
+  "logit_scale": 0.9055
+ },
+ "tune_window": [
+  "2024-01-01",
+  "2025-01-01"
+ ],
+ "rule": "apply temperature only if the 2024 calibration slope < 0.93",
+ "slope_2024_raw": 0.9072955788231504,
+ "applied": true,
+ "log_loss_2024_raw": 0.6157390927634823,
+ "log_loss_2024_cal": 0.6151122692366292,
+ "slope_2024_cal": 1.0019628395727351,
+ "created": "2026-11-12T19:40:55"
+}

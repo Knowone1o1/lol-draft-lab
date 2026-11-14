@@ -1,0 +1,8 @@
+{
+ "_how_to": "Copy to result.json and fill in one entry per game played, in order. 'actions' = all 20 draft actions (bans and picks) in the order they were locked in, as champion names (use null for a missed ban). 'blue_first' = true if blue side picked first, false if red did (2026 First Selection). Run: .venv/Scripts/python scripts/score_final.py --lock reports/forecast_lock_2026-11-14 --result reports/forecast_lock_2026-11-14/result.json",
+ "games": [
+  {"blue": "Gen.G", "red": "Bilibili Gaming", "blue_first": true,
+   "actions": ["ban1", "ban2", "ban3", "ban4", "ban5", "ban6", "pick1", "pick2", "pick3", "pick4", "pick5", "pick6", "ban7", "ban8", "ban9", "ban10", "pick7", "pick8", "pick9", "pick10"],
+   "winner": "Gen.G"}
+ ]
+}

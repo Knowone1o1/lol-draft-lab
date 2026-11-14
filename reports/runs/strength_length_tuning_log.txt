@@ -1,0 +1,6 @@
+  {'weight_half_life_days': 90, 'lam_team': 0.1, 'lam_league': 0.1, 'margin_k': 0.04} -> log-loss 0.6195, slope 0.85 (19s)
+  {'weight_half_life_days': 90, 'lam_team': 0.1, 'lam_league': 0.1, 'margin_k': 0.01} -> log-loss 0.6204, slope 0.86 (19s)
+  {'weight_half_life_days': 90, 'lam_team': 0.1, 'lam_league': 0.1, 'margin_k': 0.02} -> log-loss 0.6201, slope 0.85 (19s)
+  {'weight_half_life_days': 90, 'lam_team': 0.1, 'lam_league': 0.1, 'margin_k': 0.08} -> log-loss 0.6183, slope 0.86 (20s)
+  {'weight_half_life_days': 90, 'lam_team': 0.1, 'lam_league': 0.1, 'margin_k': 0.16} -> log-loss 0.6163, slope 0.89 (21s)
+best {'weight_half_life_days': 90, 'lam_team': 0.1, 'lam_league': 0.1, 'margin_k': 0.16} 0.6163182120411054 | elo_league 0.6269861030424241

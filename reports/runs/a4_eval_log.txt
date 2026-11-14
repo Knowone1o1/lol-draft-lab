@@ -1,0 +1,42 @@
+always_blue: default params
+elo_league: default params
+strength_g15_tier_cal: tuned {'weight_half_life_days': 90, 'lam_team': 0.1, 'lam_league': 0.1, 'margin_k': 0.16, 'w_major': 0.25, 'logit_scale': 0.9055}
+draft_champ: tuned {'base': 'strength_g15_tier_cal'}
+draft_comp: tuned {'base': 'strength_g15_tier_cal'}
+draft_champ_comp: tuned {'base': 'strength_g15_tier_cal'}
+draft_interact: tuned {'base': 'strength_g15_tier_cal'}
+draft_first_sel: tuned {'base': 'strength_g15_tier_cal'}
+draft_b1: tuned {'base': 'strength_g15_tier_cal'}
+draft_p1: tuned {'base': 'strength_g15_tier_cal'}
+Run 20261112-195011-fe68c84652 in 333s -> reports/runs/20261112-195011-fe68c84652.md
+# Win-model evaluation run `20261112-195011-fe68c84652`
+
+Walk-forward evaluation before the frozen holdout · games 2025-01-11 to 2026-05-11 · 14,456 games in 7,044 series · holdout starts 2026-05-12 · data cutoff 2026-11-12 · seed 0 · code fe68c84652 · A4: draft ablation, offset = strength_g15_tier_cal (coefficient fixed at 1), draft coefficients refitted monthly from 2023
+
+Each day's games are predicted by models refitted on all earlier days. Intervals are 95% bootstrap intervals resampling whole series; "vs baseline" rows are paired differences (negative = better than `strength_g15_tier_cal`).
+
+## All leagues (14,456 games)
+
+| Model | Log-loss | Brier | Accuracy | AUC | Calibration slope | ECE |
+|---|---|---|---|---|---|---|
+| always_blue | 0.6912 [0.6903, 0.6921] | 0.2490 [0.2486, 0.2495] | 53.2% [52.4%, 53.9%] | — | — | 0.0017 [0.0001, 0.0097] |
+| elo_league | 0.6381 [0.6319, 0.6444] | 0.2236 [0.2209, 0.2263] | 63.2% [62.4%, 64.1%] | 0.6827 [0.6735, 0.6914] | 0.8852 [0.8295, 0.9397] | 0.0108 [0.0090, 0.0209] |
+| strength_g15_tier_cal | 0.6219 [0.6157, 0.6282] | 0.2167 [0.2140, 0.2194] | 64.7% [63.9%, 65.5%] | 0.7057 [0.6978, 0.7135] | 0.9195 [0.8799, 0.9645] | 0.0104 [0.0078, 0.0184] |
+| draft_champ | 0.6182 [0.6117, 0.6249] | 0.2150 [0.2122, 0.2179] | 65.4% [64.6%, 66.3%] | 0.7119 [0.7039, 0.7197] | 0.9000 [0.8604, 0.9426] | 0.0112 [0.0091, 0.0195] |
+| draft_comp | 0.6214 [0.6152, 0.6277] | 0.2164 [0.2137, 0.2192] | 64.6% [63.8%, 65.5%] | 0.7064 [0.6986, 0.7142] | 0.9200 [0.8798, 0.9676] | 0.0120 [0.0077, 0.0200] |
+| draft_champ_comp | 0.6182 [0.6117, 0.6249] | 0.2150 [0.2122, 0.2179] | 65.4% [64.5%, 66.2%] | 0.7120 [0.7040, 0.7198] | 0.8990 [0.8592, 0.9415] | 0.0118 [0.0091, 0.0200] |
+| draft_interact | 0.6185 [0.6120, 0.6251] | 0.2151 [0.2123, 0.2179] | 65.4% [64.6%, 66.2%] | 0.7118 [0.7039, 0.7196] | 0.8959 [0.8566, 0.9380] | 0.0115 [0.0089, 0.0200] |
+| draft_first_sel | 0.6186 [0.6121, 0.6254] | 0.2152 [0.2123, 0.2181] | 65.5% [64.6%, 66.3%] | 0.7117 [0.7036, 0.7196] | 0.8820 [0.8418, 0.9213] | 0.0141 [0.0117, 0.0225] |
+| draft_b1 | 0.6220 [0.6158, 0.6283] | 0.2167 [0.2140, 0.2195] | 64.7% [63.9%, 65.6%] | 0.7058 [0.6981, 0.7136] | 0.9131 [0.8725, 0.9592] | 0.0123 [0.0080, 0.0196] |
+| draft_p1 | 0.6202 [0.6138, 0.6266] | 0.2159 [0.2131, 0.2187] | 65.0% [64.2%, 65.8%] | 0.7088 [0.7008, 0.7165] | 0.9053 [0.8644, 0.9493] | 0.0130 [0.0091, 0.0215] |
+
+| Model | Log-loss vs baseline | Brier vs baseline |
+|---|---|---|
+| always_blue | +0.0692 [+0.0631, +0.0756] | +0.0323 [+0.0296, +0.0352] |
+| elo_league | +0.0162 [+0.0120, +0.0203] | +0.0070 [+0.0051, +0.0087] |
+| draft_champ | -0.0037 [-0.0052, -0.0021] | -0.0017 [-0.0023, -0.0010] |
+| draft_comp | -0.0005 [-0.0010, +0.0000] | -0.0002 [-0.0004, +0.0000] |
+| draft_champ_comp | -0.0037 [-0.0053, -0.0020] | -0.0017 [-0.0024, -0.0009] |
+| draft_interact | -0.0034 [-0.0051, -0.0017] | -0.0016 [-0.0023, -0.0008] |
+| draft_first_sel | -0.0033 [-0.0051, -0.0015] | -0.0015 [-0.0023, -0.0007] |
+| draft

@@ -1,0 +1,134 @@
+{
+ "meta": {
+  "window": "2024-01-01 to 2026-05-12 (holdout excluded)",
+  "generated": "2026-11-13 21:08",
+  "method": "walk-forward facts; strength offset; series bootstrap 95% CI",
+  "bootstrap": 1000
+ },
+ "rules": {
+  "R19": {
+   "label": "Supported",
+   "effect": "+1.9 pp",
+   "ci": "[+1.0 pp, +2.9 pp]",
+   "n_games": 12838,
+   "n_fired": 12838,
+   "test": "Games where one team took first Dragon and the other took the Grubs majority: does the Dragon team win more than team strength predicts?"
+  },
+  "R11": {
+   "label": "Unclear",
+   "effect": "+1.7 pp",
+   "ci": "[-6.4 pp, +10.1 pp]",
+   "n_games": 20982,
+   "n_fired": 2250,
+   "test": "Do early comps with bot/mid priority gain MORE from first Dragon + Grubs majority than other comps? (interaction: rule fires x share of the two objectives taken)"
+  },
+  "R12": {
+   "label": "Unclear",
+   "effect": "+5.0 pp",
+   "ci": "[-9.9 pp, +19.0 pp]",
+   "n_games": 20982,
+   "n_fired": 647,
+   "test": "Do late comps facing early comps lose LESS from conceding first Dragon + Grubs majority than other comps? (interaction: rule fires x share of the two objectives taken)"
+  },
+  "R15": {
+   "label": "Supported",
+   "effect": "-214 gold",
+   "ci": "[-236 gold, -194 gold]",
+   "n_games": 22262,
+   "n_fired": 9214,
+   "test": "Premise: a facilitator jungler facing a carry jungler is behind in jungle gold at 15 (the plan itself, ganking instead of farming, is not visible in the data)."
+  },
+  "R17": {
+   "label": "Supported",
+   "effect": "-2.1 pp",
+   "ci": "[-3.6 pp, -0.8 pp]",
+   "n_games": 24660,
+   "n_fired": 10457,
+   "test": "Drafts with no Strong lane and at least one Weak lane (forecast): do they win less than team strength predicts?"
+  },
+  "R24": {
+   "label": "Supported",
+   "effect": "-640 gold",
+   "ci": "[-673 gold, -609 gold]",
+   "n_games": 22381,
+   "n_fired": 4507,
+   "test": "Top lanes forecast Weak: are they behind in top gold at 15 (beyond team strength)?"
+  },
+  "R25": {
+   "label": "Unclear",
+   "effect": "+0.62 plates",
+   "ci": "[-0.47 plates, +1.64 plates]",
+   "n_games": 22383,
+   "n_fired": 412,
+   "test": "Early comps with mid and bot priority: more tower plates than strength and the team gold forecast predict?"
+  },
+  "R29": {
+   "label": "Unclear",
+   "effect": "+23 gold",
+   "ci": "[-4 gold, +49 gold]",
+   "n_games": 22011,
+   "n_fired": 12757,
+   "test": "Lane gold at 15: is blind-picking a matchup-dependent champion worse than blind-picking others (interaction blind x matchup-dependent)?"
+  },
+  "R30": {
+   "label": "Supported",
+   "effect": "-553 gold",
+   "ci": "[-601 gold, -508 gold]",
+   "n_games": 22381,
+   "n_fired": 4627,
+   "test": "Mid-jungle duos forecast Weak: behind in mid + jungle gold at 15 (beyond team strength)?"
+  },
+  "R40": {
+   "label": "Unclear",
+   "effect": "+13 gold",
+   "ci": "[-15 gold, +44 gold]",
+   "n_games": 10842,
+   "n_fired": 7034,
+   "test": "Against an enemy star laner: does our laner do better at 15 when we counterpicked the star (star picked first) than when the star counterpicked us? (Jungle pressure is not visible.)"
+  },
+  "R05": {
+   "label": "Not tested",
+   "why": "Needs Lvl 1 tags (empty in the sheet)."
+  },
+  "R06": {
+   "label": "Not tested",
+   "why": "Needs Lvl 1 tags and level-1 vision data."
+  },
+  "R07": {
+   "label": "Not tested",
+   "why": "Needs Lvl 1 tags (empty in the sheet)."
+  },
+  "R08": {
+   "label": "Not tested",
+   "why": "Needs the jungler's start side (not in Oracle's Elixir)."
+  },
+  "R13": {
+   "label": "Not tested",
+   "why": "Needs Early spike tags and objective fight data."
+  },
+  "R18": {
+   "label": "Not tested",
+   "why": "Needs vision at 15 (not loaded)."
+  },
+  "R27": {
+   "label": "Not tested",
+   "why": "Describes a habit after the lead exists (comeback rate is context, not a rule effect)."
+  },
+  "R31": {
+   "label": "Not tested",
+   "why": "Needs Laning / Roam / Peel / Dive tags (empty in the sheet)."
+  },
+  "R32": {
+   "label": "Not tested",
+   "why": "Needs Laning tags for bot and support (empty in the sheet)."
+  },
+  "R38": {
+   "label": "Not tested",
+   "why": "Needs the order of dragons (not in Oracle's Elixir)."
+  },
+  "R39": {
+   "label": "Not tested",
+   "why": "Scouting checklist, not a rule effect."
+  }
+ }
+}

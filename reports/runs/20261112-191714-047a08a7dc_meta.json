@@ -1,0 +1,170 @@
+{
+ "run_id": "20261112-191714-047a08a7dc",
+ "created": "2026-11-12T19:18:28",
+ "note": "A3: margin-aware ratings on top of strength_noform; margin step size tuned on 2024 only",
+ "final_evaluation": false,
+ "holdout_start": "2026-05-12",
+ "holdout_uses_logged": 0,
+ "eval_window": [
+  "2025-01-11",
+  "2026-05-11"
+ ],
+ "data_cutoff": "2026-11-12",
+ "n_games_eval": 14456,
+ "n_series_eval": 7044,
+ "n_by_split": {
+  "major": 4056,
+  "erl": 5072,
+  "other": 5328
+ },
+ "models": [
+  {
+   "name": "always_blue",
+   "params": {},
+   "features": [
+    "side"
+   ],
+   "caveats": [],
+   "fitted": {}
+  },
+  {
+   "name": "elo",
+   "params": {
+    "k": 24.0
+   },
+   "features": [
+    "elo_diff/400 (pre-game, win/loss Elo)",
+    "intercept = side"
+   ],
+   "caveats": [],
+   "fitted": {}
+  },
+  {
+   "name": "elo_league",
+   "params": {
+    "k": 24.0
+   },
+   "features": [
+    "(elo + league offset) diff/400, offsets refitted monthly on past games",
+    "intercept = side"
+   ],
+   "caveats": [],
+   "fitted": {}
+  },
+  {
+   "name": "strength_noform",
+   "params": {
+    "form_half_life": 10.0,
+    "weight_half_life_days": 90,
+    "lam_team": 0.1,
+    "lam_league": 0.1,
+    "lam_dense": 0.001,
+    "window_days": 1460.0
+   },
+   "features": [
+    "side (intercept)",
+    "first pick (+1 blue / -1 red, 2026 only)",
+    "team effects shrunk to league mean (ridge)",
+    "league effects (home league, cross-league games)"
+   ],
+   "caveats": [
+    "First pick is a separate term only from 2026 (Riot's First Selection rule). Before 2026 first pick was always blue side, so it is folded into the side term and CANNOT be estimated in the 2024 tuning window or in 2025; any first-pick coefficient comes from 2026 games only."
+   ],
+   "fitted": {
+    "side": 0.1192,
+    "first_pick": -0.0738
+   }
+  },
+  {
+   "name": "strength_gold15",
+   "params": {
+    "form_half_life": 10.0,
+    "weight_half_life_days": 90,
+    "lam_team": 0.1,
+    "lam_league": 0.1,
+    "lam_dense": 0.001,
+    "window_days": 1460.0,
+    "margin_k": 0.16
+   },
+   "features": [
+    "side (intercept)",
+    "first pick (+1 blue / -1 red, 2026 only)",
+    "gold-lead-at-15 (k gold) rating difference (online, k=0.16, past games only)",
+    "team effects shrunk to league mean (ridge)",
+    "league effects (home league, cross-league games)"
+   ],
+   "caveats": [
+    "First pick is a separate term only from 2026 (Riot's First Selection rule). Before 2026 first pick was always blue side, so it is folded into the side term and CANNOT be estimated in the 2024 tuning window or in 2025; any first-pick coefficient comes from 2026 games only."
+   ],
+   "fitted": {
+    "side": 0.1116,
+    "first_pick": -0.0814,
+    "margin_rating": 0.2819
+   }
+  },
+  {
+   "name": "strength_gold25",
+   "params": {
+    "form_half_life": 10.0,
+    "weight_half_life_days": 90,
+    "lam_team": 0.1,
+    "lam_league": 0.1,
+    "lam_dense": 0.001,
+    "window_days": 1460.0,
+    "margin_k": 0.16
+   },
+   "features": [
+    "side (intercept)",
+    "first pick (+1 blue / -1 red, 2026 only)",
+    "gold-lead-at-25 (k gold) rating difference (online, k=0.16, past games only)",
+    "team effects shrunk to league mean (ridge)",
+    "league effects (home league, cross-league games)"
+   ],
+   "caveats": [
+    "First pick is a separate term only from 2026 (Riot's First Selection rule). Before 2026 first pick was always blue side, so it is folded into the side term and CANNOT be estimated in the 2024 tuning window or in 2025; any first-pick coefficient comes from 2026 games only."
+   ],
+   "fitted": {
+    "side": 0.1097,
+    "first_pick": -0.0847,
+    "margin_rating": 0.1066
+   }
+  },
+  {
+   "name": "strength_length",
+   "params": {
+    "form_half_life": 10.0,
+    "weight_half_life_days": 90,
+    "lam_team": 0.1,
+    "lam_league": 0.1,
+    "lam_dense": 0.001,
+    "window_days": 1460.0,
+    "margin_k": 0.16
+   },
+   "features": [
+    "side (intercept)",
+    "first pick (+1 blue / -1 red, 2026 only)",
+    "win-quickness (game length) rating difference (online, k=0.16, past games only)",
+    "team effects shrunk to league mean (ridge)",
+    "league effects (home league, cross-league games)"
+   ],
+   "caveats": [
+    "First pick is a separate term only from 2026 (Riot's First Selection rule). Before 2026 first pick was always blue side, so it is folded into the side term and CANNOT be estimated in the 2024 tuning window or in 2025; any first-pick coefficient comes from 2026 games only."
+   ],
+   "fitted": {
+    "side": 0.1094,
+    "first_pick": -0.0802,
+    "margin_rating": 0.7043
+   }
+  }
+ ],
+ "baseline": "strength_noform",
+ "bootstrap": {
+  "B": 2000,
+  "unit": "series"
+ },
+ "seed": 0,
+ "code_hash": "047a08a7dc",
+ "refit": "daily (walk-forward)",
+ "roster_change_3plus_games": 528,
+ "roster_change_3plus_share": 0.036524626452684006
+}

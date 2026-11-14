@@ -1,0 +1,1513 @@
+{
+ "cards": {
+  "Blue": {
+   "side": "Blue",
+   "team": "Fnatic",
+   "enemy": "Karmine Corp",
+   "summary": {
+    "applies": 7,
+    "needs_labels": 6,
+    "missing_tags": [
+     "how much earlier our comp spikes than the enemy's",
+     "our ADC's laning tag",
+     "our bot lane's peel (count)",
+     "our jungler's level-1 strength",
+     "our laners with Strong level 1 (count)",
+     "our level-1 edge (Strong minus Weak champions, vs the enemy)",
+     "our support has 'Roam / gank'",
+     "our support's laning tag",
+     "the enemy jungler's level-1 strength",
+     "the enemy team's dive threats (count)"
+    ]
+   },
+   "level1": {
+    "rule": null,
+    "text": "No level-1 rule applies yet: level-1 tags are not labelled."
+   },
+   "jungle": {
+    "rule": "R20",
+    "start": "top side",
+    "path": "Start top side to cover the Weak top lane, then path out.",
+    "finish": null
+   },
+   "lanes": [
+    {
+     "role": "top",
+     "label": "Top",
+     "ours": "Ambessa",
+     "theirs": "Vayne",
+     "gold15": -704,
+     "prio": "Weak",
+     "how": "forecast -704 gold at 15",
+     "reasons": [
+      "Vayne: averages +207 gold at 15 in top",
+      "Empyros: averages -283 gold at 15",
+      "Canna: averages +239 gold at 15"
+     ]
+    },
+    {
+     "role": "jng",
+     "label": "Jungle",
+     "ours": "Pantheon",
+     "theirs": "Vi",
+     "gold15": -97,
+     "prio": null,
+     "how": null,
+     "reasons": []
+    },
+    {
+     "role": "mid",
+     "label": "Mid",
+     "ours": "Viktor",
+     "theirs": "Aurora",
+     "gold15": -303,
+     "prio": "Even",
+     "how": "forecast -303 gold at 15",
+     "reasons": []
+    },
+    {
+     "role": "bot",
+     "label": "Bot",
+     "ours": "Jhin",
+     "theirs": "Sivir",
+     "gold15": -366,
+     "prio": "Even",
+     "how": "forecast -366 gold at 15",
+     "reasons": [
+      "Jhin: averages -170 gold at 15 in bot"
+     ]
+    },
+    {
+     "role": "sup",
+     "label": "Support",
+     "ours": "Karma",
+     "theirs": "Lulu",
+     "gold15": -36,
+     "prio": null,
+     "how": null,
+     "reasons": []
+    }
+   ],
+   "first_objective": {
+    "rule": "R19",
+    "choice": "Dragon",
+    "text": "First Dragon (the default).",
+    "note": "The forecast gives you only 24% for first Dragon in this draft: if you go for it, set up early (vision and lane priority) or trade the other side.",
+    "forecast": [
+     {
+      "key": "first_dragon",
+      "label": "First dragon",
+      "prob": 0.24169548800874233
+     },
+     {
+      "key": "grubs",
+      "label": "Void grubs",
+      "prob": 0.5461609655461734
+     }
+    ]
+   },
+   "sections": [
+    {
+     "key": "level1",
+     "title": "Level 1 plan",
+     "lines": [],
+     "needs_labels": [
+      {
+       "rule": "R05",
+       "section": "level1",
+       "lane": null,
+       "then": "Invade their jungle on that side (steal camps / buff)",
+       "why": "Strong-dueling jungler + laner support can take 3 quadrants vs a weak duelist",
+       "if_text": "Our jungler and nearby laners have Strong Lvl 1 and theirs don't",
+       "condition": "our jungler's level-1 strength is Strong and the enemy jungler's level-1 strength is not Strong and our laners with Strong level 1 (count) is above the enemy laners with Strong level 1 (count)",
+       "values": [
+        {
+         "fact": "our.jng.lvl1",
+         "words": "our jungler's level-1 strength",
+         "value": "not labelled yet"
+        },
+        {
+         "fact": "their.jng.lvl1",
+         "words": "the enemy jungler's level-1 strength",
+         "value": "not labelled yet"
+        },
+        {
+         "fact": "our.laners_lvl1_strong",
+         "words": "our laners with Strong level 1 (count)",
+         "value": "not labelled yet"
+        },
+        {
+         "fact": "their.laners_lvl1_strong",
+         "words": "the enemy laners with Strong level 1 (count)",
+         "value": "not labelled yet"
+        }
+       ],
+       "live_check": null,
+       "approximation": "\"Nearby laners\" read as: more of our laners have Strong level 1 than theirs. Which side to invade is chosen on the card from the strong laners.",
+       "sources": [
+        "S1"
+       ],
+       "evidence": "Not tested yet",
+       "status": "needs_labels",
+       "missing": [
+        "our jungler's level-1 strength",
+        "our laners with Strong level 1 (count)",
+        "the enemy jungler's level-1 strength"
+       ]
+      },
+      {
+       "rule": "R06",
+       "section": "level1",
+       "lane": null,
+       "then": "Full clear ('handshake'); plan camp timing around first objective spawn instead",
+       "why": "With vision everywhere, forcing an invade gives nothing away for free",
+       "if_text": "Both teams have heavy level-1 vision and no clear Lvl 1 edge",
+       "condition": "our level-1 edge (Strong minus Weak champions, vs the enemy) is at least -1 and our level-1 edge (Strong minus Weak champions, vs the enemy) is at most 1",
+       "values": [
+        {
+         "fact": "our.lvl1_edge",
+         "words": "our level-1 edge (Strong minus Weak champions, vs the enemy)",
+         "value": "not labelled yet"
+        }
+       ],
+       "live_check": "Both teams place heavy level-1 vision",
+       "approximation": "\"No clear Lvl 1 edge\" read as: level-1 edge within one champion either way.",
+       "sources": [
+        "S2"
+       ],
+       "evidence": "Not tested yet",
+       "status": "needs_labels",
+       "missing": [
+        "our level-1 edge (Strong minus Weak champions, vs the enemy)"
+       ]
+      },
+      {
+       "rule": "R07",
+       "section": "level1",
+       "lane": null,
+       "then": "Start on the opposite side, yield contested camps, path toward lanes with priority",
+       "why": "Contesting a stronger duelist early loses camps and time",
+       "if_text": "Our jungler is a weak duelist vs a strong-dueling enemy jungler",
+       "condition": "our jungler's level-1 strength is Weak and the enemy jungler's level-1 strength is Strong",
+       "values": [
+        {
+         "fact": "our.jng.lvl1",
+         "words": "our jungler's level-1 strength",
+         "value": "not labelled yet"
+        },
+        {
+         "fact": "their.jng.lvl1",
+         "words": "the enemy jungler's level-1 strength",
+         "value": "not labelled yet"
+        }
+       ],
+       "live_check": null,
+       "approximation": null,
+       "sources": [
+        "S1"
+       ],
+       "evidence": "Not tested yet",
+       "status": "needs_labels",
+       "missing": [
+        "our jungler's level-1 strength",
+        "the enemy jungler's level-1 strength"
+       ]
+      }
+     ]
+    },
+    {
+     "key": "jungle_path",
+     "title": "Jungle start and path",
+     "lines": [
+      {
+       "rule": "R08",
+       "section": "jungle_path",
+       "lane": null,
+       "then": "Start the jungle on the side away from where you want to play; finish toward the lanes with Strong laning (priority)",
+       "why": "Arrive where your laners can move first and win the 2v2 / scuttle",
+       "if_text": "Always",
+       "condition": "always",
+       "values": [],
+       "live_check": null,
+       "approximation": null,
+       "sources": [
+        "S1",
+        "S4"
+       ],
+       "evidence": "Not tested yet",
+       "status": "overridden",
+       "overridden_by": "R20",
+       "override_reason": "R20 applies (our top lane priority is Weak), and the rules sheet says R20 is an exception to R08."
+      },
+      {
+       "rule": "R20",
+       "section": "jungle_path",
+       "lane": "top",
+       "then": "Top lane: Jungler starts on that side to cover it, then paths out",
+       "why": "A losing lane that gets ganked early can be unplayable for the rest of laning. Exception to R08",
+       "if_text": "One of our lanes is Weak and likely to be ganked early",
+       "condition": "our top lane priority is Weak",
+       "values": [
+        {
+         "fact": "our.top.prio",
+         "words": "our top lane priority",
+         "value": "Weak",
+         "how": "forecast -704 gold at 15"
+        }
+       ],
+       "live_check": null,
+       "approximation": "\"Likely to be ganked early\" is not checked separately; every Weak lane counts.",
+       "sources": [
+        "S9"
+       ],
+       "evidence": "Not testable from match data",
+       "status": "applies"
+      }
+     ],
+     "needs_labels": []
+    },
+    {
+     "key": "lane_prio",
+     "title": "Lane priority",
+     "lines": [
+      {
+       "rule": "R09",
+       "section": "lane_prio",
+       "lane": "top",
+       "then": "Top lane: Don't invade or fight there; play the other side",
+       "why": "Without priority the enemy collapses first",
+       "if_text": "We have no lane priority on a side",
+       "condition": "our top lane priority is Weak",
+       "values": [
+        {
+         "fact": "our.top.prio",
+         "words": "our top lane priority",
+         "value": "Weak",
+         "how": "forecast -704 gold at 15"
+        }
+       ],
+       "live_check": null,
+       "approximation": "A side = its side lane (top side = top lane, bot side = bot lane). \"No priority\" read as Weak, not Even.",
+       "sources": [
+        "S1",
+        "S3"
+       ],
+       "evidence": "Not testable from match data",
+       "status": "applies"
+      },
+      {
+       "rule": "R33",
+       "section": "lane_prio",
+       "lane": null,
+       "then": "Force the all-in before their support reaches level 6",
+       "why": "Enchanter ultimates make all-ins much harder after 6",
+       "if_text": "Enemy bot has an enchanter (Lulu, Janna type)",
+       "condition": "the enemy support's primary style is Protect the carry",
+       "values": [
+        {
+         "fact": "their.sup.style",
+         "words": "the enemy support's primary style",
+         "value": "Protect the carry"
+        }
+       ],
+       "live_check": null,
+       "approximation": "Enchanter read as: support's primary style is Protect the carry.",
+       "sources": [
+        "S16"
+       ],
+       "evidence": "Not testable from match data",
+       "status": "applies"
+      }
+     ],
+     "needs_labels": [
+      {
+       "rule": "R32",
+       "section": "lane_prio",
+       "lane": null,
+       "then": "Play to win levels 1-3 and 6 hard; if not ahead by first base, switch to a safe plan",
+       "why": "Lane-dominant duos are feast or famine and fall off if they don't snowball",
+       "if_text": "We picked a lane-dominant bot duo (poke / level-2 spike)",
+       "condition": "our ADC's laning tag is Strong and our support's laning tag is Strong",
+       "values": [
+        {
+         "fact": "our.bot.laning",
+         "words": "our ADC's laning tag",
+         "value": "not labelled yet"
+        },
+        {
+         "fact": "our.sup.laning",
+         "words": "our support's laning tag",
+         "value": "not labelled yet"
+        }
+       ],
+       "live_check": null,
+       "approximation": null,
+       "sources": [
+        "S18"
+       ],
+       "evidence": "Not tested yet",
+       "status": "needs_labels",
+       "missing": [
+        "our ADC's laning tag",
+        "our support's laning tag"
+       ]
+      }
+     ]
+    },
+    {
+     "key": "first_objective",
+     "title": "First objective (Grubs vs Dragon)",
+     "lines": [
+      {
+       "rule": "R19",
+       "section": "first_objective",
+       "lane": null,
+       "then": "Default to first Dragon unless the comp or lane priority clearly favours top side",
+       "why": "Pro players cite roughly a 5% higher win rate for first Dragon than first Grubs (their claim, unverified)",
+       "if_text": "Choosing between first Dragon and first Grubs",
+       "condition": "always",
+       "values": [],
+       "live_check": null,
+       "approximation": "\"Comp clearly favours top side\" read as: top priority Strong while bot is not.",
+       "sources": [
+        "S9"
+       ],
+       "evidence": "Not tested yet",
+       "status": "applies",
+       "unless": "our top lane priority is Strong and our bot lane priority is not Strong",
+       "unless_values": [
+        {
+         "fact": "our.top.prio",
+         "words": "our top lane priority",
+         "value": "Weak",
+         "how": "forecast -704 gold at 15"
+        },
+        {
+         "fact": "our.bot.prio",
+         "words": "our bot lane priority",
+         "value": "Even",
+         "how": "forecast -366 gold at 15"
+        }
+       ]
+      }
+     ],
+     "needs_labels": []
+    },
+    {
+     "key": "fight_windows",
+     "title": "Fight windows",
+     "lines": [],
+     "needs_labels": [
+      {
+       "rule": "R13",
+       "section": "fight_windows",
+       "lane": null,
+       "then": "Start the objective; if they contest, turn and fight ('power dragon')",
+       "why": "Win-win: free objective or a favourable fight",
+       "if_text": "We are stronger at the objective (numbers or spike)",
+       "condition": "how much earlier our comp spikes than the enemy's is above 0",
+       "values": [
+        {
+         "fact": "our.spike_edge",
+         "words": "how much earlier our comp spikes than the enemy's",
+         "value": "not labelled yet"
+        }
+       ],
+       "live_check": "We have more champions at the objective",
+       "approximation": "Only the spike half is read from the draft; the numbers half is a live check.",
+       "sources": [
+        "S2",
+        "S3"
+       ],
+       "evidence": "Not tested yet",
+       "status": "needs_labels",
+       "missing": [
+        "how much earlier our comp spikes than the enemy's"
+       ]
+      }
+     ]
+    },
+    {
+     "key": "draft_warnings",
+     "title": "Draft warnings",
+     "lines": [
+      {
+       "rule": "R17",
+       "section": "draft_warnings",
+       "lane": null,
+       "then": "Flag in draft: early game will be passive; plan safe vision and trade objectives",
+       "why": "With no priority anywhere, the enemy snowballs and you can't answer",
+       "if_text": "Our draft has no Strong laning in any lane",
+       "condition": "our lanes with Strong priority (count) is 0",
+       "values": [
+        {
+         "fact": "our.strong_lanes",
+         "words": "our lanes with Strong priority (count)",
+         "value": 0
+        }
+       ],
+       "live_check": null,
+       "approximation": null,
+       "sources": [
+        "S1"
+       ],
+       "evidence": "Not tested yet",
+       "status": "applies"
+      },
+      {
+       "rule": "R24",
+       "section": "draft_warnings",
+       "lane": null,
+       "then": "Prefer an even or winning matchup unless the comp needs that pick",
+       "why": "Losing lanes repeatedly drag the early game down",
+       "if_text": "We'd be drafting a losing top matchup by default",
+       "condition": "our top lane priority is Weak",
+       "values": [
+        {
+         "fact": "our.top.prio",
+         "words": "our top lane priority",
+         "value": "Weak",
+         "how": "forecast -704 gold at 15"
+        }
+       ],
+       "live_check": null,
+       "approximation": "On the post-draft card this reads as: our top matchup is expected to lose.",
+       "sources": [
+        "S10"
+       ],
+       "evidence": "Not tested yet",
+       "status": "applies"
+      },
+      {
+       "rule": "R29",
+       "section": "draft_warnings",
+       "lane": "top",
+       "then": "Top lane: Don't blind it; blind a flex or matchup-safe pick and save the greedy pick for counterpick",
+       "why": "Blinding matchup-dependent picks hands the enemy free counters",
+       "if_text": "A champion has hard-losing lane matchups and the enemy still holds counterpick",
+       "condition": "our top laner was picked before its lane opponent (blind) and our top laner's champion has hard-losing matchups",
+       "values": [
+        {
+         "fact": "our.top.blind",
+         "words": "our top laner was picked before its lane opponent (blind)",
+         "value": "yes"
+        },
+        {
+         "fact": "our.top.matchup_dependent",
+         "words": "our top laner's champion has hard-losing matchups",
+         "value": "yes",
+         "how": "Ambessa does -438 gold at 15 vs expectation into Irelia"
+        }
+       ],
+       "live_check": null,
+       "approximation": "On the post-draft card this reads as: we blinded a matchup-dependent pick.",
+       "sources": [
+        "S16",
+        "S17",
+        "S20"
+       ],
+       "evidence": "Not tested yet",
+       "status": "applies"
+      }
+     ],
+     "needs_labels": [
+      {
+       "rule": "R31",
+       "section": "draft_warnings",
+       "lane": null,
+       "then": "Pair a roaming or weak-laning support with a self-sufficient ADC; pair a lane-dependent ADC with a lane-winning support; into dive/engage, pick an anti-dive bot lane",
+       "why": "A support that can't win lane leaves a lane-dependent ADC with nothing",
+       "if_text": "Building the bot lane",
+       "condition": "((our support has 'Roam / gank' or our support's laning tag is Weak) and our ADC's laning tag is not Strong) or (the enemy team's dive threats (count) is at least 2 and our bot lane's peel (count) is 0)",
+       "values": [
+        {
+         "fact": "our.sup.roam",
+         "words": "our support has 'Roam / gank'",
+         "value": "not labelled yet"
+        },
+        {
+         "fact": "our.sup.laning",
+         "words": "our support's laning tag",
+         "value": "not labelled yet"
+        },
+        {
+         "fact": "our.bot.laning",
+         "words": "our ADC's laning tag",
+         "value": "not labelled yet"
+        },
+        {
+         "fact": "their.dive_threats",
+         "words": "the enemy team's dive threats (count)",
+         "value": "not labelled yet"
+        },
+        {
+         "fact": "our.botlane_peel",
+         "words": "our bot lane's peel (count)",
+         "value": "not labelled yet"
+        }
+       ],
+       "live_check": null,
+       "approximation": "Only the two warning cases are checked: a roaming or weak-laning support with an ADC that is not Strong in lane, or 2+ enemy dive threats with no bot-lane peel.",
+       "sources": [
+        "S17",
+        "S20"
+       ],
+       "evidence": "Not tested yet",
+       "status": "needs_labels",
+       "missing": [
+        "our ADC's laning tag",
+        "our bot lane's peel (count)",
+        "our support's laning tag",
+        "our support has 'Roam / gank'",
+        "the enemy team's dive threats (count)"
+       ]
+      }
+     ]
+    }
+   ],
+   "watch_for": [
+    {
+     "rule": "R10",
+     "section": "fight_windows",
+     "when": "Enemy jungler is shown on one side (gank, objective, or seen)",
+     "then": "Trade: invade, gank or take an objective on the opposite side; don't run across late",
+     "why": "Cross-map plays carry no counter-gank risk and beat a late counter-gank",
+     "sources": [
+      "S2",
+      "S3",
+      "S4"
+     ],
+     "evidence": "Not testable from match data"
+    },
+    {
+     "rule": "R14",
+     "section": "first_objective",
+     "when": "Objective spawning soon",
+     "then": "Keep farming and arrive just in time; don't stand at the pit early",
+     "why": "Waiting wastes tempo the enemy can use elsewhere",
+     "sources": [
+      "S2"
+     ],
+     "evidence": "Not testable from match data"
+    },
+    {
+     "rule": "R16",
+     "section": "lane_prio",
+     "when": "One of our lanes is winning",
+     "then": "Don't gank it; ward its river so it can push freely. Gank lanes where the enemy jungler is confirmed far away",
+     "why": "A winning lane only needs vision; ganks are better spent elsewhere",
+     "sources": [
+      "S4"
+     ],
+     "evidence": "Not testable from match data"
+    },
+    {
+     "rule": "R21",
+     "section": "fight_windows",
+     "when": "Planning a gank or dive",
+     "then": "Hide the intent: don't walk toward the tower or clear wards in view right before committing",
+     "why": "Showing intent gives the enemy jungler time to arrive",
+     "sources": [
+      "S9"
+     ],
+     "evidence": "Not testable from match data"
+    },
+    {
+     "rule": "R22",
+     "section": "first_objective",
+     "when": "Enemy starts Dragon while we have a Teleport advantage top",
+     "then": "Give the Dragon; dive top or take plates instead",
+     "why": "Trading the objective for a dive and plates can be worth more than contesting",
+     "sources": [
+      "S10",
+      "S6"
+     ],
+     "evidence": "Not testable from match data"
+    },
+    {
+     "rule": "R23",
+     "section": "lane_prio",
+     "when": "Lane opponent is missing a key early item (boots) or we hit level 6 first",
+     "then": "Trade hard or threaten the all-in to force them off the wave",
+     "why": "Item and level-6 windows are the cleanest moments to win lane",
+     "sources": [
+      "S10",
+      "S3"
+     ],
+     "evidence": "Not testable from match data"
+    },
+    {
+     "rule": "R27",
+     "section": "fight_windows",
+     "when": "We're ahead after the early game",
+     "then": "Protect the lead: don't chase without vision or key summoners; regroup on objectives",
+     "why": "Leads are often thrown in a few bad fights right after laning",
+     "sources": [
+      "S11"
+     ],
+     "evidence": "Not tested yet"
+    },
+    {
+     "rule": "R34",
+     "section": "lane_prio",
+     "when": "One lane is clearly winning and another can hold on its own",
+     "then": "Play through the winning lane and let the safe lane soak pressure, instead of rescuing it",
+     "why": "Accelerating your carry wins more than evening out a lane that's fine anyway",
+     "sources": [
+      "S19"
+     ],
+     "evidence": "Not testable from match data"
+    },
+    {
+     "rule": "R35",
+     "section": "jungle_path",
+     "when": "A lane is about to reset on a natural timer",
+     "then": "Jungler syncs his base with that lane so they return together",
+     "why": "Synced resets create 2-man pressure; out-of-sync bases waste tempo",
+     "sources": [
+      "S19"
+     ],
+     "evidence": "Not testable from match data"
+    },
+    {
+     "rule": "R36",
+     "section": "jungle_path",
+     "when": "First scuttle / first objective about to be contested",
+     "then": "Arrive with the upgraded Smite and plan camps so it's ready on time",
+     "why": "The smite edge decides early 50/50s",
+     "sources": [
+      "S15",
+      "S2"
+     ],
+     "evidence": "Not testable from match data"
+    },
+    {
+     "rule": "R37",
+     "section": "fight_windows",
+     "when": "Mid considering leaving lane to dive bot",
+     "then": "Only go if the dive is near-certain and the enemy mid can't punish the free lane",
+     "why": "A free mid lead can cost more than the bot dive gains",
+     "sources": [
+      "S20"
+     ],
+     "evidence": "Not testable from match data"
+    },
+    {
+     "rule": "R38",
+     "section": "first_objective",
+     "when": "Trading early drakes for cross-map plays",
+     "then": "Track the enemy's dragon count; stop trading and contest before they reach soul point",
+     "why": "Trading works until the enemy stacks soul and the game flips",
+     "sources": [
+      "S20",
+      "S15"
+     ],
+     "evidence": "Not tested yet"
+    }
+   ],
+   "scouting": [
+    {
+     "rule": "R28",
+     "when": "The enemy jungler has a predictable start (same first camps, smites a buff at a set time)",
+     "then": "Plan a timed invade or buff steal around his habit",
+     "sources": [
+      "S12"
+     ]
+    },
+    {
+     "rule": "R39",
+     "when": "Preparing for a specific opponent",
+     "then": "Profile each player: gold/XP diff at 15, champion-pool size, win rate on most-played champs, strong-side vs weak-side role. Ban or pressure the predictable or weak-side player",
+     "sources": [
+      "S21"
+     ]
+    }
+   ],
+   "conflicts": [
+    {
+     "winner": "R20",
+     "loser": "R08",
+     "section": "jungle_path",
+     "note": "When R20 applies it replaces R08 on the card; R08 is shown struck through with the reason.",
+     "active": true,
+     "text": "R20 wins over R08 in this draft."
+    }
+   ],
+   "gold15": {
+    "break_even": 2113,
+    "comfortable": 3233,
+    "forecast": -1506,
+    "forecast_win_prob": 0.11921979252221464,
+    "comp": {
+     "timing_score": 0.8,
+     "timing": "Mid / tempo",
+     "main_style": "Dive",
+     "backup_style": "Poke / siege",
+     "untagged": []
+    },
+    "enemy_comp": {
+     "timing_score": 1.0,
+     "timing": "Mid / tempo",
+     "main_style": "Pick",
+     "backup_style": "Skirmish",
+     "untagged": []
+    }
+   },
+   "win_condition": {
+    "carries": [
+     {
+      "champion": "Viktor",
+      "role": "mid",
+      "role_label": "Mid",
+      "wr_ahead": 0.7040151864437652,
+      "wr_behind": 0.2823310126894781,
+      "lead_dependency": 0.4216841737542871,
+      "vs_role": -0.018160129147340665,
+      "dmg_share": 0.3009883672391017,
+      "gold_share": 0.2244240528401585,
+      "games": 1514,
+      "score": 0.2737481735180907
+     },
+     {
+      "champion": "Ambessa",
+      "role": "top",
+      "role_label": "Top",
+      "wr_ahead": 0.6663197078037589,
+      "wr_behind": 0.3225461814406965,
+      "lead_dependency": 0.3437735263630624,
+      "vs_role": 0.02383280513796776,
+      "dmg_share": 0.23251229778956675,
+      "gold_share": 0.2102203284703802,
+      "games": 2262,
+      "score": 0.2682615054965184
+     }
+    ],
+    "timing": "flexible",
+    "timing_text": "No clear game-length preference once early gold is accounted for. Against comps with the same gold at 15, similar comps do -2 pts in games under 27 min and -5 pts in games over 33.",
+    "objective_text": "No objective stands out for this comp type once early gold is accounted for: play the standard path.",
+    "objectives": [
+     {
+      "key": "soul",
+      "label": "Dragon soul (4+ drakes)",
+      "in_wins": 0.4521276595744681,
+      "expected_same_gold": 0.4003321869035406,
+      "lift": 0.05179547267092749,
+      "clear": false
+     },
+     {
+      "key": "baron",
+      "label": "Baron",
+      "in_wins": 0.8670212765957447,
+      "expected_same_gold": 0.8985843073928204,
+      "lift": -0.031563030797075675,
+      "clear": false
+     },
+     {
+      "key": "elder",
+      "label": "Elder dragon",
+      "in_wins": 0.05851063829787234,
+      "expected_same_gold": 0.07539981988186029,
+      "lift": -0.016889181583987944,
+      "clear": false
+     }
+    ],
+    "win_minutes": 31.483333333333334,
+    "n_similar": 400,
+    "caveat": "Compared with comps that had the same gold at 15, so an early lead alone doesn't explain it. Still an association: objectives taken after 15 are partly a result of how the game is going."
+   }
+  },
+  "Red": {
+   "side": "Red",
+   "team": "Karmine Corp",
+   "enemy": "Fnatic",
+   "summary": {
+    "applies": 2,
+    "needs_labels": 6,
+    "missing_tags": [
+     "how much earlier our comp spikes than the enemy's",
+     "our ADC's laning tag",
+     "our bot lane's peel (count)",
+     "our jungler's level-1 strength",
+     "our laners with Strong level 1 (count)",
+     "our level-1 edge (Strong minus Weak champions, vs the enemy)",
+     "our support has 'Roam / gank'",
+     "our support's laning tag",
+     "the enemy jungler's level-1 strength",
+     "the enemy team's dive threats (count)"
+    ]
+   },
+   "level1": {
+    "rule": null,
+    "text": "No level-1 rule applies yet: level-1 tags are not labelled."
+   },
+   "jungle": {
+    "rule": "R08",
+    "start": "bot side",
+    "finish": "top side",
+    "path": "Start bot side and finish top side, where your lane has priority."
+   },
+   "lanes": [
+    {
+     "role": "top",
+     "label": "Top",
+     "ours": "Vayne",
+     "theirs": "Ambessa",
+     "gold15": 704,
+     "prio": "Strong",
+     "how": "forecast +704 gold at 15",
+     "reasons": [
+      "Vayne: averages +207 gold at 15 in top",
+      "Empyros: averages -283 gold at 15",
+      "Canna: averages +239 gold at 15"
+     ]
+    },
+    {
+     "role": "jng",
+     "label": "Jungle",
+     "ours": "Vi",
+     "theirs": "Pantheon",
+     "gold15": 97,
+     "prio": null,
+     "how": null,
+     "reasons": []
+    },
+    {
+     "role": "mid",
+     "label": "Mid",
+     "ours": "Aurora",
+     "theirs": "Viktor",
+     "gold15": 303,
+     "prio": "Even",
+     "how": "forecast +303 gold at 15",
+     "reasons": []
+    },
+    {
+     "role": "bot",
+     "label": "Bot",
+     "ours": "Sivir",
+     "theirs": "Jhin",
+     "gold15": 366,
+     "prio": "Even",
+     "how": "forecast +366 gold at 15",
+     "reasons": [
+      "Jhin: averages -170 gold at 15 in bot"
+     ]
+    },
+    {
+     "role": "sup",
+     "label": "Support",
+     "ours": "Lulu",
+     "theirs": "Karma",
+     "gold15": 36,
+     "prio": null,
+     "how": null,
+     "reasons": []
+    }
+   ],
+   "first_objective": {
+    "rule": "R19",
+    "choice": "Grubs",
+    "text": "First Grubs: your lane priority favours top side.",
+    "forecast": [
+     {
+      "key": "first_dragon",
+      "label": "First dragon",
+      "prob": 0.7583045119912577
+     },
+     {
+      "key": "grubs",
+      "label": "Void grubs",
+      "prob": 0.45383903445382656
+     }
+    ]
+   },
+   "sections": [
+    {
+     "key": "level1",
+     "title": "Level 1 plan",
+     "lines": [],
+     "needs_labels": [
+      {
+       "rule": "R05",
+       "section": "level1",
+       "lane": null,
+       "then": "Invade their jungle on that side (steal camps / buff)",
+       "why": "Strong-dueling jungler + laner support can take 3 quadrants vs a weak duelist",
+       "if_text": "Our jungler and nearby laners have Strong Lvl 1 and theirs don't",
+       "condition": "our jungler's level-1 strength is Strong and the enemy jungler's level-1 strength is not Strong and our laners with Strong level 1 (count) is above the enemy laners with Strong level 1 (count)",
+       "values": [
+        {
+         "fact": "our.jng.lvl1",
+         "words": "our jungler's level-1 strength",
+         "value": "not labelled yet"
+        },
+        {
+         "fact": "their.jng.lvl1",
+         "words": "the enemy jungler's level-1 strength",
+         "value": "not labelled yet"
+        },
+        {
+         "fact": "our.laners_lvl1_strong",
+         "words": "our laners with Strong level 1 (count)",
+         "value": "not labelled yet"
+        },
+        {
+         "fact": "their.laners_lvl1_strong",
+         "words": "the enemy laners with Strong level 1 (count)",
+         "value": "not labelled yet"
+        }
+       ],
+       "live_check": null,
+       "approximation": "\"Nearby laners\" read as: more of our laners have Strong level 1 than theirs. Which side to invade is chosen on the card from the strong laners.",
+       "sources": [
+        "S1"
+       ],
+       "evidence": "Not tested yet",
+       "status": "needs_labels",
+       "missing": [
+        "our jungler's level-1 strength",
+        "our laners with Strong level 1 (count)",
+        "the enemy jungler's level-1 strength"
+       ]
+      },
+      {
+       "rule": "R06",
+       "section": "level1",
+       "lane": null,
+       "then": "Full clear ('handshake'); plan camp timing around first objective spawn instead",
+       "why": "With vision everywhere, forcing an invade gives nothing away for free",
+       "if_text": "Both teams have heavy level-1 vision and no clear Lvl 1 edge",
+       "condition": "our level-1 edge (Strong minus Weak champions, vs the enemy) is at least -1 and our level-1 edge (Strong minus Weak champions, vs the enemy) is at most 1",
+       "values": [
+        {
+         "fact": "our.lvl1_edge",
+         "words": "our level-1 edge (Strong minus Weak champions, vs the enemy)",
+         "value": "not labelled yet"
+        }
+       ],
+       "live_check": "Both teams place heavy level-1 vision",
+       "approximation": "\"No clear Lvl 1 edge\" read as: level-1 edge within one champion either way.",
+       "sources": [
+        "S2"
+       ],
+       "evidence": "Not tested yet",
+       "status": "needs_labels",
+       "missing": [
+        "our level-1 edge (Strong minus Weak champions, vs the enemy)"
+       ]
+      },
+      {
+       "rule": "R07",
+       "section": "level1",
+       "lane": null,
+       "then": "Start on the opposite side, yield contested camps, path toward lanes with priority",
+       "why": "Contesting a stronger duelist early loses camps and time",
+       "if_text": "Our jungler is a weak duelist vs a strong-dueling enemy jungler",
+       "condition": "our jungler's level-1 strength is Weak and the enemy jungler's level-1 strength is Strong",
+       "values": [
+        {
+         "fact": "our.jng.lvl1",
+         "words": "our jungler's level-1 strength",
+         "value": "not labelled yet"
+        },
+        {
+         "fact": "their.jng.lvl1",
+         "words": "the enemy jungler's level-1 strength",
+         "value": "not labelled yet"
+        }
+       ],
+       "live_check": null,
+       "approximation": null,
+       "sources": [
+        "S1"
+       ],
+       "evidence": "Not tested yet",
+       "status": "needs_labels",
+       "missing": [
+        "our jungler's level-1 strength",
+        "the enemy jungler's level-1 strength"
+       ]
+      }
+     ]
+    },
+    {
+     "key": "jungle_path",
+     "title": "Jungle start and path",
+     "lines": [
+      {
+       "rule": "R08",
+       "section": "jungle_path",
+       "lane": null,
+       "then": "Start the jungle on the side away from where you want to play; finish toward the lanes with Strong laning (priority)",
+       "why": "Arrive where your laners can move first and win the 2v2 / scuttle",
+       "if_text": "Always",
+       "condition": "always",
+       "values": [],
+       "live_check": null,
+       "approximation": null,
+       "sources": [
+        "S1",
+        "S4"
+       ],
+       "evidence": "Not tested yet",
+       "status": "applies"
+      }
+     ],
+     "needs_labels": []
+    },
+    {
+     "key": "lane_prio",
+     "title": "Lane priority",
+     "lines": [],
+     "needs_labels": [
+      {
+       "rule": "R32",
+       "section": "lane_prio",
+       "lane": null,
+       "then": "Play to win levels 1-3 and 6 hard; if not ahead by first base, switch to a safe plan",
+       "why": "Lane-dominant duos are feast or famine and fall off if they don't snowball",
+       "if_text": "We picked a lane-dominant bot duo (poke / level-2 spike)",
+       "condition": "our ADC's laning tag is Strong and our support's laning tag is Strong",
+       "values": [
+        {
+         "fact": "our.bot.laning",
+         "words": "our ADC's laning tag",
+         "value": "not labelled yet"
+        },
+        {
+         "fact": "our.sup.laning",
+         "words": "our support's laning tag",
+         "value": "not labelled yet"
+        }
+       ],
+       "live_check": null,
+       "approximation": null,
+       "sources": [
+        "S18"
+       ],
+       "evidence": "Not tested yet",
+       "status": "needs_labels",
+       "missing": [
+        "our ADC's laning tag",
+        "our support's laning tag"
+       ]
+      }
+     ]
+    },
+    {
+     "key": "first_objective",
+     "title": "First objective (Grubs vs Dragon)",
+     "lines": [
+      {
+       "rule": "R19",
+       "section": "first_objective",
+       "lane": null,
+       "then": "Default to first Dragon unless the comp or lane priority clearly favours top side",
+       "why": "Pro players cite roughly a 5% higher win rate for first Dragon than first Grubs (their claim, unverified)",
+       "if_text": "Choosing between first Dragon and first Grubs",
+       "condition": "always",
+       "values": [],
+       "live_check": null,
+       "approximation": "\"Comp clearly favours top side\" read as: top priority Strong while bot is not.",
+       "sources": [
+        "S9"
+       ],
+       "evidence": "Not tested yet",
+       "status": "unless",
+       "unless": "our top lane priority is Strong and our bot lane priority is not Strong",
+       "unless_values": [
+        {
+         "fact": "our.top.prio",
+         "words": "our top lane priority",
+         "value": "Strong",
+         "how": "forecast +704 gold at 15"
+        },
+        {
+         "fact": "our.bot.prio",
+         "words": "our bot lane priority",
+         "value": "Even",
+         "how": "forecast +366 gold at 15"
+        }
+       ]
+      }
+     ],
+     "needs_labels": []
+    },
+    {
+     "key": "fight_windows",
+     "title": "Fight windows",
+     "lines": [],
+     "needs_labels": [
+      {
+       "rule": "R13",
+       "section": "fight_windows",
+       "lane": null,
+       "then": "Start the objective; if they contest, turn and fight ('power dragon')",
+       "why": "Win-win: free objective or a favourable fight",
+       "if_text": "We are stronger at the objective (numbers or spike)",
+       "condition": "how much earlier our comp spikes than the enemy's is above 0",
+       "values": [
+        {
+         "fact": "our.spike_edge",
+         "words": "how much earlier our comp spikes than the enemy's",
+         "value": "not labelled yet"
+        }
+       ],
+       "live_check": "We have more champions at the objective",
+       "approximation": "Only the spike half is read from the draft; the numbers half is a live check.",
+       "sources": [
+        "S2",
+        "S3"
+       ],
+       "evidence": "Not tested yet",
+       "status": "needs_labels",
+       "missing": [
+        "how much earlier our comp spikes than the enemy's"
+       ]
+      }
+     ]
+    },
+    {
+     "key": "draft_warnings",
+     "title": "Draft warnings",
+     "lines": [
+      {
+       "rule": "R29",
+       "section": "draft_warnings",
+       "lane": "mid",
+       "then": "Mid lane: Don't blind it; blind a flex or matchup-safe pick and save the greedy pick for counterpick",
+       "why": "Blinding matchup-dependent picks hands the enemy free counters",
+       "if_text": "A champion has hard-losing lane matchups and the enemy still holds counterpick",
+       "condition": "our mid laner was picked before its lane opponent (blind) and our mid laner's champion has hard-losing matchups",
+       "values": [
+        {
+         "fact": "our.mid.blind",
+         "words": "our mid laner was picked before its lane opponent (blind)",
+         "value": "yes"
+        },
+        {
+         "fact": "our.mid.matchup_dependent",
+         "words": "our mid laner's champion has hard-losing matchups",
+         "value": "yes",
+         "how": "Aurora does -329 gold at 15 vs expectation into Locke"
+        }
+       ],
+       "live_check": null,
+       "approximation": "On the post-draft card this reads as: we blinded a matchup-dependent pick.",
+       "sources": [
+        "S16",
+        "S17",
+        "S20"
+       ],
+       "evidence": "Not tested yet",
+       "status": "applies"
+      }
+     ],
+     "needs_labels": [
+      {
+       "rule": "R31",
+       "section": "draft_warnings",
+       "lane": null,
+       "then": "Pair a roaming or weak-laning support with a self-sufficient ADC; pair a lane-dependent ADC with a lane-winning support; into dive/engage, pick an anti-dive bot lane",
+       "why": "A support that can't win lane leaves a lane-dependent ADC with nothing",
+       "if_text": "Building the bot lane",
+       "condition": "((our support has 'Roam / gank' or our support's laning tag is Weak) and our ADC's laning tag is not Strong) or (the enemy team's dive threats (count) is at least 2 and our bot lane's peel (count) is 0)",
+       "values": [
+        {
+         "fact": "our.sup.roam",
+         "words": "our support has 'Roam / gank'",
+         "value": "not labelled yet"
+        },
+        {
+         "fact": "our.sup.laning",
+         "words": "our support's laning tag",
+         "value": "not labelled yet"
+        },
+        {
+         "fact": "our.bot.laning",
+         "words": "our ADC's laning tag",
+         "value": "not labelled yet"
+        },
+        {
+         "fact": "their.dive_threats",
+         "words": "the enemy team's dive threats (count)",
+         "value": "not labelled yet"
+        },
+        {
+         "fact": "our.botlane_peel",
+         "words": "our bot lane's peel (count)",
+         "value": "not labelled yet"
+        }
+       ],
+       "live_check": null,
+       "approximation": "Only the two warning cases are checked: a roaming or weak-laning support with an ADC that is not Strong in lane, or 2+ enemy dive threats with no bot-lane peel.",
+       "sources": [
+        "S17",
+        "S20"
+       ],
+       "evidence": "Not tested yet",
+       "status": "needs_labels",
+       "missing": [
+        "our ADC's laning tag",
+        "our bot lane's peel (count)",
+        "our support's laning tag",
+        "our support has 'Roam / gank'",
+        "the enemy team's dive threats (count)"
+       ]
+      }
+     ]
+    }
+   ],
+   "watch_for": [
+    {
+     "rule": "R10",
+     "section": "fight_windows",
+     "when": "Enemy jungler is shown on one side (gank, objective, or seen)",
+     "then": "Trade: invade, gank or take an objective on the opposite side; don't run across late",
+     "why": "Cross-map plays carry no counter-gank risk and beat a late counter-gank",
+     "sources": [
+      "S2",
+      "S3",
+      "S4"
+     ],
+     "evidence": "Not testable from match data"
+    },
+    {
+     "rule": "R14",
+     "section": "first_objective",
+     "when": "Objective spawning soon",
+     "then": "Keep farming and arrive just in time; don't stand at the pit early",
+     "why": "Waiting wastes tempo the enemy can use elsewhere",
+     "sources": [
+      "S2"
+     ],
+     "evidence": "Not testable from match data"
+    },
+    {
+     "rule": "R16",
+     "section": "lane_prio",
+     "when": "One of our lanes is winning",
+     "then": "Don't gank it; ward its river so it can push freely. Gank lanes where the enemy jungler is confirmed far away",
+     "why": "A winning lane only needs vision; ganks are better spent elsewhere",
+     "sources": [
+      "S4"
+     ],
+     "evidence": "Not testable from match data"
+    },
+    {
+     "rule": "R21",
+     "section": "fight_windows",
+     "when": "Planning a gank or dive",
+     "then": "Hide the intent: don't walk toward the tower or clear wards in view right before committing",
+     "why": "Showing intent gives the enemy jungler time to arrive",
+     "sources": [
+      "S9"
+     ],
+     "evidence": "Not testable from match data"
+    },
+    {
+     "rule": "R22",
+     "section": "first_objective",
+     "when": "Enemy starts Dragon while we have a Teleport advantage top",
+     "then": "Give the Dragon; dive top or take plates instead",
+     "why": "Trading the objective for a dive and plates can be worth more than contesting",
+     "sources": [
+      "S10",
+      "S6"
+     ],
+     "evidence": "Not testable from match data"
+    },
+    {
+     "rule": "R23",
+     "section": "lane_prio",
+     "when": "Lane opponent is missing a key early item (boots) or we hit level 6 first",
+     "then": "Trade hard or threaten the all-in to force them off the wave",
+     "why": "Item and level-6 windows are the cleanest moments to win lane",
+     "sources": [
+      "S10",
+      "S3"
+     ],
+     "evidence": "Not testable from match data"
+    },
+    {
+     "rule": "R27",
+     "section": "fight_windows",
+     "when": "We're ahead after the early game",
+     "then": "Protect the lead: don't chase without vision or key summoners; regroup on objectives",
+     "why": "Leads are often thrown in a few bad fights right after laning",
+     "sources": [
+      "S11"
+     ],
+     "evidence": "Not tested yet"
+    },
+    {
+     "rule": "R34",
+     "section": "lane_prio",
+     "when": "One lane is clearly winning and another can hold on its own",
+     "then": "Play through the winning lane and let the safe lane soak pressure, instead of rescuing it",
+     "why": "Accelerating your carry wins more than evening out a lane that's fine anyway",
+     "sources": [
+      "S19"
+     ],
+     "evidence": "Not testable from match data"
+    },
+    {
+     "rule": "R35",
+     "section": "jungle_path",
+     "when": "A lane is about to reset on a natural timer",
+     "then": "Jungler syncs his base with that lane so they return together",
+     "why": "Synced resets create 2-man pressure; out-of-sync bases waste tempo",
+     "sources": [
+      "S19"
+     ],
+     "evidence": "Not testable from match data"
+    },
+    {
+     "rule": "R36",
+     "section": "jungle_path",
+     "when": "First scuttle / first objective about to be contested",
+     "then": "Arrive with the upgraded Smite and plan camps so it's ready on time",
+     "why": "The smite edge decides early 50/50s",
+     "sources": [
+      "S15",
+      "S2"
+     ],
+     "evidence": "Not testable from match data"
+    },
+    {
+     "rule": "R37",
+     "section": "fight_windows",
+     "when": "Mid considering leaving lane to dive bot",
+     "then": "Only go if the dive is near-certain and the enemy mid can't punish the free lane",
+     "why": "A free mid lead can cost more than the bot dive gains",
+     "sources": [
+      "S20"
+     ],
+     "evidence": "Not testable from match data"
+    },
+    {
+     "rule": "R38",
+     "section": "first_objective",
+     "when": "Trading early drakes for cross-map plays",
+     "then": "Track the enemy's dragon count; stop trading and contest before they reach soul point",
+     "why": "Trading works until the enemy stacks soul and the game flips",
+     "sources": [
+      "S20",
+      "S15"
+     ],
+     "evidence": "Not tested yet"
+    }
+   ],
+   "scouting": [
+    {
+     "rule": "R28",
+     "when": "The enemy jungler has a predictable start (same first camps, smites a buff at a set time)",
+     "then": "Plan a timed invade or buff steal around his habit",
+     "sources": [
+      "S12"
+     ]
+    },
+    {
+     "rule": "R39",
+     "when": "Preparing for a specific opponent",
+     "then": "Profile each player: gold/XP diff at 15, champion-pool size, win rate on most-played champs, strong-side vs weak-side role. Ban or pressure the predictable or weak-side player",
+     "sources": [
+      "S21"
+     ]
+    }
+   ],
+   "conflicts": [
+    {
+     "winner": "R20",
+     "loser": "R08",
+     "section": "jungle_path",
+     "note": "When R20 applies it replaces R08 on the card; R08 is shown struck through with the reason.",
+     "active": false,
+     "text": "R20 would win over R08, but R20 doesn't apply here."
+    }
+   ],
+   "gold15": {
+    "break_even": -2113,
+    "comfortable": -993,
+    "forecast": 1506,
+    "forecast_win_prob": 0.8807802074800754,
+    "comp": {
+     "timing_score": 1.0,
+     "timing": "Mid / tempo",
+     "main_style": "Pick",
+     "backup_style": "Skirmish",
+     "untagged": []
+    },
+    "enemy_comp": {
+     "timing_score": 0.8,
+     "timing": "Mid / tempo",
+     "main_style": "Dive",
+     "backup_style": "Poke / siege",
+     "untagged": []
+    }
+   },
+   "win_condition": {
+    "carries": [
+     {
+      "champion": "Sivir",
+      "role": "bot",
+      "role_label": "Bot",
+      "wr_ahead": 0.7412181445082741,
+      "wr_behind": 0.288121663936527,
+      "lead_dependency": 0.45309648057174706,
+      "vs_role": 0.01210464127482297,
+      "dmg_share": 0.28418949061662196,
+      "gold_share": 0.2782914218051832,
+      "games": 1119,
+      "score": 0.3023464525288564
+     },
+     {
+      "champion": "Aurora",
+      "role": "mid",
+      "role_label": "Mid",
+      "wr_ahead": 0.6620627706724785,
+      "wr_behind": 0.20992776881586314,
+      "lead_dependency": 0.45213500185661537,
+      "vs_role": 0.012290698954987633,
+      "dmg_share": 0.27899948719937934,
+      "gold_share": 0.2209576563227308,
+      "games": 1289,
+      "score": 0.29743553563186076
+     }
+    ],
+    "timing": "flexible",
+    "timing_text": "No clear game-length preference once early gold is accounted for. Against comps with the same gold at 15, similar comps do -1 pts in games under 27 min and +5 pts in games over 33.",
+    "objective_text": "No objective stands out for this comp type once early gold is accounted for: play the standard path.",
+    "objectives": [
+     {
+      "key": "soul",
+      "label": "Dragon soul (4+ drakes)",
+      "in_wins": 0.33649289099526064,
+      "expected_same_gold": 0.40104559582052524,
+      "lift": -0.0645527048252646,
+      "clear": true
+     },
+     {
+      "key": "baron",
+      "label": "Baron",
+      "in_wins": 0.909952606635071,
+      "expected_same_gold": 0.8978146897518452,
+      "lift": 0.012137916883225852,
+      "clear": false
+     },
+     {
+      "key": "elder",
+      "label": "Elder dragon",
+      "in_wins": 0.07109004739336493,
+      "expected_same_gold": 0.07460075829677715,
+      "lift": -0.0035107109034122203,
+      "clear": false
+     }
+    ],
+    "win_minutes": 30.966666666666665,
+    "n_similar": 400,
+    "caveat": "Compared with comps that had the same gold at 15, so an early lead alone doesn't explain it. Still an association: objectives taken after 15 are partly a result of how the game is going."
+   }
+  }
+ }
+}

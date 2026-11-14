@@ -1,0 +1,187 @@
+# LoL Draft Lab: backtest report
+
+Generated 2026-11-12 21:06. Data: 53777 games (2022-01-10 to 2026-11-12). Training leagues: LPL, LCK, LCKC, NACL, EM, LEC, LJL, PRM, LFL, PCS, VCS, NLC, CBLOL, LCS, TCL, LVP SL, WLDs, LCP, MSI, EWC, LTA S, LTA N, FST, LTA.
+
+**Protocol.** Every month, statistics are rebuilt from games played *before* that month, so no game ever sees its own result. A **frozen holdout** (every game from 2026-05-12: Worlds 2026 plus the last 6 weeks; 3091 games in the training leagues) is never used for any choice: all variant comparisons below use **rolling-origin validation** before it, and the holdout is scored once for the chosen configuration. Draft models are validated on 3 folds of 2 months (2025-12..2026-01; 2026-02..2026-03; 2026-04..2026-05, the last fold stopping at 2026-05-12), each fitted on all earlier months from 2024-12. The win model is validated month by month over the 12 months before the holdout, each month predicted by a model fitted on the months before it. Intervals are paired bootstrap 95% intervals (2000 resamples of whole games).
+
+Weighting: meta stats use a 90-day half-life with patch boost 10; counters and synergies a 540-day half-life; fearless game weights {1: 1.0, 2: 0.8, 3: 0.6, 4: 0.45, 5: 0.35}; shrinkage k_champ=30, k_pair=20, k_lane=15; Elo K=24.
+
+## 1. Variant selection on validation (before the holdout)
+
+Adoption rule: a variant replaces the current method only if its paired 95% interval of improvement excludes zero and no other metric gets clearly worse. Every variant tried is listed.
+
+### 1a. Team strength (M1): Elo variants, win model, rolling-origin validation
+
+5415 validation games (879 at international events / EMEA Masters, where league strength matters most). Log-loss, lower is better; Δ = variant minus current (negative = better). League offsets are refitted every month on earlier games only; split regression pulls a team's rating toward its league's mean after a break of more than 30 days.
+
+| Variant | Elo-only log-loss | Δ vs current | Elo+draft log-loss | Δ vs current | International: Elo-only | Δ vs current |
+|---|---|---|---|---|---|---|
+| raw Elo (current) | 0.6448 | +0.0000 [+0.0000, +0.0000] | 0.6405 | +0.0000 [+0.0000, +0.0000] | 0.6447 | +0.0000 [+0.0000, +0.0000] |
+| raw Elo + league offsets | 0.6368 | -0.0080 [-0.0109, -0.0047] | 0.6331 | -0.0074 [-0.0102, -0.0043] | 0.5998 | -0.0449 [-0.0600, -0.0299] |
+| Elo, 20% split regression | 0.6419 | -0.0028 [-0.0044, -0.0013] | 0.6381 | -0.0024 [-0.0039, -0.0009] | 0.6404 | -0.0043 [-0.0086, +0.0001] |
+| Elo, 20% split regression + league offsets | 0.6359 | -0.0089 [-0.0127, -0.0047] | 0.6323 | -0.0082 [-0.0118, -0.0042] | 0.6009 | -0.0437 [-0.0618, -0.0254] |
+| Elo, 40% split regression | 0.6415 | -0.0032 [-0.0061, -0.0002] | 0.6377 | -0.0028 [-0.0055, +0.0001] | 0.6401 | -0.0046 [-0.0130, +0.0040] |
+| Elo, 40% split regression + league offsets | 0.6375 | -0.0073 [-0.0120, -0.0023] | 0.6338 | -0.0067 [-0.0113, -0.0019] | 0.6060 | -0.0387 [-0.0589, -0.0181] |
+
+**Chosen: Elo, 20% split regression + league offsets.** Clearly better than the current Elo on validation (5 of 5 variants passed; the best one is used).
+
+### 1b. Champion strength (M8): raw win rate vs team-adjusted
+
+Team-adjusted strength: a recency-weighted logistic regression of each game's result on both teams' (chosen) ratings plus one effect per champion (+ for blue, − for red), with the same pull toward 50% as the raw win rate (L2 = k_champ/4). It is refitted every month on earlier games only. Δ = adjusted minus raw.
+
+| Metric | Raw win rate | Team-adjusted | Δ [95% CI] |
+|---|---|---|---|
+| Win model (Elo + draft), log-loss | 0.6323 | 0.6322 | -0.0001 [-0.0003, +0.0001] |
+| pick: top-5 | 49.9% | 49.8% | -0.1% [-0.3, -0.0] |
+| ban1: top-5 | 44.2% | 44.1% | -0.1% [-0.3, +0.2] |
+| ban2: top-5 | 46.9% | 46.9% | +0.0% [-0.2, +0.3] |
+
+**Chosen: raw win rate (unchanged).** The adjusted version did not clearly improve any metric (or clearly hurt one). Strongest champions by the adjusted measure in the latest month: Qiyana +7.3%, Cassiopeia +6.8%, Draven +5.9%, Lux +4.9%, Tristana +4.8%, Rek'Sai +4.5%, Irelia +4.5%, Ashe +4.4%.
+
+### 1c. Ban model features (M9): presence vs separate pick rate and ban rate
+
+Presence = pick rate + ban rate, so the old ban model's `ban_rate` and `meta_presence` weights were near-collinear and unreadable. The split variant replaces presence with the pick rate. Adoption rule for this interpretability fix: used unless it clearly hurts top-5 (interval entirely below zero).
+
+| Action | Presence (current) | Pick rate + ban rate | Δ top-5 [95% CI] | Chosen |
+|---|---|---|---|---|
+| ban1 | 44.2% | 43.9% | -0.3% [-0.5, -0.1] | presence |
+| ban2 | 46.9% | 47.0% | +0.1% [-0.1, +0.4] | split |
+
+Variants tried in this build: 6 Elo variants (table 1a), 2 champion-strength measures (1b), 2 ban feature sets (1c); nothing else. Earlier sessions also compared, on 2026-08..2026-11 (months that overlap this holdout): one vs two memories, 2025-26 vs 2022-26 data, and patch boost 3 vs 10 (`reports/backtest_*.md`). Those three settings were kept as they were, so the holdout is untouched by every choice made here but not by those three earlier ones.
+
+## 2. Predicting pro draft actions (validation, chosen configuration)
+
+For each real pick/ban, every available champion is ranked. Top-k = how often the champion actually chosen was in our top k (ties count half). Baselines need no training. Role fit = probability the champion is played in the best role the team still has open; comfort = log(1 + the player's recent games on it). Δ = model minus the strongest baseline, with a paired 95% interval.
+
+| Action | Method | n | Top-1 | Top-5 [95% CI] | Top-10 | Mean rank | Δ top-5 vs strongest baseline |
+|---|---|---|---|---|---|---|---|
+| pick | Model (conditional logit) | 27220 | 18.5% | 49.9% [49.2, 50.5] | 68.2% | 10.9 | +7.0% [+6.5, +7.5] |
+| pick | Presence (pick + ban rate) | 27220 | 8.2% | 27.0% [26.5, 27.6] | 44.0% | 20.3 |  |
+| pick | Pick rate | 27220 | 6.0% | 23.8% [23.3, 24.3] | 41.0% | 20.3 |  |
+| pick | Presence × role fit | 27220 | 12.5% | 41.5% [40.9, 42.1] | 61.6% | 13.6 |  |
+| pick | Presence × role fit + 0.5 × comfort ← strongest baseline | 27220 | 13.3% | 42.9% [42.3, 43.5] | 62.3% | 13.2 |  |
+| pick | Pick rate × role fit + 0.5 × comfort | 27220 | 11.3% | 39.5% [39.0, 40.1] | 60.1% | 13.5 |  |
+| pick | Fixed-weight heuristic | 27220 | 3.8% | 14.2% [13.8, 14.7] | 24.0% | 39.8 |  |
+| ban1 | Model (conditional logit) | 16318 | 13.6% | 44.2% [43.5, 45.0] | 62.9% | 13.9 | -0.1% [-0.7, +0.5] |
+| ban1 | Presence (pick + ban rate) | 16318 | 15.2% | 43.3% [42.6, 44.0] | 59.8% | 16.0 |  |
+| ban1 | Pick rate | 16318 | 3.0% | 17.4% [16.8, 18.0] | 35.5% | 21.3 |  |
+| ban1 | Ban rate | 16318 | 13.3% | 41.8% [41.0, 42.5] | 62.3% | 15.4 |  |
+| ban1 | Ban rate × enemy role fit + 0.5 × enemy comfort ← strongest baseline | 16318 | 14.5% | 44.3% [43.5, 45.0] | 61.3% | 14.9 |  |
+| ban2 | Model (conditional logit) | 10863 | 14.8% | 47.0% [46.0, 48.0] | 68.2% | 10.7 | +6.7% [+5.8, +7.6] |
+| ban2 | Presence (pick + ban rate) | 10863 | 5.1% | 20.8% [20.0, 21.5] | 35.6% | 22.4 |  |
+| ban2 | Pick rate | 10863 | 3.4% | 17.4% [16.7, 18.1] | 32.7% | 23.3 |  |
+| ban2 | Ban rate | 10863 | 4.4% | 20.2% [19.5, 21.0] | 35.7% | 22.9 |  |
+| ban2 | Ban rate × enemy role fit + 0.5 × enemy comfort ← strongest baseline | 10863 | 11.0% | 40.3% [39.3, 41.2] | 62.8% | 12.8 |  |
+
+## 3. Win probability: does the draft add information beyond team strength? (validation)
+
+5415 games. Log-loss with 95% interval; lower log-loss/Brier is better.
+
+| Model | Log-loss [95% CI] | Brier | Accuracy | AUC |
+|---|---|---|---|---|
+| Always the training blue-win rate | 0.6907 [0.6889, 0.6923] | 0.2488 | 53.6% | 0.500 |
+| Elo only | 0.6359 [0.6279, 0.6436] | 0.2228 | 63.3% | 0.688 |
+| Draft only | 0.6788 [0.6754, 0.6823] | 0.2429 | 57.3% | 0.588 |
+| Elo + draft | 0.6323 [0.6241, 0.6402] | 0.2212 | 63.7% | 0.694 |
+
+**Elo + draft minus Elo only: -0.0036 [-0.0050, -0.0020] log-loss** (the draft clearly adds information).
+
+## 4. Win model by draft stage (M13)
+
+The win model is trained on complete drafts with true roles, but the app uses it from the first ban with roles inferred from the picks so far. Here the same rolling-origin models score each game's draft at fixed stages (roles inferred, as in the app). Δ = Elo + draft minus Elo only; negative = the draft terms help. 'bans only' has no picks, so the model reduces to Elo with its own coefficient.
+
+**Validation games (draft folds).**
+
+| Stage | Games | Elo only | Elo + draft | Δ [95% CI] | Avg. draft shift (pts) |
+|---|---|---|---|---|---|
+| bans only | 2722 | 0.6345 | 0.6349 | +0.0004 [-0.0001, +0.0009] | 0.5 |
+| 1v1 | 2722 | 0.6345 | 0.6340 | -0.0005 [-0.0014, +0.0004] | 0.9 |
+| 2v2 | 2722 | 0.6345 | 0.6340 | -0.0005 [-0.0019, +0.0008] | 1.3 |
+| 3v3 | 2722 | 0.6345 | 0.6329 | -0.0016 [-0.0033, +0.0002] | 1.8 |
+| 4v4 | 2722 | 0.6345 | 0.6312 | -0.0033 [-0.0054, -0.0011] | 2.2 |
+| 5v5 | 2722 | 0.6345 | 0.6304 | -0.0041 [-0.0067, -0.0017] | 2.6 |
+
+## 5. Frozen holdout
+
+Not scored (games from 2026-05-12 stay untouched until the final evaluation, `--final-evaluation`).
+
+**Which stages are reliable.** The draft terms clearly improve on Elo at: 4v4 (validation), 5v5 (validation). At no stage do they clearly hurt. Stages with neither are 'not validated': the win chance there is Elo's, and the draft shift should be shown as a slight/unclear tilt, not a number.
+
+## 6. Final models (fitted on every month, including the holdout, for the app)
+
+### What drives pick decisions (standardised weights)
+
+| Feature | Weight |
+|---|---|
+| meta_presence | +1.57 |
+| role_fit | +1.02 |
+| copick_sum | +0.48 |
+| vspick_max | +0.43 |
+| player_comfort | +0.27 |
+| duo_copick | +0.24 |
+| copick_max | +0.22 |
+| team_habit | +0.18 |
+| champ_strength | +0.08 |
+| flex_x_early | +0.08 |
+| comfort_x_late | -0.06 |
+| team_counter_sum | +0.05 |
+| flex | -0.05 |
+| synergy | -0.04 |
+| counter_max | +0.02 |
+| lane_counter | +0.01 |
+| team_counter_max | -0.01 |
+| player_share | +0.00 |
+| duo_synergy | -0.00 |
+| synergy_max | -0.00 |
+
+### What drives ban1 decisions (standardised weights)
+
+| Feature | Weight |
+|---|---|
+| ban_rate | +2.93 |
+| meta_presence | -1.75 |
+| enemy_comfort | +0.37 |
+| own_ban_habit | +0.33 |
+| enemy_habit | +0.29 |
+| champ_strength | +0.19 |
+| enemy_role_fit | -0.17 |
+| own_comfort | -0.09 |
+| counters_own | +0.00 |
+| enemy_copick_max | +0.00 |
+| into_us_max | +0.00 |
+| enemy_synergy_max | +0.00 |
+| beats_us_max | +0.00 |
+| enemy_duo_copick | +0.00 |
+
+### What drives ban2 decisions (standardised weights)
+
+| Feature | Weight |
+|---|---|
+| enemy_role_fit | +1.46 |
+| pick_rate | +0.75 |
+| ban_rate | +0.60 |
+| into_us_max | +0.33 |
+| enemy_copick_max | +0.32 |
+| enemy_comfort | +0.17 |
+| enemy_habit | +0.17 |
+| own_ban_habit | +0.15 |
+| own_comfort | -0.10 |
+| champ_strength | +0.10 |
+| enemy_duo_copick | +0.06 |
+| beats_us_max | +0.05 |
+| counters_own | +0.03 |
+| enemy_synergy_max | -0.01 |
+
+### Win model weights (Elo + draft)
+
+| Feature | Coefficient |
+|---|---|
+| elo_diff | +2.058 |
+| champ_strength | +3.355 |
+| player_comfort | +0.139 |
+| synergy | +3.031 |
+| lane_counter | +2.258 |
+| team_matchups | +0.465 |
+| blue_side (intercept) | +0.153 |
+
+**Warning:** config.py does not match the validation choice: want ELO_REGRESS=0.2, ELO_LEAGUE_ADJUST=True, ADJUSTED_STRENGTH=False; config has (0.0, False, False). The saved app model follows the validation choice; update config.py so the app's league offsets, early-game and game-plan models use the same ratings.

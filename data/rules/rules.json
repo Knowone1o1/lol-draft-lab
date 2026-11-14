@@ -1,0 +1,1317 @@
+{
+ "version": 1,
+ "built_from": {
+  "rules": "early_game_rules.csv",
+  "conditions": "rule_conditions.csv"
+ },
+ "sections": {
+  "level1": "Level 1 plan",
+  "jungle_path": "Jungle start and path",
+  "lane_prio": "Lane priority",
+  "first_objective": "First objective (Grubs vs Dragon)",
+  "fight_windows": "Fight windows",
+  "draft_warnings": "Draft warnings"
+ },
+ "counts": {
+  "draft": 22,
+  "live": 12,
+  "scouting": 2
+ },
+ "conflicts": [
+  {
+   "winner": "R20",
+   "loser": "R08",
+   "section": "jungle_path",
+   "note": "When R20 applies it replaces R08 on the card; R08 is shown struck through with the reason."
+  }
+ ],
+ "rules": [
+  {
+   "id": "R05",
+   "phase": "Level 1",
+   "kind": "draft",
+   "section": "level1",
+   "if_text": "Our jungler and nearby laners have Strong Lvl 1 and theirs don't",
+   "then": "Invade their jungle on that side (steal camps / buff)",
+   "why": "Strong-dueling jungler + laner support can take 3 quadrants vs a weak duelist",
+   "inputs": "Champion Tags: Lvl 1 for jungler + top/mid/bot",
+   "oe_test": "First blood, jungle CS diff at 10",
+   "oe_testable": true,
+   "sources": [
+    "S1"
+   ],
+   "for_each": {},
+   "when": {
+    "and": [
+     {
+      "fact": "our.jng.lvl1",
+      "op": "==",
+      "value": "Strong"
+     },
+     {
+      "fact": "their.jng.lvl1",
+      "op": "!=",
+      "value": "Strong"
+     },
+     {
+      "fact": "our.laners_lvl1_strong",
+      "op": ">",
+      "value": {
+       "ref": "their.laners_lvl1_strong"
+      }
+     }
+    ]
+   },
+   "when_plain": "our jungler's level-1 strength is Strong and the enemy jungler's level-1 strength is not Strong and our laners with Strong level 1 (count) is above the enemy laners with Strong level 1 (count)",
+   "unless": null,
+   "unless_plain": null,
+   "facts": [
+    "our.jng.lvl1",
+    "their.jng.lvl1",
+    "our.laners_lvl1_strong",
+    "their.laners_lvl1_strong"
+   ],
+   "overrides": [],
+   "live_check": null,
+   "approximation": "\"Nearby laners\" read as: more of our laners have Strong level 1 than theirs. Which side to invade is chosen on the card from the strong laners.",
+   "if_hash": "8ef74478",
+   "when_text": "our.jng.lvl1 == Strong AND their.jng.lvl1 != Strong AND our.laners_lvl1_strong > their.laners_lvl1_strong"
+  },
+  {
+   "id": "R06",
+   "phase": "Level 1",
+   "kind": "draft",
+   "section": "level1",
+   "if_text": "Both teams have heavy level-1 vision and no clear Lvl 1 edge",
+   "then": "Full clear ('handshake'); plan camp timing around first objective spawn instead",
+   "why": "With vision everywhere, forcing an invade gives nothing away for free",
+   "inputs": "Champion Tags: Lvl 1 (both Even)",
+   "oe_test": "Jungle CS diff at 10 close to 0",
+   "oe_testable": true,
+   "sources": [
+    "S2"
+   ],
+   "for_each": {},
+   "when": {
+    "and": [
+     {
+      "fact": "our.lvl1_edge",
+      "op": ">=",
+      "value": -1
+     },
+     {
+      "fact": "our.lvl1_edge",
+      "op": "<=",
+      "value": 1
+     }
+    ]
+   },
+   "when_plain": "our level-1 edge (Strong minus Weak champions, vs the enemy) is at least -1 and our level-1 edge (Strong minus Weak champions, vs the enemy) is at most 1",
+   "unless": null,
+   "unless_plain": null,
+   "facts": [
+    "our.lvl1_edge"
+   ],
+   "overrides": [],
+   "live_check": "Both teams place heavy level-1 vision",
+   "approximation": "\"No clear Lvl 1 edge\" read as: level-1 edge within one champion either way.",
+   "if_hash": "be1b06e6",
+   "when_text": "our.lvl1_edge >= -1 AND our.lvl1_edge <= 1"
+  },
+  {
+   "id": "R07",
+   "phase": "Level 1",
+   "kind": "draft",
+   "section": "level1",
+   "if_text": "Our jungler is a weak duelist vs a strong-dueling enemy jungler",
+   "then": "Start on the opposite side, yield contested camps, path toward lanes with priority",
+   "why": "Contesting a stronger duelist early loses camps and time",
+   "inputs": "Champion Tags: Jungle early / Lvl 1 for both junglers",
+   "oe_test": "Jungle gold diff at 15 in these matchups",
+   "oe_testable": true,
+   "sources": [
+    "S1"
+   ],
+   "for_each": {},
+   "when": {
+    "and": [
+     {
+      "fact": "our.jng.lvl1",
+      "op": "==",
+      "value": "Weak"
+     },
+     {
+      "fact": "their.jng.lvl1",
+      "op": "==",
+      "value": "Strong"
+     }
+    ]
+   },
+   "when_plain": "our jungler's level-1 strength is Weak and the enemy jungler's level-1 strength is Strong",
+   "unless": null,
+   "unless_plain": null,
+   "facts": [
+    "our.jng.lvl1",
+    "their.jng.lvl1"
+   ],
+   "overrides": [],
+   "live_check": null,
+   "approximation": null,
+   "if_hash": "02950c4b",
+   "when_text": "our.jng.lvl1 == Weak AND their.jng.lvl1 == Strong"
+  },
+  {
+   "id": "R08",
+   "phase": "0-4 min",
+   "kind": "draft",
+   "section": "jungle_path",
+   "if_text": "Always",
+   "then": "Start the jungle on the side away from where you want to play; finish toward the lanes with Strong laning (priority)",
+   "why": "Arrive where your laners can move first and win the 2v2 / scuttle",
+   "inputs": "Champion Tags: Laning per lane + jungler side",
+   "oe_test": "Gold diff at 10 for the lanes the jungler paths toward",
+   "oe_testable": true,
+   "sources": [
+    "S1",
+    "S4"
+   ],
+   "for_each": {},
+   "when": {
+    "always": true
+   },
+   "when_plain": "always",
+   "unless": null,
+   "unless_plain": null,
+   "facts": [],
+   "overrides": [],
+   "live_check": null,
+   "approximation": null,
+   "if_hash": "6656018a",
+   "when_text": "ALWAYS"
+  },
+  {
+   "id": "R09",
+   "phase": "0-8 min",
+   "kind": "draft",
+   "section": "lane_prio",
+   "if_text": "We have no lane priority on a side",
+   "then": "Don't invade or fight there; play the other side",
+   "why": "Without priority the enemy collapses first",
+   "inputs": "Champion Tags: Laning per lane",
+   "oe_test": "First blood / kills at 10 when invading without priority (needs events)",
+   "oe_testable": false,
+   "sources": [
+    "S1",
+    "S3"
+   ],
+   "for_each": {
+    "lane": [
+     "top",
+     "bot"
+    ]
+   },
+   "when": {
+    "fact": "our.{lane}.prio",
+    "op": "==",
+    "value": "Weak"
+   },
+   "when_plain": "our {lane} lane priority is Weak",
+   "unless": null,
+   "unless_plain": null,
+   "facts": [
+    "our.{lane}.prio"
+   ],
+   "overrides": [],
+   "live_check": null,
+   "approximation": "A side = its side lane (top side = top lane, bot side = bot lane). \"No priority\" read as Weak, not Even.",
+   "if_hash": "93daa8e6",
+   "when_text": "our.{lane}.prio == Weak"
+  },
+  {
+   "id": "R10",
+   "phase": "4-15 min",
+   "kind": "live",
+   "section": "fight_windows",
+   "if_text": "Enemy jungler is shown on one side (gank, objective, or seen)",
+   "then": "Trade: invade, gank or take an objective on the opposite side; don't run across late",
+   "why": "Cross-map plays carry no counter-gank risk and beat a late counter-gank",
+   "inputs": "Live info (plan card prompt)",
+   "oe_test": "Not testable from OE; VOD/position data",
+   "oe_testable": false,
+   "sources": [
+    "S2",
+    "S3",
+    "S4"
+   ],
+   "for_each": {},
+   "when": null,
+   "when_plain": null,
+   "unless": null,
+   "unless_plain": null,
+   "facts": [],
+   "overrides": [],
+   "live_check": null,
+   "approximation": null,
+   "if_hash": "fb59b7db"
+  },
+  {
+   "id": "R11",
+   "phase": "4-15 min",
+   "kind": "draft",
+   "section": "first_objective",
+   "if_text": "Early comp (Timing = Early, high early score) with bot/mid priority",
+   "then": "Contest first Grubs and first Dragon; stack drakes",
+   "why": "Early comps must convert priority into objectives before they fall off",
+   "inputs": "Champion Tags: Timing, Early score, Laning (bot/mid)",
+   "oe_test": "First Grubs / first dragon win rate for early comps vs late comps",
+   "oe_testable": true,
+   "sources": [
+    "S1",
+    "S2"
+   ],
+   "for_each": {},
+   "when": {
+    "and": [
+     {
+      "fact": "our.timing",
+      "op": "==",
+      "value": "Early"
+     },
+     {
+      "or": [
+       {
+        "fact": "our.bot.prio",
+        "op": "==",
+        "value": "Strong"
+       },
+       {
+        "fact": "our.mid.prio",
+        "op": "==",
+        "value": "Strong"
+       }
+      ]
+     }
+    ]
+   },
+   "when_plain": "our comp timing is Early and (our bot lane priority is Strong or our mid lane priority is Strong)",
+   "unless": null,
+   "unless_plain": null,
+   "facts": [
+    "our.timing",
+    "our.bot.prio",
+    "our.mid.prio"
+   ],
+   "overrides": [],
+   "live_check": null,
+   "approximation": "\"High early score\" is not checked separately; comp timing Early stands in for it.",
+   "if_hash": "d2bc2bff",
+   "when_text": "our.timing == Early AND (our.bot.prio == Strong OR our.mid.prio == Strong)"
+  },
+  {
+   "id": "R12",
+   "phase": "4-15 min",
+   "kind": "draft",
+   "section": "first_objective",
+   "if_text": "Late / scaling comp facing an early comp",
+   "then": "Don't contest early objectives; trade on the opposite side (camps, plates, other objective) and protect the scaling carry",
+   "why": "Scaling comps lose early 50/50 fights; matching or trading keeps the gap small",
+   "inputs": "Champion Tags: Timing for both comps",
+   "oe_test": "Gold diff at 15 for late comps that gave first objective vs contested it",
+   "oe_testable": true,
+   "sources": [
+    "S2",
+    "S3"
+   ],
+   "for_each": {},
+   "when": {
+    "and": [
+     {
+      "fact": "our.timing",
+      "op": "==",
+      "value": "Late"
+     },
+     {
+      "fact": "their.timing",
+      "op": "==",
+      "value": "Early"
+     }
+    ]
+   },
+   "when_plain": "our comp timing is Late and the enemy comp timing is Early",
+   "unless": null,
+   "unless_plain": null,
+   "facts": [
+    "our.timing",
+    "their.timing"
+   ],
+   "overrides": [],
+   "live_check": null,
+   "approximation": null,
+   "if_hash": "2e6764a1",
+   "when_text": "our.timing == Late AND their.timing == Early"
+  },
+  {
+   "id": "R13",
+   "phase": "4-15 min",
+   "kind": "draft",
+   "section": "fight_windows",
+   "if_text": "We are stronger at the objective (numbers or spike)",
+   "then": "Start the objective; if they contest, turn and fight ('power dragon')",
+   "why": "Win-win: free objective or a favourable fight",
+   "inputs": "Champion Tags: Early spike, Engage",
+   "oe_test": "First dragon fights won by the comp with the earlier spike",
+   "oe_testable": true,
+   "sources": [
+    "S2",
+    "S3"
+   ],
+   "for_each": {},
+   "when": {
+    "fact": "our.spike_edge",
+    "op": ">",
+    "value": 0
+   },
+   "when_plain": "how much earlier our comp spikes than the enemy's is above 0",
+   "unless": null,
+   "unless_plain": null,
+   "facts": [
+    "our.spike_edge"
+   ],
+   "overrides": [],
+   "live_check": "We have more champions at the objective",
+   "approximation": "Only the spike half is read from the draft; the numbers half is a live check.",
+   "if_hash": "4269cf08",
+   "when_text": "our.spike_edge > 0"
+  },
+  {
+   "id": "R14",
+   "phase": "4-15 min",
+   "kind": "live",
+   "section": "first_objective",
+   "if_text": "Objective spawning soon",
+   "then": "Keep farming and arrive just in time; don't stand at the pit early",
+   "why": "Waiting wastes tempo the enemy can use elsewhere",
+   "inputs": "Objective timers",
+   "oe_test": "Not testable from OE (needs timelines)",
+   "oe_testable": false,
+   "sources": [
+    "S2"
+   ],
+   "for_each": {},
+   "when": null,
+   "when_plain": null,
+   "unless": null,
+   "unless_plain": null,
+   "facts": [],
+   "overrides": [],
+   "live_check": null,
+   "approximation": null,
+   "if_hash": "6fa26e19"
+  },
+  {
+   "id": "R15",
+   "phase": "0-15 min",
+   "kind": "draft",
+   "section": "jungle_path",
+   "if_text": "Our jungler is a facilitator (tank/engage) vs a carry jungler",
+   "then": "Plan early ganks and plays rather than a farming race",
+   "why": "A facilitator loses the farm race; plays offset the expected gold-at-15 deficit",
+   "inputs": "Champion Tags: Primary style, Engage for both junglers",
+   "oe_test": "Jungle gold diff at 15 for facilitator-vs-carry matchups",
+   "oe_testable": true,
+   "sources": [
+    "S5"
+   ],
+   "for_each": {},
+   "when": {
+    "and": [
+     {
+      "fact": "our.jng.facilitator",
+      "op": "is",
+      "value": true
+     },
+     {
+      "fact": "their.jng.carry",
+      "op": "is",
+      "value": true
+     }
+    ]
+   },
+   "when_plain": "our jungler is a facilitator (tank / engage) and the enemy jungler is a carry jungler",
+   "unless": null,
+   "unless_plain": null,
+   "facts": [
+    "our.jng.facilitator",
+    "their.jng.carry"
+   ],
+   "overrides": [],
+   "live_check": null,
+   "approximation": null,
+   "if_hash": "e48bc6bd",
+   "when_text": "our.jng.facilitator AND their.jng.carry"
+  },
+  {
+   "id": "R16",
+   "phase": "0-15 min",
+   "kind": "live",
+   "section": "lane_prio",
+   "if_text": "One of our lanes is winning",
+   "then": "Don't gank it; ward its river so it can push freely. Gank lanes where the enemy jungler is confirmed far away",
+   "why": "A winning lane only needs vision; ganks are better spent elsewhere",
+   "inputs": "Live lane state",
+   "oe_test": "Not testable from OE (needs events)",
+   "oe_testable": false,
+   "sources": [
+    "S4"
+   ],
+   "for_each": {},
+   "when": null,
+   "when_plain": null,
+   "unless": null,
+   "unless_plain": null,
+   "facts": [],
+   "overrides": [],
+   "live_check": null,
+   "approximation": null,
+   "if_hash": "3d4280be"
+  },
+  {
+   "id": "R17",
+   "phase": "Draft",
+   "kind": "draft",
+   "section": "draft_warnings",
+   "if_text": "Our draft has no Strong laning in any lane and at least one Weak lane",
+   "then": "Flag in draft: early game will be passive; plan safe vision and trade objectives",
+   "why": "With no priority anywhere, the enemy snowballs and you can't answer",
+   "inputs": "Champion Tags: Laning for all 5",
+   "oe_test": "Gold diff at 15 and win rate for drafts with 0 Strong lanes and 1+ Weak lane",
+   "oe_testable": true,
+   "sources": [
+    "S1"
+   ],
+   "for_each": {},
+   "when": {
+    "and": [
+     {
+      "fact": "our.strong_lanes",
+      "op": "==",
+      "value": 0
+     },
+     {
+      "fact": "our.weak_lanes",
+      "op": ">=",
+      "value": 1
+     }
+    ]
+   },
+   "when_plain": "our lanes with Strong priority (count) is 0 and our lanes with Weak priority (count) is at least 1",
+   "unless": null,
+   "unless_plain": null,
+   "facts": [
+    "our.strong_lanes",
+    "our.weak_lanes"
+   ],
+   "overrides": [],
+   "live_check": null,
+   "approximation": null,
+   "if_hash": "423b53d2",
+   "when_text": "our.strong_lanes == 0 AND our.weak_lanes >= 1"
+  },
+  {
+   "id": "R18",
+   "phase": "4-15 min",
+   "kind": "draft",
+   "section": "lane_prio",
+   "if_text": "Lane priority bot/mid after levels 2-3",
+   "then": "Support and jungler ward the enemy jungle on that side; mid roams to the jungler's side",
+   "why": "Priority turns into vision and camp denial",
+   "inputs": "Champion Tags: Laning (bot, mid), Roam / gank",
+   "oe_test": "Wards placed / vision score at 15 (if available)",
+   "oe_testable": true,
+   "sources": [
+    "S1"
+   ],
+   "for_each": {},
+   "when": {
+    "or": [
+     {
+      "fact": "our.bot.prio",
+      "op": "==",
+      "value": "Strong"
+     },
+     {
+      "fact": "our.mid.prio",
+      "op": "==",
+      "value": "Strong"
+     }
+    ]
+   },
+   "when_plain": "our bot lane priority is Strong or our mid lane priority is Strong",
+   "unless": null,
+   "unless_plain": null,
+   "facts": [
+    "our.bot.prio",
+    "our.mid.prio"
+   ],
+   "overrides": [],
+   "live_check": null,
+   "approximation": "\"After levels 2-3\" is not checked; the draft's expected priority stands in for it.",
+   "if_hash": "d51bce4f",
+   "when_text": "our.bot.prio == Strong OR our.mid.prio == Strong"
+  },
+  {
+   "id": "R19",
+   "phase": "4-15 min",
+   "kind": "draft",
+   "section": "first_objective",
+   "if_text": "Choosing between first Dragon and first Grubs",
+   "then": "Default to first Dragon unless the comp or lane priority clearly favours top side",
+   "why": "Pro players cite roughly a 5% higher win rate for first Dragon than first Grubs (their claim, unverified)",
+   "inputs": "Lane priority bot vs top; comp timing",
+   "oe_test": "Win rate after first dragon vs after first Grubs, controlled for team strength. Testable directly in OE",
+   "oe_testable": true,
+   "sources": [
+    "S9"
+   ],
+   "for_each": {},
+   "when": {
+    "always": true
+   },
+   "when_plain": "always",
+   "unless": {
+    "and": [
+     {
+      "fact": "our.top.prio",
+      "op": "==",
+      "value": "Strong"
+     },
+     {
+      "fact": "our.bot.prio",
+      "op": "!=",
+      "value": "Strong"
+     }
+    ]
+   },
+   "unless_plain": "our top lane priority is Strong and our bot lane priority is not Strong",
+   "facts": [
+    "our.top.prio",
+    "our.bot.prio"
+   ],
+   "overrides": [],
+   "live_check": null,
+   "approximation": "\"Comp clearly favours top side\" read as: top priority Strong while bot is not.",
+   "if_hash": "2837f8c6",
+   "when_text": "ALWAYS",
+   "unless_text": "our.top.prio == Strong AND our.bot.prio != Strong"
+  },
+  {
+   "id": "R20",
+   "phase": "Level 1 / 0-4 min",
+   "kind": "draft",
+   "section": "jungle_path",
+   "if_text": "One of our lanes is Weak and likely to be ganked early",
+   "then": "Jungler starts on that side to cover it, then paths out",
+   "why": "A losing lane that gets ganked early can be unplayable for the rest of laning. Exception to R08",
+   "inputs": "Champion Tags: Laning per lane",
+   "oe_test": "Gold diff at 10 for the weak lane when the jungler started on its side (needs start-side data)",
+   "oe_testable": false,
+   "sources": [
+    "S9"
+   ],
+   "for_each": {
+    "lane": [
+     "top",
+     "mid",
+     "bot"
+    ]
+   },
+   "when": {
+    "fact": "our.{lane}.prio",
+    "op": "==",
+    "value": "Weak"
+   },
+   "when_plain": "our {lane} lane priority is Weak",
+   "unless": null,
+   "unless_plain": null,
+   "facts": [
+    "our.{lane}.prio"
+   ],
+   "overrides": [
+    "R08"
+   ],
+   "live_check": null,
+   "approximation": "\"Likely to be ganked early\" is not checked separately; every Weak lane counts.",
+   "if_hash": "1f1207f7",
+   "when_text": "our.{lane}.prio == Weak"
+  },
+  {
+   "id": "R21",
+   "phase": "0-15 min",
+   "kind": "live",
+   "section": "fight_windows",
+   "if_text": "Planning a gank or dive",
+   "then": "Hide the intent: don't walk toward the tower or clear wards in view right before committing",
+   "why": "Showing intent gives the enemy jungler time to arrive",
+   "inputs": "Live play",
+   "oe_test": "Not testable from OE",
+   "oe_testable": false,
+   "sources": [
+    "S9"
+   ],
+   "for_each": {},
+   "when": null,
+   "when_plain": null,
+   "unless": null,
+   "unless_plain": null,
+   "facts": [],
+   "overrides": [],
+   "live_check": null,
+   "approximation": null,
+   "if_hash": "cd207420"
+  },
+  {
+   "id": "R22",
+   "phase": "4-15 min",
+   "kind": "live",
+   "section": "first_objective",
+   "if_text": "Enemy starts Dragon while we have a Teleport advantage top",
+   "then": "Give the Dragon; dive top or take plates instead",
+   "why": "Trading the objective for a dive and plates can be worth more than contesting",
+   "inputs": "Summoner spell state (live), Champion Tags: Engage",
+   "oe_test": "Not testable from OE (needs timelines)",
+   "oe_testable": false,
+   "sources": [
+    "S10",
+    "S6"
+   ],
+   "for_each": {},
+   "when": null,
+   "when_plain": null,
+   "unless": null,
+   "unless_plain": null,
+   "facts": [],
+   "overrides": [],
+   "live_check": null,
+   "approximation": null,
+   "if_hash": "cb30cc74"
+  },
+  {
+   "id": "R23",
+   "phase": "0-15 min",
+   "kind": "live",
+   "section": "lane_prio",
+   "if_text": "Lane opponent is missing a key early item (boots) or we hit level 6 first",
+   "then": "Trade hard or threaten the all-in to force them off the wave",
+   "why": "Item and level-6 windows are the cleanest moments to win lane",
+   "inputs": "Champion Tags: Early spike",
+   "oe_test": "Not testable from OE (needs timelines)",
+   "oe_testable": false,
+   "sources": [
+    "S10",
+    "S3"
+   ],
+   "for_each": {},
+   "when": null,
+   "when_plain": null,
+   "unless": null,
+   "unless_plain": null,
+   "facts": [],
+   "overrides": [],
+   "live_check": null,
+   "approximation": null,
+   "if_hash": "02a3a849"
+  },
+  {
+   "id": "R24",
+   "phase": "Draft",
+   "kind": "draft",
+   "section": "draft_warnings",
+   "if_text": "We'd be drafting a losing top matchup by default",
+   "then": "Prefer an even or winning matchup unless the comp needs that pick",
+   "why": "Losing lanes repeatedly drag the early game down",
+   "inputs": "Champion Tags: Laning for both top laners",
+   "oe_test": "Top gold diff at 15 by matchup strength",
+   "oe_testable": true,
+   "sources": [
+    "S10"
+   ],
+   "for_each": {},
+   "when": {
+    "fact": "our.top.prio",
+    "op": "==",
+    "value": "Weak"
+   },
+   "when_plain": "our top lane priority is Weak",
+   "unless": null,
+   "unless_plain": null,
+   "facts": [
+    "our.top.prio"
+   ],
+   "overrides": [],
+   "live_check": null,
+   "approximation": "On the post-draft card this reads as: our top matchup is expected to lose.",
+   "if_hash": "f6a4586e",
+   "when_text": "our.top.prio == Weak"
+  },
+  {
+   "id": "R25",
+   "phase": "4-15 min",
+   "kind": "draft",
+   "section": "lane_prio",
+   "if_text": "Early-strong comp with mid and bot priority",
+   "then": "Push mid and bot together to convert pressure into plates; base on time rather than greed plates",
+   "why": "Pressure only counts if it turns into gold; greed gives it back",
+   "inputs": "Champion Tags: Timing, Laning (mid, bot)",
+   "oe_test": "Tower plates and gold diff at 15 for early comps",
+   "oe_testable": true,
+   "sources": [
+    "S10"
+   ],
+   "for_each": {},
+   "when": {
+    "and": [
+     {
+      "fact": "our.timing",
+      "op": "==",
+      "value": "Early"
+     },
+     {
+      "fact": "our.mid.prio",
+      "op": "==",
+      "value": "Strong"
+     },
+     {
+      "fact": "our.bot.prio",
+      "op": "==",
+      "value": "Strong"
+     }
+    ]
+   },
+   "when_plain": "our comp timing is Early and our mid lane priority is Strong and our bot lane priority is Strong",
+   "unless": null,
+   "unless_plain": null,
+   "facts": [
+    "our.timing",
+    "our.mid.prio",
+    "our.bot.prio"
+   ],
+   "overrides": [],
+   "live_check": null,
+   "approximation": null,
+   "if_hash": "eedcd489",
+   "when_text": "our.timing == Early AND our.mid.prio == Strong AND our.bot.prio == Strong"
+  },
+  {
+   "id": "R26",
+   "phase": "0-4 min",
+   "kind": "draft",
+   "section": "jungle_path",
+   "if_text": "Lane priority on both bot and top sides (or the enemy jungler is shown elsewhere)",
+   "then": "Take both first scuttles",
+   "why": "Double scuttle is a clear early jungle win (gold, XP, vision)",
+   "inputs": "Champion Tags: Laning per lane",
+   "oe_test": "Not in OE directly; proxy: jungle CS/XP diff at 10",
+   "oe_testable": false,
+   "sources": [
+    "S11",
+    "S2"
+   ],
+   "for_each": {},
+   "when": {
+    "and": [
+     {
+      "fact": "our.bot.prio",
+      "op": "==",
+      "value": "Strong"
+     },
+     {
+      "fact": "our.top.prio",
+      "op": "==",
+      "value": "Strong"
+     }
+    ]
+   },
+   "when_plain": "our bot lane priority is Strong and our top lane priority is Strong",
+   "unless": null,
+   "unless_plain": null,
+   "facts": [
+    "our.bot.prio",
+    "our.top.prio"
+   ],
+   "overrides": [],
+   "live_check": "Enemy jungler shown on the other side",
+   "approximation": "The \"or enemy jungler shown elsewhere\" half is a live check.",
+   "if_hash": "b0a3b744",
+   "when_text": "our.bot.prio == Strong AND our.top.prio == Strong"
+  },
+  {
+   "id": "R27",
+   "phase": "8-15 min",
+   "kind": "live",
+   "section": "fight_windows",
+   "if_text": "We're ahead after the early game",
+   "then": "Protect the lead: don't chase without vision or key summoners; regroup on objectives",
+   "why": "Leads are often thrown in a few bad fights right after laning",
+   "inputs": "Gold lead at 15",
+   "oe_test": "Win rate given gold lead at 15 by league (comeback rate)",
+   "oe_testable": true,
+   "sources": [
+    "S11"
+   ],
+   "for_each": {},
+   "when": null,
+   "when_plain": null,
+   "unless": null,
+   "unless_plain": null,
+   "facts": [],
+   "overrides": [],
+   "live_check": null,
+   "approximation": null,
+   "if_hash": "fd8842f6"
+  },
+  {
+   "id": "R28",
+   "phase": "Level 1-2",
+   "kind": "scouting",
+   "section": "level1",
+   "if_text": "The enemy jungler has a predictable start (same first camps, smites a buff at a set time)",
+   "then": "Plan a timed invade or buff steal around his habit",
+   "why": "Level-1/2 habits are scoutable from recent games and punishable",
+   "inputs": "Opponent's recent games (scouting)",
+   "oe_test": "Not in OE; needs VOD/timelines",
+   "oe_testable": false,
+   "sources": [
+    "S12"
+   ],
+   "for_each": {},
+   "when": null,
+   "when_plain": null,
+   "unless": null,
+   "unless_plain": null,
+   "facts": [],
+   "overrides": [],
+   "live_check": null,
+   "approximation": null,
+   "if_hash": "83c40e4d"
+  },
+  {
+   "id": "R29",
+   "phase": "Draft",
+   "kind": "draft",
+   "section": "draft_warnings",
+   "if_text": "A champion has hard-losing lane matchups and the enemy still holds counterpick",
+   "then": "Don't blind it; blind a flex or matchup-safe pick and save the greedy pick for counterpick",
+   "why": "Blinding matchup-dependent picks hands the enemy free counters",
+   "inputs": "Pick order + Champion Tags: Laning",
+   "oe_test": "Lane gold diff at 15 for blind vs counter picks (OE has pick order)",
+   "oe_testable": true,
+   "sources": [
+    "S16",
+    "S17",
+    "S20"
+   ],
+   "for_each": {
+    "lane": [
+     "top",
+     "mid",
+     "bot"
+    ]
+   },
+   "when": {
+    "and": [
+     {
+      "fact": "our.{lane}.blind",
+      "op": "is",
+      "value": true
+     },
+     {
+      "fact": "our.{lane}.matchup_dependent",
+      "op": "is",
+      "value": true
+     }
+    ]
+   },
+   "when_plain": "our {lane} laner was picked before its lane opponent (blind) and our {lane} laner's champion has hard-losing matchups",
+   "unless": null,
+   "unless_plain": null,
+   "facts": [
+    "our.{lane}.blind",
+    "our.{lane}.matchup_dependent"
+   ],
+   "overrides": [],
+   "live_check": null,
+   "approximation": "On the post-draft card this reads as: we blinded a matchup-dependent pick.",
+   "if_hash": "020ed7cf",
+   "when_text": "our.{lane}.blind AND our.{lane}.matchup_dependent"
+  },
+  {
+   "id": "R30",
+   "phase": "Draft / 0-15 min",
+   "kind": "draft",
+   "section": "draft_warnings",
+   "if_text": "Enemy mid-jungle duo is stronger in early 2v2s than ours",
+   "then": "Avoid a weak-2v2 jungler; don't contest river fights with mid before your spikes",
+   "why": "The early map is decided by the mid-jungle 2v2",
+   "inputs": "Champion Tags: Lvl 1, Laning, Early spike for both mid-jungle duos",
+   "oe_test": "Jungle + mid gold diff at 15 by duo strength",
+   "oe_testable": true,
+   "sources": [
+    "S16"
+   ],
+   "for_each": {},
+   "when": {
+    "fact": "our.midjng",
+    "op": "==",
+    "value": "Weak"
+   },
+   "when_plain": "our mid-jungle 2v2 strength is Weak",
+   "unless": null,
+   "unless_plain": null,
+   "facts": [
+    "our.midjng"
+   ],
+   "overrides": [],
+   "live_check": null,
+   "approximation": null,
+   "if_hash": "e6070da9",
+   "when_text": "our.midjng == Weak"
+  },
+  {
+   "id": "R31",
+   "phase": "Draft",
+   "kind": "draft",
+   "section": "draft_warnings",
+   "if_text": "Building the bot lane",
+   "then": "Pair a roaming or weak-laning support with a self-sufficient ADC; pair a lane-dependent ADC with a lane-winning support; into dive/engage, pick an anti-dive bot lane",
+   "why": "A support that can't win lane leaves a lane-dependent ADC with nothing",
+   "inputs": "Champion Tags: Laning, Roam / gank, Engage, Peel",
+   "oe_test": "Bot gold diff at 15 by support-ADC pairing",
+   "oe_testable": true,
+   "sources": [
+    "S17",
+    "S20"
+   ],
+   "for_each": {},
+   "when": {
+    "or": [
+     {
+      "and": [
+       {
+        "or": [
+         {
+          "fact": "our.sup.roam",
+          "op": "is",
+          "value": true
+         },
+         {
+          "fact": "our.sup.laning",
+          "op": "==",
+          "value": "Weak"
+         }
+        ]
+       },
+       {
+        "fact": "our.bot.laning",
+        "op": "!=",
+        "value": "Strong"
+       }
+      ]
+     },
+     {
+      "and": [
+       {
+        "fact": "their.dive_threats",
+        "op": ">=",
+        "value": 2
+       },
+       {
+        "fact": "our.botlane_peel",
+        "op": "==",
+        "value": 0
+       }
+      ]
+     }
+    ]
+   },
+   "when_plain": "((our support has 'Roam / gank' or our support's laning tag is Weak) and our ADC's laning tag is not Strong) or (the enemy team's dive threats (count) is at least 2 and our bot lane's peel (count) is 0)",
+   "unless": null,
+   "unless_plain": null,
+   "facts": [
+    "our.sup.roam",
+    "our.sup.laning",
+    "our.bot.laning",
+    "their.dive_threats",
+    "our.botlane_peel"
+   ],
+   "overrides": [],
+   "live_check": null,
+   "approximation": "Only the two warning cases are checked: a roaming or weak-laning support with an ADC that is not Strong in lane, or 2+ enemy dive threats with no bot-lane peel.",
+   "if_hash": "89f629d4",
+   "when_text": "((our.sup.roam OR our.sup.laning == Weak) AND our.bot.laning != Strong) OR (their.dive_threats >= 2 AND our.botlane_peel == 0)"
+  },
+  {
+   "id": "R32",
+   "phase": "0-10 min",
+   "kind": "draft",
+   "section": "lane_prio",
+   "if_text": "We picked a lane-dominant bot duo (poke / level-2 spike)",
+   "then": "Play to win levels 1-3 and 6 hard; if not ahead by first base, switch to a safe plan",
+   "why": "Lane-dominant duos are feast or famine and fall off if they don't snowball",
+   "inputs": "Champion Tags: Early spike, Timing (bot)",
+   "oe_test": "Bot gold diff at 10 vs game result for lane-dominant duos",
+   "oe_testable": true,
+   "sources": [
+    "S18"
+   ],
+   "for_each": {},
+   "when": {
+    "and": [
+     {
+      "fact": "our.bot.laning",
+      "op": "==",
+      "value": "Strong"
+     },
+     {
+      "fact": "our.sup.laning",
+      "op": "==",
+      "value": "Strong"
+     }
+    ]
+   },
+   "when_plain": "our ADC's laning tag is Strong and our support's laning tag is Strong",
+   "unless": null,
+   "unless_plain": null,
+   "facts": [
+    "our.bot.laning",
+    "our.sup.laning"
+   ],
+   "overrides": [],
+   "live_check": null,
+   "approximation": null,
+   "if_hash": "0bb0792f",
+   "when_text": "our.bot.laning == Strong AND our.sup.laning == Strong"
+  },
+  {
+   "id": "R33",
+   "phase": "0-10 min",
+   "kind": "draft",
+   "section": "lane_prio",
+   "if_text": "Enemy bot has an enchanter (Lulu, Janna type)",
+   "then": "Force the all-in before their support reaches level 6",
+   "why": "Enchanter ultimates make all-ins much harder after 6",
+   "inputs": "Champion Tags: Primary style = Protect the carry (support)",
+   "oe_test": "Not in OE (needs timelines)",
+   "oe_testable": false,
+   "sources": [
+    "S16"
+   ],
+   "for_each": {},
+   "when": {
+    "fact": "their.sup.style",
+    "op": "==",
+    "value": "Protect the carry"
+   },
+   "when_plain": "the enemy support's primary style is Protect the carry",
+   "unless": null,
+   "unless_plain": null,
+   "facts": [
+    "their.sup.style"
+   ],
+   "overrides": [],
+   "live_check": null,
+   "approximation": "Enchanter read as: support's primary style is Protect the carry.",
+   "if_hash": "07c652d5",
+   "when_text": "their.sup.style == \"Protect the carry\""
+  },
+  {
+   "id": "R34",
+   "phase": "4-15 min",
+   "kind": "live",
+   "section": "lane_prio",
+   "if_text": "One lane is clearly winning and another can hold on its own",
+   "then": "Play through the winning lane and let the safe lane soak pressure, instead of rescuing it",
+   "why": "Accelerating your carry wins more than evening out a lane that's fine anyway",
+   "inputs": "Live lane state; Champion Tags: Wave clear",
+   "oe_test": "Not in OE (needs events)",
+   "oe_testable": false,
+   "sources": [
+    "S19"
+   ],
+   "for_each": {},
+   "when": null,
+   "when_plain": null,
+   "unless": null,
+   "unless_plain": null,
+   "facts": [],
+   "overrides": [],
+   "live_check": null,
+   "approximation": null,
+   "if_hash": "96252f1b"
+  },
+  {
+   "id": "R35",
+   "phase": "0-15 min",
+   "kind": "live",
+   "section": "jungle_path",
+   "if_text": "A lane is about to reset on a natural timer",
+   "then": "Jungler syncs his base with that lane so they return together",
+   "why": "Synced resets create 2-man pressure; out-of-sync bases waste tempo",
+   "inputs": "Live state",
+   "oe_test": "Not in OE (needs timelines)",
+   "oe_testable": false,
+   "sources": [
+    "S19"
+   ],
+   "for_each": {},
+   "when": null,
+   "when_plain": null,
+   "unless": null,
+   "unless_plain": null,
+   "facts": [],
+   "overrides": [],
+   "live_check": null,
+   "approximation": null,
+   "if_hash": "93447713"
+  },
+  {
+   "id": "R36",
+   "phase": "0-6 min",
+   "kind": "live",
+   "section": "jungle_path",
+   "if_text": "First scuttle / first objective about to be contested",
+   "then": "Arrive with the upgraded Smite and plan camps so it's ready on time",
+   "why": "The smite edge decides early 50/50s",
+   "inputs": "Jungle clear plan",
+   "oe_test": "Not in OE (needs timelines)",
+   "oe_testable": false,
+   "sources": [
+    "S15",
+    "S2"
+   ],
+   "for_each": {},
+   "when": null,
+   "when_plain": null,
+   "unless": null,
+   "unless_plain": null,
+   "facts": [],
+   "overrides": [],
+   "live_check": null,
+   "approximation": null,
+   "if_hash": "2fe718f3"
+  },
+  {
+   "id": "R37",
+   "phase": "4-15 min",
+   "kind": "live",
+   "section": "fight_windows",
+   "if_text": "Mid considering leaving lane to dive bot",
+   "then": "Only go if the dive is near-certain and the enemy mid can't punish the free lane",
+   "why": "A free mid lead can cost more than the bot dive gains",
+   "inputs": "Champion Tags: Roam / gank, Laning (both mids)",
+   "oe_test": "Mid gold diff at 15 in games with early bot dives (needs events)",
+   "oe_testable": false,
+   "sources": [
+    "S20"
+   ],
+   "for_each": {},
+   "when": null,
+   "when_plain": null,
+   "unless": null,
+   "unless_plain": null,
+   "facts": [],
+   "overrides": [],
+   "live_check": null,
+   "approximation": null,
+   "if_hash": "d7505a19"
+  },
+  {
+   "id": "R38",
+   "phase": "4-15 min",
+   "kind": "live",
+   "section": "first_objective",
+   "if_text": "Trading early drakes for cross-map plays",
+   "then": "Track the enemy's dragon count; stop trading and contest before they reach soul point",
+   "why": "Trading works until the enemy stacks soul and the game flips",
+   "inputs": "Dragon count",
+   "oe_test": "Win rate for teams that gave the first 2-3 drakes but led gold at 15 (OE)",
+   "oe_testable": true,
+   "sources": [
+    "S20",
+    "S15"
+   ],
+   "for_each": {},
+   "when": null,
+   "when_plain": null,
+   "unless": null,
+   "unless_plain": null,
+   "facts": [],
+   "overrides": [],
+   "live_check": null,
+   "approximation": null,
+   "if_hash": "b0b86bfb"
+  },
+  {
+   "id": "R39",
+   "phase": "Draft / scouting",
+   "kind": "scouting",
+   "section": "draft_warnings",
+   "if_text": "Preparing for a specific opponent",
+   "then": "Profile each player: gold/XP diff at 15, champion-pool size, win rate on most-played champs, strong-side vs weak-side role. Ban or pressure the predictable or weak-side player",
+   "why": "Predictable players and weak-side roles are the easiest early targets",
+   "inputs": "OE player stats",
+   "oe_test": "All computable in OE",
+   "oe_testable": true,
+   "sources": [
+    "S21"
+   ],
+   "for_each": {},
+   "when": null,
+   "when_plain": null,
+   "unless": null,
+   "unless_plain": null,
+   "facts": [],
+   "overrides": [],
+   "live_check": null,
+   "approximation": null,
+   "if_hash": "88d0f8d0"
+  },
+  {
+   "id": "R40",
+   "phase": "Draft / 0-15 min",
+   "kind": "draft",
+   "section": "lane_prio",
+   "if_text": "The enemy has a star laner",
+   "then": "Draft an aggressive counter-lane into him and commit jungle pressure there early",
+   "why": "A countered star laner without jungle help can't carry; the counter needs the jungler to stick",
+   "inputs": "Champion Tags: Laning; opponent profile",
+   "oe_test": "Star laner gold diff at 15 when countered vs not",
+   "oe_testable": true,
+   "sources": [
+    "S19"
+   ],
+   "for_each": {
+    "lane": [
+     "top",
+     "mid",
+     "bot"
+    ]
+   },
+   "when": {
+    "fact": "their.{lane}.star",
+    "op": "is",
+    "value": true
+   },
+   "when_plain": "the enemy {lane} laner is a star laner",
+   "unless": null,
+   "unless_plain": null,
+   "facts": [
+    "their.{lane}.star"
+   ],
+   "overrides": [],
+   "live_check": null,
+   "approximation": null,
+   "if_hash": "87fae11a",
+   "when_text": "their.{lane}.star"
+  }
+ ]
+}

@@ -1,0 +1,14 @@
+  {'weight_half_life_days': 90, 'lam_team': 0.1, 'lam_league': 0.1, 'margin_k': 0.16, 'w_major': 0.0} -> log-loss 0.6158, slope 0.91 (31s)
+  {'weight_half_life_days': 90, 'lam_team': 0.1, 'lam_league': 0.1, 'margin_k': 0.08, 'w_major': 0.0} -> log-loss 0.6168, slope 0.88 (30s)
+  {'weight_half_life_days': 90, 'lam_team': 0.1, 'lam_league': 0.1, 'margin_k': 0.32, 'w_major': 0.0} -> log-loss 0.6160, slope 0.96 (39s)
+  {'weight_half_life_days': 90, 'lam_team': 0.1, 'lam_league': 0.1, 'margin_k': 0.64, 'w_major': 0.0} -> log-loss 0.6185, slope 1.04 (41s)
+  {'weight_half_life_days': 90, 'lam_team': 0.1, 'lam_league': 0.1, 'margin_k': 1.0, 'w_major': 0.0} -> log-loss 0.6213, slope 1.10 (38s)
+  {'weight_half_life_days': 90, 'lam_team': 0.1, 'lam_league': 0.1, 'margin_k': 0.16, 'w_major': 0.25} -> log-loss 0.6157, slope 0.91 (34s)
+  {'weight_half_life_days': 90, 'lam_team': 0.1, 'lam_league': 0.1, 'margin_k': 0.16, 'w_major': 0.5} -> log-loss 0.6158, slope 0.91 (33s)
+  {'weight_half_life_days': 90, 'lam_team': 0.1, 'lam_league': 0.1, 'margin_k': 0.16, 'w_major': 1.0} -> log-loss 0.6161, slope 0.91 (33s)
+  {'weight_half_life_days': 90, 'lam_team': 0.1, 'lam_league': 0.1, 'margin_k': 0.08, 'w_major': 0.25} -> log-loss 0.6167, slope 0.88 (29s)
+  {'weight_half_life_days': 90, 'lam_team': 0.1, 'lam_league': 0.1, 'margin_k': 0.32, 'w_major': 0.25} -> log-loss 0.6160, slope 0.96 (34s)
+  {'weight_half_life_days': 90, 'lam_team': 0.1, 'lam_league': 0.1, 'margin_k': 0.64, 'w_major': 0.25} -> log-loss 0.6185, slope 1.04 (39s)
+  {'weight_half_life_days': 90, 'lam_team': 0.1, 'lam_league': 0.1, 'margin_k': 1.0, 'w_major': 0.25} -> log-loss 0.6214, slope 1.10 (34s)
+temperature 0.9072955788231504 True 0.9055169578386142
+best {'weight_half_life_days': 90, 'lam_team': 0.1, 'lam_league': 0.1, 'margin_k': 0.16, 'w_major': 0.25} 0.6157390927634823 | elo_league 0.6269861030424241

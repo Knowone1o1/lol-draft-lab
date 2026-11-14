@@ -1,0 +1,228 @@
+{
+ "match": "Gen.G vs Bilibili Gaming",
+ "event": "Worlds 2026 Grand Final (Bo5, fearless)",
+ "match_date": "2026-11-14",
+ "locked_at_utc": "2026-11-14T06:28:03+00:00",
+ "team_a": "Gen.G",
+ "team_b": "Bilibili Gaming",
+ "model": {
+  "name": "A3 strength + A4 draft layer (app WIN_MODEL=a3a4)",
+  "built": "2026-11-13T22:02:29",
+  "data_to": "2026-11-12",
+  "simulations": 1000,
+  "form_sd": 0.4,
+  "seed": 2026
+ },
+ "forecast": {
+  "p_a_series": 0.611,
+  "n_series": 1000,
+  "score_dist": {
+   "0-3": 0.1,
+   "1-3": 0.133,
+   "2-3": 0.156,
+   "3-0": 0.198,
+   "3-1": 0.244,
+   "3-2": 0.169
+  },
+  "p_a_per_game": 0.5657,
+  "p_goes_to_5": 0.325
+ },
+ "pre_draft_chance_by_setup": {
+  "Gen.G blue, blue picks first": 0.603,
+  "Gen.G blue, red picks first": 0.6102,
+  "Gen.G red, blue picks first": 0.5618,
+  "Gen.G red, red picks first": 0.5543
+ },
+ "draft_predictions": {
+  "Gen.G": {
+   "game1_first_ban": [
+    {
+     "champion": "Orianna",
+     "share": 0.604
+    },
+    {
+     "champion": "Vi",
+     "share": 0.082
+    },
+    {
+     "champion": "Lee Sin",
+     "share": 0.073
+    },
+    {
+     "champion": "Ezreal",
+     "share": 0.067
+    },
+    {
+     "champion": "Jarvan IV",
+     "share": 0.052
+    }
+   ],
+   "game1_first_pick": [
+    {
+     "champion": "Rumble",
+     "share": 0.143
+    },
+    {
+     "champion": "Ezreal",
+     "share": 0.107
+    },
+    {
+     "champion": "Nautilus",
+     "share": 0.092
+    },
+    {
+     "champion": "Jarvan IV",
+     "share": 0.088
+    },
+    {
+     "champion": "Jhin",
+     "share": 0.087
+    }
+   ],
+   "series_pick_rate": [
+    {
+     "champion": "Rumble",
+     "share_of_series": 0.814
+    },
+    {
+     "champion": "Jhin",
+     "share_of_series": 0.777
+    },
+    {
+     "champion": "Leona",
+     "share_of_series": 0.594
+    },
+    {
+     "champion": "Ashe",
+     "share_of_series": 0.589
+    },
+    {
+     "champion": "Syndra",
+     "share_of_series": 0.581
+    },
+    {
+     "champion": "Seraphine",
+     "share_of_series": 0.555
+    },
+    {
+     "champion": "Ryze",
+     "share_of_series": 0.533
+    },
+    {
+     "champion": "Wukong",
+     "share_of_series": 0.529
+    }
+   ]
+  },
+  "Bilibili Gaming": {
+   "game1_first_ban": [
+    {
+     "champion": "Nocturne",
+     "share": 0.271
+    },
+    {
+     "champion": "Qiyana",
+     "share": 0.264
+    },
+    {
+     "champion": "Cassiopeia",
+     "share": 0.161
+    },
+    {
+     "champion": "Olaf",
+     "share": 0.153
+    },
+    {
+     "champion": "Rumble",
+     "share": 0.045
+    }
+   ],
+   "game1_first_pick": [
+    {
+     "champion": "Nautilus",
+     "share": 0.187
+    },
+    {
+     "champion": "Ezreal",
+     "share": 0.133
+    },
+    {
+     "champion": "Ambessa",
+     "share": 0.121
+    },
+    {
+     "champion": "Lee Sin",
+     "share": 0.118
+    },
+    {
+     "champion": "Jarvan IV",
+     "share": 0.088
+    }
+   ],
+   "series_pick_rate": [
+    {
+     "champion": "Gnar",
+     "share_of_series": 0.804
+    },
+    {
+     "champion": "K'Sante",
+     "share_of_series": 0.709
+    },
+    {
+     "champion": "Ambessa",
+     "share_of_series": 0.681
+    },
+    {
+     "champion": "Naafiri",
+     "share_of_series": 0.676
+    },
+    {
+     "champion": "Kai'Sa",
+     "share_of_series": 0.596
+    },
+    {
+     "champion": "Locke",
+     "share_of_series": 0.587
+    },
+    {
+     "champion": "Yunara",
+     "share_of_series": 0.576
+    },
+    {
+     "champion": "Pantheon",
+     "share_of_series": 0.575
+    }
+   ]
+  }
+ },
+ "baselines": {
+  "legacy_app_model": {
+   "p_a_series": 0.733,
+   "n_series": 1000,
+   "score_dist": {
+    "0-3": 0.046,
+    "1-3": 0.102,
+    "2-3": 0.119,
+    "3-0": 0.28,
+    "3-1": 0.272,
+    "3-2": 0.181
+   },
+   "p_a_per_game": 0.6389,
+   "p_goes_to_5": 0.3
+  },
+  "coin_flip": {
+   "p_a_series": 0.5,
+   "p_a_per_game": 0.5
+  }
+ },
+ "frozen_model_sha256": {
+  "draftlab.pkl": "73f3fbf4ff6b55c34019ce1fe2473f0f56f508d225c82099e33cb905791d96dc",
+  "a3a4_win.json": "23763cb02ac43217196aeac9787c401ae419dc08f2e03c557c07445966a76735",
+  "league_elo.json": "ebe1a306001ff1218e6f0be26030a7fa5906ae67028ba9834f7a7af6e92dc8f2",
+  "recent.pkl": "61ada990f162a6c032cbc19fc7a59d23e1f8f55e4b5979cff19d981632684e76"
+ },
+ "simulation_sha256": {
+  "model": "b1c556ae268b68e77f0d1e35d83d0321786ff12dbb57226721472d43d956a95f",
+  "legacy_baseline": "860d11b36148f2eea633c13d68278b9db8f56f1a138959a3170c833f37143b03"
+ }
+}

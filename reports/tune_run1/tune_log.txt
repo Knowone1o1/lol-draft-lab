@@ -1,0 +1,151 @@
+Tune patches: ['16.04', '16.16', '16.07', '16.09', '16.02', '16.11', '16.01', '16.08'] (2773 games)
+Validation patches: ['16.05', '16.18', '16.17', '16.20', '16.15', '16.03'] (1842 games)
+40 tune scenarios, 30 validation scenarios; known share of patch 0%-80% (random games)
+start log-loss 0.6304  (68s)
+  pass 1 half_life=30: 0.6300  *  (81s)
+  pass 1 half_life=45: 0.6303  (104s)
+  pass 1 half_life=60: 0.6304  (117s)
+  pass 1 half_life=90: 0.6304  (117s)
+  pass 1 half_life=135: 0.6301  (134s)
+  pass 1 half_life=200: 0.6293  *  (152s)
+  pass 1 half_life=300.0: 0.6282  *  (185s)
+  pass 1 half_life=450.0: 0.6272  *  (221s)
+  pass 1 half_life=675.0: 0.6264  *  (252s)
+  pass 1 matchup_half_life=180: 0.6267  (283s)
+  pass 1 matchup_half_life=365: 0.6265  (301s)
+  pass 1 matchup_half_life=900: 0.6264  (321s)
+  pass 1 matchup_half_life=1500: 0.6265  (340s)
+  pass 1 patch_boost=0: 0.6276  (357s)
+  pass 1 patch_boost=1: 0.6270  (374s)
+  pass 1 patch_boost=6: 0.6263  *  (388s)
+  pass 1 patch_boost=10: 0.6264  (414s)
+  pass 1 fearless_decay=0.5: 0.6266  (430s)
+  pass 1 fearless_decay=0.65: 0.6264  (449s)
+  pass 1 fearless_decay=0.9: 0.6263  *  (469s)
+  pass 1 fearless_decay=1.0: 0.6263  (499s)
+  pass 1 k_champ=10: 0.6263  (514s)
+  pass 1 k_champ=20: 0.6263  (534s)
+  pass 1 k_champ=50: 0.6262  (555s)
+  pass 1 k_champ=80: 0.6262  (573s)
+  pass 1 k_pair=5: 0.6266  (593s)
+  pass 1 k_pair=10: 0.6265  (607s)
+  pass 1 k_pair=40: 0.6262  *  (622s)
+  pass 1 k_pair=80: 0.6263  (649s)
+  pass 1 k_lane=5: 0.6263  (664s)
+  pass 1 k_lane=10: 0.6262  (679s)
+  pass 1 k_lane=30: 0.6262  (694s)
+  pass 1 k_lane=60: 0.6263  (709s)
+  pass 1 elo_k=12: 0.6276  (724s)
+  pass 1 elo_k=18: 0.6266  (740s)
+  pass 1 elo_k=32: 0.6260  *  (755s)
+  pass 1 elo_k=40: 0.6260  (782s)
+  pass 2 half_life=30: 0.6294  (792s)
+  pass 2 half_life=45: 0.6297  (802s)
+  pass 2 half_life=60: 0.6298  (813s)
+  pass 2 half_life=90: 0.6298  (824s)
+  pass 2 half_life=135: 0.6295  (836s)
+  pass 2 half_life=200: 0.6287  (847s)
+  pass 2 half_life=300.0: 0.6277  (860s)
+  pass 2 half_life=450.0: 0.6267  (875s)
+  pass 2 matchup_half_life=180: 0.6263  (890s)
+  pass 2 matchup_half_life=365: 0.6261  (903s)
+  pass 2 matchup_half_life=900: 0.6260  *  (916s)
+  pass 2 matchup_half_life=1500: 0.6260  (942s)
+  pass 2 patch_boost=0: 0.6272  (956s)
+  pass 2 patch_boost=1: 0.6266  (969s)
+  pass 2 patch_boost=3: 0.6261  (982s)
+  pass 2 patch_boost=10: 0.6261  (997s)
+  pass 2 fearless_decay=0.5: 0.6264  (1012s)
+  pass 2 fearless_decay=0.65: 0.6261  (1025s)
+  pass 2 fearless_decay=0.77: 0.6260  (1038s)
+  pass 2 fearless_decay=1.0: 0.6260  (1054s)
+  pass 2 k_champ=10: 0.6260  (1069s)
+  pass 2 k_champ=20: 0.6260  (1082s)
+  pass 2 k_champ=50: 0.6260  (1096s)
+  pass 2 k_champ=80: 0.6260  (1110s)
+  pass 2 k_pair=5: 0.6263  (1126s)
+  pass 2 k_pair=10: 0.6263  (1140s)
+  pass 2 k_pair=20: 0.6261  (1157s)
+  pass 2 k_pair=80: 0.6260  (1171s)
+  pass 2 k_lane=5: 0.6261  (1184s)
+  pass 2 k_lane=10: 0.6260  (1200s)
+  pass 2 k_lane=30: 0.6260  (1216s)
+  pass 2 k_lane=60: 0.6261  (1235s)
+  pass 2 elo_k=12: 0.6276  (1251s)
+  pass 2 elo_k=18: 0.6266  (1267s)
+  pass 2 elo_k=24: 0.6262  (1282s)
+  pass 2 elo_k=40: 0.6260  (1304s)
+# Weight tuning: within-patch hold-out
+
+Generated 2026-11-12 15:37 in 1307s.
+
+**Method.** Patches are drawn at random from 2026. For each patch, 5 scenarios each keep a random share between 0% and 80% of the patch's games known (chosen at random, all leagues) and delete the rest — from 'patch just released' (0% known: every game of the patch deleted) to 'late in the patch' (80% known). Every statistic is rebuilt without the deleted games (and without later patches/dates), and the deleted games' winners are predicted from draft + players + Elo. A logistic model is scored leave-one-patch-out. Parameters are tuned on the *tune* patches and confirmed on separate *validation* patches.
+
+- Tune patches: 16.04, 16.16, 16.07, 16.09, 16.02, 16.11, 16.01, 16.08 (8055 games)
+- Validation patches: 16.05, 16.18, 16.17, 16.20, 16.15, 16.03 (5454 games)
+
+## Result
+
+| Params | Tune log-loss | Val log-loss | Val AUC | Val accuracy |
+|---|---|---|---|---|
+| Start (current) | 0.6304 | 0.6401 | 0.677 | 63.4% |
+| Tuned | 0.6260 | 0.6411 | 0.675 | 63.1% |
+| Elo only (tuned Elo K) | 0.6362 | 0.6514 | 0.654 | 61.8% |
+
+### By share of the patch known (validation log-loss, lower is better)
+
+| Patch known | Games predicted | Start | Tuned | Elo only |
+|---|---|---|---|---|
+| 0%-20% | 1634 | 0.6467 | 0.6442 | 0.6420 |
+| 20%-40% | 2085 | 0.6459 | 0.6472 | 0.6609 |
+| 40%-60% | 1042 | 0.6281 | 0.6308 | 0.6485 |
+| 60%-81% | 693 | 0.6250 | 0.6308 | 0.6488 |
+
+**No reliable improvement on validation patches** — keep current params (gains on tune patches were likely noise).
+
+## Parameters
+
+| Parameter | Start | Tuned | Grid |
+|---|---|---|---|
+| half_life | 90 | **675.0** | [30, 45, 60, 90, 135, 200, 300.0, 450.0, 675.0] |
+| matchup_half_life | 540 | **900** | [180, 365, 540, 900, 1500] |
+| patch_boost | 3.0 | **6** | [0, 1, 3, 6, 10] |
+| fearless_decay | 0.77 | **0.9** | [0.5, 0.65, 0.77, 0.9, 1.0] |
+| k_champ | 30.0 | **30.0** | [10, 20, 30, 50, 80] |
+| k_pair | 20.0 | **40** | [5, 10, 20, 40, 80] |
+| k_lane | 15.0 | **15.0** | [5, 10, 15, 30, 60] |
+| elo_k | 24.0 | **32** | [12, 18, 24, 32, 40] |
+
+Fearless game weights (tuned): {1: 1.0, 2: 0.9, 3: 0.81, 4: 0.7290000000000001, 5: 0.6561}
+
+## Search path (tune log-loss after each parameter)
+
+- start: 0.6304
+- half_life: 0.6264
+- matchup_half_life: 0.6264
+- patch_boost: 0.6263
+- fearless_decay: 0.6263
+- k_champ: 0.6263
+- k_pair: 0.6262
+- k_lane: 0.6262
+- elo_k: 0.6260
+- half_life: 0.6260
+- matchup_half_life: 0.6260
+- patch_boost: 0.6260
+- fearless_decay: 0.6260
+- k_champ: 0.6260
+- k_pair: 0.6260
+- k_lane: 0.6260
+- elo_k: 0.6260
+
+## Missing results: binary shadow-variable bounds
+
+Using our model's prediction (5 bins) as the shadow variable Z, Y = blue won, R = result kept. Assumption: Z ⟂ R | Y. The 90% interval comes from subsampling; worst-case assumes nothing.
+
+| Deletion pattern | True blue WR | Naive (kept games) | Shadow 90% CI | Worst case | Width saved |
+|---|---|---|---|---|---|
+| Random 30% deleted (MAR) | 0.546 | 0.537 | [0.531, 0.598] | [0.376, 0.676] | 78% |
+| Blue wins deleted 50%, losses 15% (MNAR) | 0.546 | 0.414 | [0.520, 0.612] | [0.268, 0.621] | 74% |
+| Upsets deleted 60% (MNAR) | 0.546 | 0.586 | [0.563, 0.616] | [0.416, 0.706] | 81% |
+
+Note: the 'upsets deleted' pattern depends on the model's own prediction, which breaks the Z ⟂ R | Y assumption on purpose — it shows what happens when the assumption fails.
